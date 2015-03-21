@@ -5,4 +5,4 @@ The Library requires Android **API Level 15+**.
 # Demo
 Watch a **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
 # Screenshots
-![Main Screen](/screenshots/main_screen.png)
+![Main screen](/screenshots/main_screen.png) ![Menu closed](/screenshots/menu_closed.png) ![Menu default opened](/screenshots/menu_default_opened.png)
