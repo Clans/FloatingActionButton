@@ -50,7 +50,11 @@ public class FloatingActionMenu extends ViewGroup {
     private int mLabelsColorNormal;
     private int mLabelsColorPressed;
     private int mLabelsColorRipple;
+    private boolean mMenuShowShadow;
     private int mMenuShadowColor;
+    private float mMenuShadowRadius = 4f;
+    private float mMenuShadowXOffset = 1f;
+    private float mMenuShadowYOffset = 3f;
     private int mMenuColorNormal;
     private int mMenuColorPressed;
     private int mMenuColorRipple;
@@ -101,7 +105,11 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsColorNormal = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorNormal, 0xFF333333);
         mLabelsColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorPressed, 0xFF444444);
         mLabelsColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorRipple, 0x66FFFFFF);
+        mMenuShowShadow = attr.getBoolean(R.styleable.FloatingActionMenu_menu_showShadow, true);
         mMenuShadowColor = attr.getColor(R.styleable.FloatingActionMenu_menu_shadowColor, 0x66000000);
+        mMenuShadowRadius = attr.getDimension(R.styleable.FloatingActionMenu_menu_shadowRadius, mMenuShadowRadius);
+        mMenuShadowXOffset = attr.getDimension(R.styleable.FloatingActionMenu_menu_shadowXOffset, mMenuShadowXOffset);
+        mMenuShadowYOffset = attr.getDimension(R.styleable.FloatingActionMenu_menu_shadowYOffset, mMenuShadowYOffset);
         mMenuColorNormal = attr.getColor(R.styleable.FloatingActionMenu_menu_colorNormal, 0xFFDA4336);
         mMenuColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_colorPressed, 0xFFE75043);
         mMenuColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_colorRipple, 0x99FFFFFF);
@@ -155,6 +163,12 @@ public class FloatingActionMenu extends ViewGroup {
             }
         };
 
+        mMenuButton.setShowShadow(mMenuShowShadow);
+        if (mMenuShowShadow) {
+            mMenuButton.setShadowRadius(mMenuShadowRadius);
+            mMenuButton.setShadowXOffset(mMenuShadowXOffset);
+            mMenuButton.setShadowYOffset(mMenuShadowYOffset);
+        }
         mMenuButton.setColors(mMenuColorNormal, mMenuColorPressed, mMenuColorRipple);
         mMenuButton.setShadowColor(mMenuShadowColor);
         mMenuButton.setButtonSize(mMenuFabSize);

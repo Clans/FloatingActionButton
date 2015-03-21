@@ -55,6 +55,9 @@
         </attr>
         <attr name="menu_labels_style" format="reference" />
         <attr name="menu_shadowColor" format="color" />
+        <attr name="menu_shadowRadius" format="dimension" />
+        <attr name="menu_shadowXOffset" format="dimension" />
+        <attr name="menu_shadowYOffset" format="dimension" />
         <attr name="menu_colorNormal" format="color" />
         <attr name="menu_colorPressed" format="color" />
         <attr name="menu_colorRipple" format="color" />
