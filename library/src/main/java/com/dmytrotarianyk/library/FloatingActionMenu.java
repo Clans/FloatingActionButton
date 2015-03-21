@@ -15,9 +15,10 @@ import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
+import android.view.animation.AnticipateInterpolator;
 import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
 
 public class FloatingActionMenu extends ViewGroup {
 
@@ -55,7 +56,8 @@ public class FloatingActionMenu extends ViewGroup {
     private int mMenuColorRipple;
     private Drawable mIcon;
     private int mAnimationDelayPerItem;
-    private Interpolator mInterpolator;
+    private Interpolator mOpenInterpolator;
+    private Interpolator mCloseInterpolator;
     private boolean mIsAnimated = true;
     private boolean mLabelsSingleLine;
     private int mLabelsEllipsize;
@@ -120,7 +122,8 @@ public class FloatingActionMenu extends ViewGroup {
         }
         attr.recycle();
 
-        mInterpolator = new AccelerateInterpolator(2);
+        mOpenInterpolator = new OvershootInterpolator();
+        mCloseInterpolator = new AnticipateInterpolator();
 
         createMenuButton();
     }
@@ -145,8 +148,8 @@ public class FloatingActionMenu extends ViewGroup {
                 mOpenAnimatorSet.play(expandAnimator);
                 mCloseAnimatorSet.play(collapseAnimator);
 
-                mOpenAnimatorSet.setInterpolator(mInterpolator);
-                mCloseAnimatorSet.setInterpolator(mInterpolator);
+                mOpenAnimatorSet.setInterpolator(mOpenInterpolator);
+                mCloseAnimatorSet.setInterpolator(mCloseInterpolator);
 
                 return rotatingDrawable;
             }
@@ -474,9 +477,16 @@ public class FloatingActionMenu extends ViewGroup {
      * @param interpolator the Interpolator to be used in animation
      */
     public void setIconAnimationInterpolator(Interpolator interpolator) {
-        mInterpolator = interpolator;
-        mOpenAnimatorSet.setInterpolator(mInterpolator);
-        mCloseAnimatorSet.setInterpolator(mInterpolator);
+        mOpenAnimatorSet.setInterpolator(interpolator);
+        mCloseAnimatorSet.setInterpolator(interpolator);
+    }
+
+    public void setIconAnimationOpenInterpolator(Interpolator openInterpolator) {
+        mOpenAnimatorSet.setInterpolator(openInterpolator);
+    }
+
+    public void setIconAnimationCloseInterpolator(Interpolator closeInterpolator) {
+        mCloseAnimatorSet.setInterpolator(closeInterpolator);
     }
 
     /**
