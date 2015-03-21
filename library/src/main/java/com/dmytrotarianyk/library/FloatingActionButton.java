@@ -271,6 +271,7 @@ public class FloatingActionButton extends ImageButton {
         mColorNormal = colorNormal;
         mColorPressed = colorPressed;
         mColorRipple = colorRipple;
+        updateBackground();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
