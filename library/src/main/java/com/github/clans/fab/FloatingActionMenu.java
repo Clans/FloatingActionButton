@@ -47,7 +47,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mLabelsPaddingLeft = Util.dpToPx(getContext(), 8f);
     private int mLabelsTextColor;
     private float mLabelsTextSize;
-    private int mLabelsCornerRadius;
+    private int mLabelsCornerRadius = Util.dpToPx(getContext(), 3f);
     private boolean mLabelsShowShadow;
     private int mLabelsColorNormal;
     private int mLabelsColorPressed;
@@ -102,7 +102,7 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsPaddingLeft = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_paddingLeft, mLabelsPaddingLeft);
         mLabelsTextColor = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_textColor, Color.WHITE);
         mLabelsTextSize = attr.getDimension(R.styleable.FloatingActionMenu_menu_labels_textSize, getResources().getDimension(R.dimen.labels_text_size));
-        mLabelsCornerRadius = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_cornerRadius, 6);
+        mLabelsCornerRadius = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_cornerRadius, mLabelsCornerRadius);
         mLabelsShowShadow = attr.getBoolean(R.styleable.FloatingActionMenu_menu_labels_showShadow, true);
         mLabelsColorNormal = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorNormal, 0xFF333333);
         mLabelsColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorPressed, 0xFF444444);
