@@ -30,15 +30,13 @@ Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
 ```XML
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity" />
+        android:layout_height="match_parent" />
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"
@@ -128,7 +126,7 @@ Here are all the **FloatingActionMenu**'s xml attributes with their **default va
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star"
-            fab:menu_fab_size="mini"
+            fab:fab_size="mini"
             fab:fab_label="Menu item 1" />
 
     </com.github.clans.fab.FloatingActionMenu>
