@@ -132,7 +132,9 @@ Here are all the **FloatingActionMenu**'s xml attributes with their **default va
     </com.github.clans.fab.FloatingActionMenu>
 ```
 
-> Labels shadow preferences depends on their corresponding **FloatingActionButtons**' shadow preferences.
+If you're using custom style for labels - other labels attributes will be ignored.
+
+Labels shadow preferences depends on their corresponding **FloatingActionButtons**' shadow preferences.
 
 For more usage examples check the **sample** project.
 
