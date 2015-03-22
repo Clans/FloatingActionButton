@@ -5,7 +5,7 @@ Yet another implementation of [Floating Action Button](http://www.google.com/des
 The library requires Android **API Level 15+**.
 
 # Demo
-Watch a **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
+Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
 
 # Screenshots
 ![Main screen](/screenshots/main_screen.png) ![Menu closed](/screenshots/menu_closed.png) ![Menu default opened](/screenshots/menu_default_opened.png) ![Menu custom opened](/screenshots/menu_custom_opened.png) ![Menu mini opened](/screenshots/menu_mini_opened.png)
@@ -26,7 +26,7 @@ dependencies {
     
 }
 ```
-Add the `com.dmytrotarianyk.library.FloatingActionButton` to your layout XMl file.
+Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
 ```XML
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -56,7 +56,7 @@ Add the `com.dmytrotarianyk.library.FloatingActionButton` to your layout XMl fil
 ```
 You can set an icon for the **FloatingActionButton** using `android:src` xml attribute. Use drawables of size `24dp` as specified by [guidlines](http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button). Icons of desired size can be generated with [Android Asset Studio](http://romannurik.github.io/AndroidAssetStudio/icons-generic.html).
 
-Here are all the **FloatinActionButton**'s xml attributes with their default values which means that you don't have to set all of them:
+Here are all the **FloatinActionButton**'s xml attributes with their **default values** which means that you don't have to set all of them:
 ```XML
 <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"
@@ -81,7 +81,7 @@ Here are all the **FloatinActionButton**'s xml attributes with their default val
 ```
 All of these **FloatingActionButton**'s attributes has their corresponding getters and setters. So you can set them **programmatically**.
 
-Here are all the **FloatingActionMenu**'s xml attributes with their default values which means that you don't have to set all of them:
+Here are all the **FloatingActionMenu**'s xml attributes with their **default values** which means that you don't have to set all of them:
 ```XML
 <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu"
