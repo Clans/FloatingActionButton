@@ -1,4 +1,4 @@
-package com.dmytrotarianyk.fab;
+package com.github.clans.fab.sample;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,8 +8,9 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
 
-import com.dmytrotarianyk.library.FloatingActionButton;
-import com.dmytrotarianyk.library.FloatingActionMenu;
+import com.dmytrotarianyk.fab.R;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 public class FloatingMenusActivity extends ActionBarActivity {
 

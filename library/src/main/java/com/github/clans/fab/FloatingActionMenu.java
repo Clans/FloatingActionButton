@@ -1,4 +1,4 @@
-package com.dmytrotarianyk.library;
+package com.github.clans.fab;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -19,6 +19,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
+
+import com.dmytrotarianyk.library.R;
 
 public class FloatingActionMenu extends ViewGroup {
 

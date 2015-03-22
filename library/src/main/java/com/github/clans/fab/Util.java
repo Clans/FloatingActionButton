@@ -1,4 +1,4 @@
-package com.dmytrotarianyk.library;
+package com.github.clans.fab;
 
 import android.content.Context;
 import android.os.Build;

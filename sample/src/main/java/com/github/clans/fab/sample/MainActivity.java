@@ -1,4 +1,4 @@
-package com.dmytrotarianyk.fab;
+package com.github.clans.fab.sample;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,8 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.dmytrotarianyk.library.FloatingActionButton;
+import com.dmytrotarianyk.fab.R;
+import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;

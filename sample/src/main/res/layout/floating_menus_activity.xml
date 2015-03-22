@@ -20,7 +20,7 @@
         android:fontFamily="sans-serif-light"
         android:background="@color/app_primary"/>
 
-    <com.dmytrotarianyk.library.FloatingActionMenu
+    <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true">
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             fab:fab_size="mini"
             fab:fab_label="Menu item 1" />
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             fab:fab_size="mini"
             fab:fab_label="Menu item 2" />
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,9 +56,9 @@
             fab:fab_size="mini"
             fab:fab_label="@string/lorem_ipsum" />
 
-    </com.dmytrotarianyk.library.FloatingActionMenu>
+    </com.github.clans.fab.FloatingActionMenu>
 
-    <com.dmytrotarianyk.library.FloatingActionMenu
+    <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
         fab:menu_colorPressed="#F2AB00"
         fab:menu_colorRipple="#D99200">
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
             fab:fab_label="Menu item 1"
             style="@style/MenuButtonsStyle" />
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             fab:fab_label="Menu item 2"
             style="@style/MenuButtonsStyle" />
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab32"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,9 +101,9 @@
             fab:fab_label="@string/lorem_ipsum"
             style="@style/MenuButtonsStyle" />
 
-    </com.dmytrotarianyk.library.FloatingActionMenu>
+    </com.github.clans.fab.FloatingActionMenu>
 
-    <com.dmytrotarianyk.library.FloatingActionMenu
+    <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,30 +118,30 @@
         fab:menu_colorPressed="#2272CD"
         fab:menu_colorRipple="#62B2FF">
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star"
             style="@style/MenuButtonsSmall" />
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star"
             style="@style/MenuButtonsSmall" />
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star"
             style="@style/MenuButtonsSmall" />
 
-    </com.dmytrotarianyk.library.FloatingActionMenu>
+    </com.github.clans.fab.FloatingActionMenu>
 
-    <com.dmytrotarianyk.library.FloatingActionButton
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

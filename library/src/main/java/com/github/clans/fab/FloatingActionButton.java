@@ -1,4 +1,4 @@
-package com.dmytrotarianyk.library;
+package com.github.clans.fab;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -30,6 +30,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.dmytrotarianyk.library.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

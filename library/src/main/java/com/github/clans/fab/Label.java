@@ -1,4 +1,4 @@
-package com.dmytrotarianyk.library;
+package com.github.clans.fab;
 
 import android.annotation.TargetApi;
 import android.content.Context;
