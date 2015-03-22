@@ -2,7 +2,7 @@
 Yet another implementation of [Floating Action Button](http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button) for Android.
 
 # Requirements
-The Library requires Android **API Level 15+**.
+The library requires Android **API Level 15+**.
 
 # Demo
 Watch a **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
@@ -12,7 +12,7 @@ Watch a **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
 
 # Features
 - Ripple effect on Android Lollipop devices
-- Option to set custom normal/pressed/ripple colors
+- Option to set custom **normal**/**pressed**/**ripple** colors
 - Option to set custom shadow color and offsets
 - Option to disable shadow for buttons and (or) labels
 - Option to set custom animations
@@ -23,7 +23,7 @@ Watch a **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    compile 'com.github.clans:floatingactionbutton:1.0.0'
+    
 }
 ```
 Add the `com.dmytrotarianyk.library.FloatingActionButton` to your layout XMl file.
@@ -40,7 +40,7 @@ Add the `com.dmytrotarianyk.library.FloatingActionButton` to your layout XMl fil
         android:layout_height="match_parent"
         tools:context=".MainActivity" />
 
-    <com.dmytrotarianyk.library.FloatingActionButton
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,9 +56,9 @@ Add the `com.dmytrotarianyk.library.FloatingActionButton` to your layout XMl fil
 ```
 You can set an icon for the **FloatingActionButton** using `android:src` xml attribute. Use drawables of size `24dp` as specified by [guidlines](http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button). Icons of desired size can be generated with [Android Asset Studio](http://romannurik.github.io/AndroidAssetStudio/icons-generic.html).
 
-Here are all the **FloatinActionButton** xml attributes with their default values which means that you don't have to set all of them:
+Here are all the **FloatinActionButton**'s xml attributes with their default values which means that you don't have to set all of them:
 ```XML
-<com.dmytrotarianyk.library.FloatingActionButton
+<com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,13 +77,13 @@ Here are all the **FloatinActionButton** xml attributes with their default value
         app:fab_size="normal"
         app:fab_showAnimation="@anim/fab_scale_up"
         app:fab_hideAnimation="@anim/fab_scale_down"
-        app:fab_label=""/>
+        app:fab_label="" />
 ```
-All of these **FloatingActionButton**'s attributes has their corresponding getters and setters. So you can change them **programmatically**.
+All of these **FloatingActionButton**'s attributes has their corresponding getters and setters. So you can set them **programmatically**.
 
-Here are all the **FloatingActionMenu** xml attributes with their default values which means that you don't have to set all of them:
+Here are all the **FloatingActionMenu**'s xml attributes with their default values which means that you don't have to set all of them:
 ```XML
-<com.dmytrotarianyk.library.FloatingActionMenu
+<com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -123,7 +123,7 @@ Here are all the **FloatingActionMenu** xml attributes with their default values
         fab:menu_fab_size="normal"
         fab:menu_labels_style="@style/YourCustomLabelsStyle">
 
-        <com.dmytrotarianyk.library.FloatingActionButton
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -131,10 +131,15 @@ Here are all the **FloatingActionMenu** xml attributes with their default values
             fab:menu_fab_size="mini"
             fab:fab_label="Menu item 1" />
 
-    </com.dmytrotarianyk.library.FloatingActionMenu>
+    </com.github.clans.fab.FloatingActionMenu>
 ```
 
-> Labels shadow preferences depends on their corresponding **FloatingActionButton**'s shadow preferences.
+> Labels shadow preferences depends on their corresponding **FloatingActionButtons**' shadow preferences.
+
+For more usage examples check the **sample** project.
+
+# Credits
+I used [android-floating-action-button](https://github.com/futuresimple/android-floating-action-button) library by Jerzy Chalupski as a base for development.
 
 # License
 ```
