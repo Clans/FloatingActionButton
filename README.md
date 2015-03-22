@@ -55,7 +55,7 @@ Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
 You can set an icon for the **FloatingActionButton** using `android:src` xml attribute. Use drawables of size `24dp` as specified by [guidlines](http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button). Icons of desired size can be generated with [Android Asset Studio](http://romannurik.github.io/AndroidAssetStudio/icons-generic.html).
 
 ### Floating action button
-Here are all the **FloatinActionButton**'s xml attributes with their **default values** which means that you don't have to set all of them:
+Here are all the **FloatingActionButton**'s xml attributes with their **default values** which means that you don't have to set all of them:
 ```XML
 <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"
