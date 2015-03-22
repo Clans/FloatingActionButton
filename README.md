@@ -56,7 +56,32 @@ Add the `com.dmytrotarianyk.library.FloatingActionButton` to your layout XMl fil
 ```
 You can set an icon for the **FloatingActionButton** using `android:src` xml attribute. Use drawables of size `24dp` as specified by [guidlines](http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button). Icons of desired size can be generated with [Android Asset Studio](http://romannurik.github.io/AndroidAssetStudio/icons-generic.html).
 
-Here are all the **FloatingActionMenu** xml attributes with thair default values which means that you don't have to set all of them:
+Here are all the **FloatinActionButton** xml attributes with their default values which means that you don't have to set all of them:
+```XML
+<com.dmytrotarianyk.library.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/your_icon_drawable"
+        app:fab_colorNormal="#DA4336"
+        app:fab_colorPressed="#E75043"
+        app:fab_colorRipple="#99FFFFFF"
+        app:fab_showShadow="true"
+        app:fab_shadowColor="#66000000"
+        app:fab_shadowRadius="4dp"
+        app:fab_shadowXOffset="1dp"
+        app:fab_shadowYOffset="3dp"
+        app:fab_size="normal"
+        app:fab_showAnimation="@anim/fab_scale_up"
+        app:fab_hideAnimation="@anim/fab_scale_down"
+        app:fab_label=""/>
+```
+All of these **FloatingActionButton**'s attributes has their corresponding getters and setters. So you can change them **programmatically**.
+
+Here are all the **FloatingActionMenu** xml attributes with their default values which means that you don't have to set all of them:
 ```XML
 <com.dmytrotarianyk.library.FloatingActionMenu
         android:id="@+id/menu"
@@ -67,7 +92,6 @@ Here are all the **FloatingActionMenu** xml attributes with thair default values
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        fab:menu_showShadow="true"
         fab:menu_buttonSpacing="0dp"
         fab:menu_labels_margin="0dp"
         fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
@@ -83,7 +107,11 @@ Here are all the **FloatingActionMenu** xml attributes with thair default values
         fab:menu_labels_colorNormal="#333333"
         fab:menu_labels_colorPressed="#444444"
         fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_showShadow="true"
         fab:menu_shadowColor="#66000000"
+        fab:menu_shadowRadius="4dp"
+        fab:menu_shadowXOffset="1dp"
+        fab:menu_shadowYOffset="3dp"
         fab:menu_colorNormal="#DA4336"
         fab:menu_colorPressed="#E75043"
         fab:menu_colorRipple="#99FFFFFF"
@@ -100,10 +128,13 @@ Here are all the **FloatingActionMenu** xml attributes with thair default values
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star"
-            fab:menu_fab_size="mini" />
+            fab:menu_fab_size="mini"
+            fab:fab_label="Menu item 1" />
 
     </com.dmytrotarianyk.library.FloatingActionMenu>
 ```
+
+> Labels shadow preferences depends on their corresponding **FloatingActionButton**'s shadow preferences.
 
 # License
 ```
