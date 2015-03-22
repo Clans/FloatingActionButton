@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -14,7 +13,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
-import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -25,16 +23,13 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -62,7 +57,7 @@ public class FloatingActionButton extends ImageButton {
     private int mIconSize = Util.dpToPx(getContext(), 24f);
     private Animation mShowAnimation;
     private Animation mHideAnimation;
-    private String mLabel;
+    private String mLabelText;
     private OnClickListener mClickListener;
     private Drawable mBackgroundDrawable;
 
@@ -96,7 +91,7 @@ public class FloatingActionButton extends ImageButton {
         mShadowXOffset = attr.getDimensionPixelSize(R.styleable.FloatingActionButton_fab_shadowXOffset, mShadowXOffset);
         mShadowYOffset = attr.getDimensionPixelSize(R.styleable.FloatingActionButton_fab_shadowYOffset, mShadowYOffset);
         mFabSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
-        mLabel = attr.getString(R.styleable.FloatingActionButton_fab_label);
+        mLabelText = attr.getString(R.styleable.FloatingActionButton_fab_label);
         initShowAnimation(attr);
         initHideAnimation(attr);
         attr.recycle();
@@ -656,16 +651,16 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    public void setLabel(String label) {
-        mLabel = label;
+    public void setLabelText(String text) {
+        mLabelText = text;
         TextView labelView = getLabelView();
         if (labelView != null) {
-            labelView.setText(label);
+            labelView.setText(text);
         }
     }
 
-    public String getLabel() {
-        return mLabel;
+    public String getLabelText() {
+        return mLabelText;
     }
 
     public void setShowAnimation(Animation showAnimation) {

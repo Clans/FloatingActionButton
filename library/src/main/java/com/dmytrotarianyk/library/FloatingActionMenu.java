@@ -287,7 +287,7 @@ public class FloatingActionMenu extends ViewGroup {
 
         for (int i = 0; i < mButtonsCount; i++) {
             final FloatingActionButton fab = (FloatingActionButton) getChildAt(i);
-            String text = fab.getLabel();
+            String text = fab.getLabelText();
 
             if (fab == mMenuButton || TextUtils.isEmpty(text) || fab.getTag(R.id.fab_label) != null) {
                 continue;
@@ -520,6 +520,10 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void setAnimationDelayPerItem(int animationDelayPerItem) {
         mAnimationDelayPerItem = animationDelayPerItem;
+    }
+
+    public int getAnimationDelayPerItem() {
+        return mAnimationDelayPerItem;
     }
 
     public void setOnMenuToggleListener(OnMenuToggleListener listener) {

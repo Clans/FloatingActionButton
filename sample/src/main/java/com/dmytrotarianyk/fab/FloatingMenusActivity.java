@@ -30,6 +30,18 @@ public class FloatingMenusActivity extends ActionBarActivity {
 
         FloatingActionMenu menu2 = (FloatingActionMenu) findViewById(R.id.menu2);
         menu2.setIconAnimationInterpolator(new OvershootInterpolator());
+        menu2.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                String text = "";
+                if (opened) {
+                    text = "Menu opened";
+                } else {
+                    text = "Menu closed";
+                }
+                Toast.makeText(FloatingMenusActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
         fab2 = (FloatingActionButton) findViewById(R.id.fab2);
@@ -65,22 +77,22 @@ public class FloatingMenusActivity extends ActionBarActivity {
 
             switch (v.getId()) {
                 case R.id.fab1:
-                    text = fab1.getLabel();
+                    text = fab1.getLabelText();
                     break;
                 case R.id.fab2:
-                    text = fab2.getLabel();
+                    text = fab2.getLabelText();
                     break;
                 case R.id.fab3:
-                    text = fab3.getLabel();
+                    text = fab3.getLabelText();
                     break;
                 case R.id.fab12:
-                    text = fab12.getLabel();
+                    text = fab12.getLabelText();
                     break;
                 case R.id.fab22:
-                    text = fab22.getLabel();
+                    text = fab22.getLabelText();
                     break;
                 case R.id.fab32:
-                    text = fab32.getLabel();
+                    text = fab32.getLabelText();
                     break;
             }
 
