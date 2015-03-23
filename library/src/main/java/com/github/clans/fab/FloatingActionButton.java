@@ -17,10 +17,6 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -31,20 +27,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.dmytrotarianyk.library.R;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 public class FloatingActionButton extends ImageButton {
 
     public static final int SIZE_NORMAL = 0;
     public static final int SIZE_MINI = 1;
-
-    @IntDef({SIZE_NORMAL, SIZE_MINI})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface FabSize {
-    }
 
     private int mFabSize;
     private int mColorNormal;
@@ -298,7 +284,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     @Override
-    public boolean onTouchEvent(@NonNull MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         if (mClickListener == null) return false;
 
         Label label = (Label) getTag(R.id.fab_label);
@@ -421,7 +407,7 @@ public class FloatingActionButton extends ImageButton {
      *
      * @param size size of the <b>FloatingActionButton</b>. Accepted values: SIZE_NORMAL, SIZE_MINI.
      */
-    public void setButtonSize(@FabSize int size) {
+    public void setButtonSize(int size) {
         if (size != SIZE_NORMAL && size != SIZE_MINI) {
             throw new IllegalArgumentException("Use @FabSize constants only!");
         }
@@ -432,7 +418,6 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    @FabSize
     public int getButtonSize() {
         return mFabSize;
     }
@@ -444,7 +429,7 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    public void setColorNormalResId(@ColorRes int colorResId) {
+    public void setColorNormalResId(int colorResId) {
         setColorNormal(getResources().getColor(colorResId));
     }
 
@@ -459,7 +444,7 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    public void setColorPressedResId(@ColorRes int colorResId) {
+    public void setColorPressedResId(int colorResId) {
         setColorPressed(getResources().getColor(colorResId));
     }
 
@@ -474,7 +459,7 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    public void setColorRippleResId(@ColorRes int colorResId) {
+    public void setColorRippleResId(int colorResId) {
         setColorRipple(getResources().getColor(colorResId));
     }
 
@@ -498,7 +483,7 @@ public class FloatingActionButton extends ImageButton {
      *
      * @param dimenResId the resource identifier of the dimension
      */
-    public void setShadowRadius(@DimenRes int dimenResId) {
+    public void setShadowRadius(int dimenResId) {
         int shadowRadius = getResources().getDimensionPixelSize(dimenResId);
         if (mShadowRadius != shadowRadius) {
             mShadowRadius = shadowRadius;
@@ -509,7 +494,7 @@ public class FloatingActionButton extends ImageButton {
 
     /**
      * Sets the shadow radius of the <b>FloatingActionButton</b> and invalidates its layout.
-     * <p/>
+     * <p>
      * Must be specified in density-independent (dp) pixels, which are then converted into actual
      * pixels (px).
      *
@@ -530,7 +515,7 @@ public class FloatingActionButton extends ImageButton {
      *
      * @param dimenResId the resource identifier of the dimension
      */
-    public void setShadowXOffset(@DimenRes int dimenResId) {
+    public void setShadowXOffset(int dimenResId) {
         int shadowXOffset = getResources().getDimensionPixelSize(dimenResId);
         if (mShadowXOffset != shadowXOffset) {
             mShadowXOffset = shadowXOffset;
@@ -541,7 +526,7 @@ public class FloatingActionButton extends ImageButton {
 
     /**
      * Sets the shadow x offset of the <b>FloatingActionButton</b> and invalidates its layout.
-     * <p/>
+     * <p>
      * Must be specified in density-independent (dp) pixels, which are then converted into actual
      * pixels (px).
      *
@@ -562,7 +547,7 @@ public class FloatingActionButton extends ImageButton {
      *
      * @param dimenResId the resource identifier of the dimension
      */
-    public void setShadowYOffset(@DimenRes int dimenResId) {
+    public void setShadowYOffset(int dimenResId) {
         int shadowYOffset = getResources().getDimensionPixelSize(dimenResId);
         if (mShadowYOffset != shadowYOffset) {
             mShadowYOffset = shadowYOffset;
@@ -573,7 +558,7 @@ public class FloatingActionButton extends ImageButton {
 
     /**
      * Sets the shadow y offset of the <b>FloatingActionButton</b> and invalidates its layout.
-     * <p/>
+     * <p>
      * Must be specified in density-independent (dp) pixels, which are then converted into actual
      * pixels (px).
      *
@@ -589,7 +574,7 @@ public class FloatingActionButton extends ImageButton {
         return mShadowYOffset;
     }
 
-    public void setShadowColorResource(@ColorRes int colorResId) {
+    public void setShadowColorResource(int colorResId) {
         int shadowColor = getResources().getColor(colorResId);
         if (mShadowColor != shadowColor) {
             mShadowColor = shadowColor;

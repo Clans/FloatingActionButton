@@ -1,8 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dmytrotarianyk.library">
+<manifest package="com.github.clans.fab">
 
-    <application android:allowBackup="true" android:label="@string/app_name">
-
-    </application>
+    <application />
 
 </manifest>

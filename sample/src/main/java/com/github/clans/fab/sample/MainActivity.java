@@ -10,7 +10,7 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.dmytrotarianyk.fab.R;
+import com.github.fab.sample.R;
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
