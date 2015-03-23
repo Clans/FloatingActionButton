@@ -54,7 +54,8 @@ Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
 ```
 You can set an icon for the **FloatingActionButton** using `android:src` xml attribute. Use drawables of size `24dp` as specified by [guidlines](http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button). Icons of desired size can be generated with [Android Asset Studio](http://romannurik.github.io/AndroidAssetStudio/icons-generic.html).
 
-Here are all the **FloatinActionButton**'s xml attributes with their **default values** which means that you don't have to set all of them:
+### Floating action button
+Here are all the **FloatingActionButton**'s xml attributes with their **default values** which means that you don't have to set all of them:
 ```XML
 <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"
@@ -79,6 +80,7 @@ Here are all the **FloatinActionButton**'s xml attributes with their **default v
 ```
 All of these **FloatingActionButton**'s attributes has their corresponding getters and setters. So you can set them **programmatically**.
 
+### Floating action menu
 Here are all the **FloatingActionMenu**'s xml attributes with their **default values** which means that you don't have to set all of them:
 ```XML
 <com.github.clans.fab.FloatingActionMenu
@@ -132,7 +134,9 @@ Here are all the **FloatingActionMenu**'s xml attributes with their **default va
     </com.github.clans.fab.FloatingActionMenu>
 ```
 
-> Labels shadow preferences depends on their corresponding **FloatingActionButtons**' shadow preferences.
+If you're using custom style for labels - other labels attributes will be ignored.
+
+Labels shadow preferences depends on their corresponding **FloatingActionButtons**' shadow preferences.
 
 For more usage examples check the **sample** project.
 
