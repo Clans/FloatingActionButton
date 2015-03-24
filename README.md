@@ -1,4 +1,6 @@
 # FloatingActionButton
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.clans/fab/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.clans/fab)
+
 Yet another implementation of [Floating Action Button](http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button) for Android.
 
 # Requirements
