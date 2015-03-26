@@ -68,6 +68,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mLabelsMaxLines;
     private int mMenuFabSize;
     private int mLabelsStyle;
+    private boolean mIconAnimated = true;
 
     private OnMenuToggleListener mToggleListener;
 
@@ -423,8 +424,10 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void open(final boolean animate) {
         if (!isOpened()) {
-            mCloseAnimatorSet.cancel();
-            mOpenAnimatorSet.start();
+            if (mIconAnimated) {
+                mCloseAnimatorSet.cancel();
+                mOpenAnimatorSet.start();
+            }
             mMenuOpened = true;
             int delay = 0;
             for (int i = getChildCount() - 1; i >= 0; i--) {
@@ -455,8 +458,10 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void close(final boolean animate) {
         if (isOpened()) {
-            mCloseAnimatorSet.start();
-            mOpenAnimatorSet.cancel();
+            if (mIconAnimated) {
+                mCloseAnimatorSet.start();
+                mOpenAnimatorSet.cancel();
+            }
             mMenuOpened = false;
             int delay = 0;
             for (int i = 0; i < getChildCount(); i++) {
@@ -528,5 +533,13 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void setOnMenuToggleListener(OnMenuToggleListener listener) {
         mToggleListener = listener;
+    }
+
+    public void setIconAnimated(boolean animated) {
+        mIconAnimated = animated;
+    }
+
+    public boolean isIconAnimated() {
+        return mIconAnimated;
     }
 }

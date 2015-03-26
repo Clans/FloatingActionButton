@@ -30,6 +30,9 @@ public class FloatingMenusActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FloatingActionMenu menu2 = (FloatingActionMenu) findViewById(R.id.menu2);
+        FloatingActionMenu menu3 = (FloatingActionMenu) findViewById(R.id.menu3);
+        menu3.setIconAnimated(false);
+
         menu2.setIconAnimationInterpolator(new OvershootInterpolator());
         menu2.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
             @Override
