@@ -25,7 +25,7 @@ Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    compile 'com.github.clans:fab:1.0.0'
+    compile 'com.github.clans:fab:1.0.1'
 }
 ```
 Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
@@ -141,6 +141,18 @@ If you're using custom style for labels - other labels attributes will be ignore
 Labels shadow preferences depends on their corresponding **FloatingActionButtons**' shadow preferences.
 
 For more usage examples check the **sample** project.
+
+# ProGuard
+To prevent ProGuard from stripping away required methods, add the following lines to your proguard config file:
+```Java
+-keepclassmembers class com.github.clans.fab.FloatingActionMenu$RotatingDrawable {
+   void set*(***);
+   *** get*();
+}
+```
+
+# Changelog
+Please see the [Changelog](https://github.com/Clans/FloatingActionButton/wiki/Changelog) page to see what's recently changed.
 
 # Credits
 I used [android-floating-action-button](https://github.com/futuresimple/android-floating-action-button) library by Jerzy Chalupski as a base for development.
