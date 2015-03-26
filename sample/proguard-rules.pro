@@ -15,3 +15,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# keep getters/setters in RotatingDrawable so that animations can still work.
+-keepclassmembers class com.github.clans.fab.FloatingActionMenu$RotatingDrawable {
+   void set*(***);
+   *** get*();
+}
