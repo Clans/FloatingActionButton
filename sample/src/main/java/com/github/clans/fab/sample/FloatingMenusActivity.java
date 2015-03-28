@@ -1,8 +1,10 @@
 package com.github.clans.fab.sample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
@@ -72,6 +74,23 @@ public class FloatingMenusActivity extends ActionBarActivity {
                 fabEdit.show(true);
             }
         }, 200);
+
+        findViewById(R.id.fab_edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FloatingMenusActivity.this, RecyclerViewActivity.class));
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
