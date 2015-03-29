@@ -1,5 +1,9 @@
 package com.github.clans.fab.sample;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -81,6 +85,40 @@ public class FloatingMenusActivity extends ActionBarActivity {
                 startActivity(new Intent(FloatingMenusActivity.this, RecyclerViewActivity.class));
             }
         });
+
+        createCustomAnimation();
+    }
+
+    private void createCustomAnimation() {
+        final FloatingActionMenu menu4 = (FloatingActionMenu) findViewById(R.id.menu4);
+
+        AnimatorSet set = new AnimatorSet();
+
+        ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(menu4.getMenuIconView(), "scaleX", 1.0f, 0.2f);
+        ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(menu4.getMenuIconView(), "scaleY", 1.0f, 0.2f);
+
+        ObjectAnimator scaleInX = ObjectAnimator.ofFloat(menu4.getMenuIconView(), "scaleX", 0.2f, 1.0f);
+        ObjectAnimator scaleInY = ObjectAnimator.ofFloat(menu4.getMenuIconView(), "scaleY", 0.2f, 1.0f);
+
+        scaleOutX.setDuration(50);
+        scaleOutY.setDuration(50);
+
+        scaleInX.setDuration(150);
+        scaleInY.setDuration(150);
+
+        scaleInX.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                menu4.getMenuIconView().setImageResource(menu4.isOpened()
+                        ? R.drawable.ic_close : R.drawable.ic_star);
+            }
+        });
+
+        set.play(scaleOutX).with(scaleOutY);
+        set.play(scaleInX).with(scaleInY).after(scaleOutX);
+        set.setInterpolator(new OvershootInterpolator(2));
+
+        menu4.setIconToggleAnimatorSet(set);
     }
 
     @Override
