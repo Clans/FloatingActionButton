@@ -142,15 +142,6 @@ Labels shadow preferences depends on their corresponding **FloatingActionButtons
 
 For more usage examples check the **sample** project.
 
-# ProGuard
-To prevent ProGuard from stripping away required methods, add the following lines to your proguard config file:
-```Java
--keepclassmembers class com.github.clans.fab.FloatingActionMenu$RotatingDrawable {
-   void set*(***);
-   *** get*();
-}
-```
-
 # Changelog
 Please see the [Changelog](https://github.com/Clans/FloatingActionButton/wiki/Changelog) page to see what's recently changed.
 
