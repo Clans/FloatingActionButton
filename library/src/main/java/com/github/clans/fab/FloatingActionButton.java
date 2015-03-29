@@ -32,15 +32,16 @@ public class FloatingActionButton extends ImageButton {
     public static final int SIZE_NORMAL = 0;
     public static final int SIZE_MINI = 1;
 
-    private int mFabSize;
+    int mFabSize;
+    boolean mShowShadow;
+    int mShadowColor;
+    int mShadowRadius = Util.dpToPx(getContext(), 4f);
+    int mShadowXOffset = Util.dpToPx(getContext(), 1f);
+    int mShadowYOffset = Util.dpToPx(getContext(), 3f);
+
     private int mColorNormal;
     private int mColorPressed;
     private int mColorRipple;
-    private boolean mShowShadow;
-    private int mShadowColor;
-    private int mShadowRadius = Util.dpToPx(getContext(), 4f);
-    private int mShadowXOffset = Util.dpToPx(getContext(), 1f);
-    private int mShadowYOffset = Util.dpToPx(getContext(), 3f);
     private Drawable mIcon;
     private int mIconSize = Util.dpToPx(getContext(), 24f);
     private Animation mShowAnimation;
@@ -254,7 +255,6 @@ public class FloatingActionButton extends ImageButton {
         mColorNormal = colorNormal;
         mColorPressed = colorPressed;
         mColorRipple = colorRipple;
-        updateBackground();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

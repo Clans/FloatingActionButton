@@ -3,7 +3,7 @@ package com.github.clans.fab;
 import android.content.Context;
 import android.os.Build;
 
-public final class Util {
+final class Util {
 
     private Util() {
     }
