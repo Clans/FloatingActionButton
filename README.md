@@ -20,12 +20,13 @@ Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
 - Option to set custom animations
 - Option to set custom icon drawable
 - Support for **normal** `56dp` and **mini** `40dp` button sizes.
+- Custom FloatingActionMenu icon animations
 
 # Usage
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    compile 'com.github.clans:fab:1.0.1'
+    compile 'com.github.clans:fab:1.2.0'
 }
 ```
 Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
