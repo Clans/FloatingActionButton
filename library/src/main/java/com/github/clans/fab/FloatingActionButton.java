@@ -100,7 +100,9 @@ public class FloatingActionButton extends ImageButton {
 
     @Override
     public void setElevation(float elevation) {
-        // Use shadow configurations instead
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            super.setElevation(elevation);
+        }
     }
 
     private int getCircleSize() {
