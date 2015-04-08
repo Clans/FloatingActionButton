@@ -11,8 +11,11 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.Interpolator;
@@ -70,6 +73,10 @@ public class FloatingActionMenu extends ViewGroup {
     private int mLabelsStyle;
     private boolean mIconAnimated = true;
     private ImageView mImageToggle;
+    private Animation mMenuButtonShowAnimation;
+    private Animation mMenuButtonHideAnimation;
+    private boolean mIsMenuButtonAnimationRunning;
+    private boolean mIsSetClosedOnTouchOutside;
 
     private OnMenuToggleListener mToggleListener;
 
@@ -135,7 +142,13 @@ public class FloatingActionMenu extends ViewGroup {
         mOpenInterpolator = new OvershootInterpolator();
         mCloseInterpolator = new AnticipateInterpolator();
 
+        initMenuButtonAnimations();
         createMenuButton();
+    }
+
+    private void initMenuButtonAnimations() {
+        mMenuButtonShowAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
+        mMenuButtonHideAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
     }
 
     private void initPadding(int padding) {
@@ -226,17 +239,26 @@ public class FloatingActionMenu extends ViewGroup {
             }
         }
 
-        width = Math.max(mMaxButtonWidth, maxLabelWidth + mLabelsMargin);
+        width = Math.max(mMaxButtonWidth, maxLabelWidth + mLabelsMargin) + getPaddingLeft() + getPaddingRight();
 
-        height += mButtonSpacing * (getChildCount() - 1);
+        height += mButtonSpacing * (getChildCount() - 1) + getPaddingTop() + getPaddingBottom();
         height = adjustForOvershoot(height);
+
+
+        if (getLayoutParams().width == LayoutParams.MATCH_PARENT) {
+            width = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+        }
+
+        if (getLayoutParams().height == LayoutParams.MATCH_PARENT) {
+            height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
+        }
 
         setMeasuredDimension(width, height);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int buttonsHorizontalCenter = r - l - mMaxButtonWidth / 2;
+        int buttonsHorizontalCenter = r - l - mMaxButtonWidth / 2 - getPaddingRight();
         int menuButtonTop = b - t - mMenuButton.getMeasuredHeight() - getPaddingBottom();
         int menuButtonLeft = buttonsHorizontalCenter - mMenuButton.getMeasuredWidth() / 2;
 
@@ -281,7 +303,9 @@ public class FloatingActionMenu extends ViewGroup {
                 label.layout(labelXAwayFromButton, labelTop,
                         labelXNearButton, labelTop + label.getMeasuredHeight());
 
-                label.setVisibility(INVISIBLE);
+                if (!mMenuOpened) {
+                    label.setVisibility(INVISIBLE);
+                }
             }
 
             nextY = childY - mButtonSpacing;
@@ -400,6 +424,51 @@ public class FloatingActionMenu extends ViewGroup {
     protected boolean checkLayoutParams(LayoutParams p) {
         return p instanceof MarginLayoutParams;
     }
+
+    private void hideMenuButtonWithImage(boolean animate) {
+        if (!isMenuButtonHidden()) {
+            mMenuButton.hide(animate);
+            if (animate) {
+                mImageToggle.startAnimation(mMenuButtonHideAnimation);
+            }
+            mImageToggle.setVisibility(INVISIBLE);
+            mIsMenuButtonAnimationRunning = false;
+        }
+    }
+
+    private void showMenuButtonWithImage(boolean animate) {
+        if (isMenuButtonHidden()) {
+            mMenuButton.show(animate);
+            if (animate) {
+                mImageToggle.startAnimation(mMenuButtonShowAnimation);
+            }
+            mImageToggle.setVisibility(VISIBLE);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mIsSetClosedOnTouchOutside) {
+            return mGestureDetector.onTouchEvent(event);
+        } else {
+            return super.onTouchEvent(event);
+        }
+    }
+
+    GestureDetector mGestureDetector = new GestureDetector(getContext(),
+            new GestureDetector.SimpleOnGestureListener() {
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return mIsSetClosedOnTouchOutside && isOpened();
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            close(mIsAnimated);
+            return true;
+        }
+    });
 
     /* ===== API methods ===== */
 
@@ -554,5 +623,96 @@ public class FloatingActionMenu extends ViewGroup {
 
     public AnimatorSet getIconToggleAnimatorSet() {
         return mIconToggleSet;
+    }
+
+    public void setMenuButtonShowAnimation(Animation showAnimation) {
+        mMenuButtonShowAnimation = showAnimation;
+        mMenuButton.setShowAnimation(showAnimation);
+    }
+
+    public void setMenuButtonHideAnimation(Animation hideAnimation) {
+        mMenuButtonHideAnimation = hideAnimation;
+        mMenuButton.setHideAnimation(hideAnimation);
+    }
+
+    public boolean isMenuButtonHidden() {
+        return mMenuButton.isHidden();
+    }
+
+    public void showMenuButton(boolean animate) {
+        if (isMenuButtonHidden()) {
+            showMenuButtonWithImage(animate);
+        }
+    }
+
+    public void hideMenuButton(final boolean animate) {
+        if (!isMenuButtonHidden() && !mIsMenuButtonAnimationRunning) {
+            mIsMenuButtonAnimationRunning = true;
+            if (isOpened()) {
+                close(animate);
+                mUiHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideMenuButtonWithImage(animate);
+                    }
+                }, mAnimationDelayPerItem * mButtonsCount);
+            } else {
+                hideMenuButtonWithImage(animate);
+            }
+        }
+    }
+
+    public void toggleMenuButton(boolean animate) {
+        if (isMenuButtonHidden()) {
+            showMenuButton(animate);
+        } else {
+            hideMenuButton(animate);
+        }
+    }
+
+    public void setClosedOnTouchOutside(boolean close) {
+        mIsSetClosedOnTouchOutside = close;
+    }
+
+    public void setMenuButtonColorNormal(int color) {
+        mMenuColorNormal = color;
+        mMenuButton.setColorNormal(color);
+    }
+
+    public void setMenuButtonColorNormalResId(int colorResId) {
+        mMenuColorNormal = getResources().getColor(colorResId);
+        mMenuButton.setColorNormalResId(colorResId);
+    }
+
+    public int getMenuButtonColorNormal() {
+        return mMenuColorNormal;
+    }
+
+    public void setMenuButtonColorPressed(int color) {
+        mMenuColorPressed = color;
+        mMenuButton.setColorPressed(color);
+    }
+
+    public void setMenuButtonColorPressedResId(int colorResId) {
+        mMenuColorPressed = getResources().getColor(colorResId);
+        mMenuButton.setColorPressedResId(colorResId);
+    }
+
+    public int getMenuButtonColorPressed() {
+        return mMenuColorPressed;
+    }
+
+    public void setMenuButtonColorRipple(int color) {
+        mMenuColorRipple = color;
+        mMenuButton.setColorRipple(color);
+    }
+
+    public void setMenuButtonColorRippleResId(int colorResId) {
+        mMenuColorRipple = getResources().getColor(colorResId);
+        mMenuButton.setColorRippleResId(colorResId);
+    }
+
+    public int getMenuButtonColorRipple() {
+        return mMenuColorRipple;
     }
 }
