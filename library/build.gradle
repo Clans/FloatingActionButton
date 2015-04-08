@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
@@ -13,6 +13,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            debuggable false
+        }
+
+        debug {
+            minifyEnabled false
+            debuggable true
         }
     }
 }

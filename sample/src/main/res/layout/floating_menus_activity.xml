@@ -22,13 +22,13 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true">
 
@@ -104,7 +104,7 @@
     </com.github.clans.fab.FloatingActionMenu>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu4"
+        android:id="@+id/menu3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -145,7 +145,7 @@
     </com.github.clans.fab.FloatingActionMenu>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu3"
+        android:id="@+id/menu4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -160,21 +160,21 @@
         fab:menu_colorRipple="#62B2FF">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab13"
+            android:id="@+id/fab14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star"
             style="@style/MenuButtonsSmall" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab23"
+            android:id="@+id/fab24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star"
             style="@style/MenuButtonsSmall" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab33"
+            android:id="@+id/fab34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star"
