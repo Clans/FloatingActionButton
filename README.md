@@ -4,7 +4,7 @@
 Yet another implementation of [Floating Action Button](http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button) for Android.
 
 # Requirements
-The library requires Android **API Level 15+**.
+The library requires Android **API Level 14+**.
 
 # Demo
 Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
@@ -26,7 +26,7 @@ Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    compile 'com.github.clans:fab:1.2.0'
+    compile 'com.github.clans:fab:1.3.0'
 }
 ```
 Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
