@@ -18,7 +18,8 @@
         android:paddingRight="8dp"
         android:paddingLeft="60dp"
         android:fontFamily="sans-serif-light"
-        android:background="@color/app_primary"/>
+        android:background="@color/app_primary"
+        android:elevation="4dp"/>
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu1"
@@ -186,17 +187,15 @@
         android:id="@+id/fab_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="78dp"
+        android:layout_marginTop="75dp"
         android:layout_marginLeft="10dp"
         android:src="@drawable/ic_edit"
-        fab:fab_shadowXOffset="0dp"
-        fab:fab_shadowYOffset="0dp"
-        fab:fab_shadowRadius="4dp"
         fab:fab_size="mini"
         fab:fab_colorNormal="#F50057"
         fab:fab_colorPressed="#E8004A"
         fab:fab_colorRipple="#C20024"
         fab:fab_shadowColor="#000"
+        fab:fab_elevationCompat="6dp"
         android:visibility="invisible"
         tools:visibility="visible"/>
 
