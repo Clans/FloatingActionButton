@@ -7,7 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Outline;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.graphics.Xfermode;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
@@ -24,6 +27,8 @@ import android.view.animation.Animation;
 import android.widget.TextView;
 
 public class Label extends TextView {
+
+    private static final Xfermode PORTER_DUFF_CLEAR = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
 
     private int mShadowRadius;
     private int mShadowXOffset;
@@ -303,6 +308,7 @@ public class Label extends TextView {
     private class Shadow extends Drawable {
 
         private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        private Paint mErase = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         private Shadow() {
             this.init();
@@ -312,6 +318,8 @@ public class Label extends TextView {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setColor(mColorNormal);
+
+            mErase.setXfermode(PORTER_DUFF_CLEAR);
 
             if (!isInEditMode()) {
                 mPaint.setShadowLayer(mShadowRadius, mShadowXOffset, mShadowYOffset, mShadowColor);
@@ -328,6 +336,7 @@ public class Label extends TextView {
             );
 
             canvas.drawRoundRect(shadowRect, mCornerRadius, mCornerRadius, mPaint);
+            canvas.drawRoundRect(shadowRect, mCornerRadius, mCornerRadius, mErase);
         }
 
         @Override

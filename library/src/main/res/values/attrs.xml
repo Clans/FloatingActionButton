@@ -17,6 +17,7 @@
         <attr name="fab_showAnimation" format="reference" />
         <attr name="fab_hideAnimation" format="reference" />
         <attr name="fab_label" format="string" />
+        <attr name="fab_elevationCompat" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="FloatingActionMenu">
