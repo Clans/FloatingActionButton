@@ -26,7 +26,7 @@ Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube or try i
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    compile 'com.github.clans:fab:1.3.0'
+    compile 'com.github.clans:fab:1.4.0'
 }
 ```
 Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
