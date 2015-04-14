@@ -7,7 +7,7 @@ Yet another implementation of [Floating Action Button](http://www.google.com/des
 The library requires Android **API Level 14+**.
 
 # Demo
-Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube.
+Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube or try it using **[Android simulator in the browser](https://appetize.io/app/ffreudbwmyedw5trzhyjknd2jg)** on Appetize.io.
 
 # Screenshots
 ![Main screen](/screenshots/main_screen.png) ![Menu closed](/screenshots/menu_closed.png) ![Menu default opened](/screenshots/menu_default_opened.png) ![Menu custom opened](/screenshots/menu_custom_opened.png) ![Menu mini opened](/screenshots/menu_mini_opened.png)
