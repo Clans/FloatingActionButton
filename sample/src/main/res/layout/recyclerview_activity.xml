@@ -17,7 +17,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="8dp"
         android:layout_marginRight="8dp"
-        android:src="@drawable/ic_menu"
+        android:src="@drawable/ic_progress"
         fab:fab_showAnimation="@anim/show_from_bottom"
         fab:fab_hideAnimation="@anim/hide_to_bottom"/>
 

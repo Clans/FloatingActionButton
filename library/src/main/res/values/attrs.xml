@@ -18,6 +18,12 @@
         <attr name="fab_hideAnimation" format="reference" />
         <attr name="fab_label" format="string" />
         <attr name="fab_elevationCompat" format="dimension" />
+        <attr name="fab_progress_color" format="color" />
+        <attr name="fab_progress_backgroundColor" format="color" />
+        <attr name="fab_progress_indeterminate" format="boolean" />
+        <attr name="fab_progress_max" format="integer" />
+        <attr name="fab_progress" format="integer" />
+        <attr name="fab_progress_showBackground" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="FloatingActionMenu">
