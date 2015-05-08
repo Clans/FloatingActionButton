@@ -715,4 +715,16 @@ public class FloatingActionMenu extends ViewGroup {
     public int getMenuButtonColorRipple() {
         return mMenuColorRipple;
     }
+
+    public void addMenuButton(FloatingActionButton fab) {
+        addView(fab, mButtonsCount - 1);
+        mButtonsCount++;
+        createLabels();
+    }
+
+    public void removeMenuButton(FloatingActionButton fab) {
+        removeView(fab.getLabelView());
+        removeView(fab);
+        mButtonsCount--;
+    }
 }
