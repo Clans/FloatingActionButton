@@ -68,6 +68,10 @@
         <attr name="menu_colorNormal" format="color" />
         <attr name="menu_colorPressed" format="color" />
         <attr name="menu_colorRipple" format="color" />
+        <attr name="menu_openDirection" format="enum">
+            <enum name="up" value="0" />
+            <enum name="down" value="1" />
+        </attr>
     </declare-styleable>
 
 </resources>

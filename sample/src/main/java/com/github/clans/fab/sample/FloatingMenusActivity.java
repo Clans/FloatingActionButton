@@ -46,6 +46,7 @@ public class FloatingMenusActivity extends ActionBarActivity {
         final FloatingActionMenu menu2 = (FloatingActionMenu) findViewById(R.id.menu2);
         final FloatingActionMenu menu3 = (FloatingActionMenu) findViewById(R.id.menu3);
         FloatingActionMenu menu4 = (FloatingActionMenu) findViewById(R.id.menu4);
+        FloatingActionMenu menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
 
         FloatingActionButton fab = new FloatingActionButton(this);
         fab.setButtonSize(FloatingActionButton.SIZE_MINI);
@@ -59,11 +60,13 @@ public class FloatingMenusActivity extends ActionBarActivity {
         fab2.setImageResource(R.drawable.ic_edit);
         menu2.addMenuButton(fab2);
 
+        menus.add(menuDown);
         menus.add(menu1);
         menus.add(menu2);
         menus.add(menu3);
         menus.add(menu4);
 
+        menuDown.hideMenuButton(false);
         menu1.hideMenuButton(false);
         menu2.hideMenuButton(false);
         menu3.hideMenuButton(false);
