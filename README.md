@@ -10,7 +10,7 @@ The library requires Android **API Level 14+**.
 Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube or try it using **[Android simulator in the browser](https://appetize.io/app/ffreudbwmyedw5trzhyjknd2jg)** on Appetize.io.
 
 # Screenshots
-![Main screen](/screenshots/main_screen.png) ![Menu closed](/screenshots/menu_closed.png) ![Menu default opened](/screenshots/menu_default_opened.png) ![Menu custom opened](/screenshots/menu_custom_opened.png) ![Menu mini opened](/screenshots/menu_mini_opened.png)
+![Main screen](/screenshots/main_screen.png) ![Menu closed](/screenshots/menu_closed.png) ![Menu default opened](/screenshots/menu_default_opened.png) ![Menu custom opened](/screenshots/menu_custom_opened.png) ![Menu mini opened](/screenshots/menu_mini_opened.png) ![Menu right opened](/screenshots/menu_right_opened.png) ![Menu down opened](/screenshots/menu_down_opened.png) ![Progress background](/screenshots/progress_background.png) ![Progress no background](/screenshots/progress_no_background.png)
 
 # Features
 - Ripple effect on Android Lollipop devices
@@ -19,14 +19,19 @@ Watch a short **[Demo Video](https://youtu.be/4jtDpmeod68)** on YouTube or try i
 - Option to disable shadow for buttons and (or) labels
 - Option to set custom animations
 - Option to set custom icon drawable
-- Support for **normal** `56dp` and **mini** `40dp` button sizes.
+- Support for **normal** `56dp` and **mini** `40dp` button sizes
 - Custom FloatingActionMenu icon animations
+- *Option to expand menu up and down*
+- *Option to show labels to the left and to the right of the menu*
+- *Option to show circle progress on `FloactinActionButton`*
+- *Option to add button to the `FloatingActionMenu` programmatically*
+- *Option to dim the `FloatinActionMenu`'s background*
 
 # Usage
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    compile 'com.github.clans:fab:1.4.0'
+    compile 'com.github.clans:fab:1.5.0'
 }
 ```
 Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
@@ -79,7 +84,13 @@ Here are all the **FloatingActionButton**'s xml attributes with their **default 
         app:fab_size="normal"
         app:fab_showAnimation="@anim/fab_scale_up"
         app:fab_hideAnimation="@anim/fab_scale_down"
-        app:fab_label="" />
+        app:fab_label=""
+        app:fab_progress_color="#FF009688"
+        app:fab_progress_backgroundColor="#4D000000"
+        app:fab_progress_indeterminate="false"
+        app:fab_progress_max="100"
+        app:fab_progress="0"
+        app:fab_progress_showBackground="true"/>
 ```
 All of these **FloatingActionButton**'s attributes has their corresponding getters and setters. So you can set them **programmatically**.
 
@@ -124,7 +135,10 @@ Here are all the **FloatingActionMenu**'s xml attributes with their **default va
         fab:menu_labels_singleLine="false"
         fab:menu_labels_ellipsize="none"
         fab:menu_labels_maxLines="-1"
-        fab:menu_labels_style="@style/YourCustomLabelsStyle">
+        fab:menu_labels_style="@style/YourCustomLabelsStyle"
+        fab:menu_labels_position="left"
+        fab:menu_openDirection="up"
+        fab:menu_backgroundColor="@android:color/transparent">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_item"
