@@ -44,6 +44,10 @@
         <attr name="menu_labels_colorNormal" format="color" />
         <attr name="menu_labels_colorPressed" format="color" />
         <attr name="menu_labels_colorRipple" format="color" />
+        <attr name="menu_labels_position" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
         <attr name="menu_icon" format="reference" />
         <attr name="menu_animationDelayPerItem" format="integer" />
         <attr name="menu_buttonToggleAnimation" format="reference" />

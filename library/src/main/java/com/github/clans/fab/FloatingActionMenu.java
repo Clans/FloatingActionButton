@@ -27,10 +27,14 @@ public class FloatingActionMenu extends ViewGroup {
 
     private static final int ANIMATION_DURATION = 300;
     private static final float CLOSED_PLUS_ROTATION = 0f;
-    private static final float OPENED_PLUS_ROTATION = -90f - 45f;
+    private static final float OPENED_PLUS_ROTATION_LEFT = -90f - 45f;
+    private static final float OPENED_PLUS_ROTATION_RIGHT = 90f + 45f;
 
     private static final int OPEN_UP = 0;
     private static final int OPEN_DOWN = 1;
+
+    private static final int LABELS_POSITION_LEFT = 0;
+    private static final int LABELS_POSITION_RIGHT = 1;
 
     private AnimatorSet mOpenAnimatorSet = new AnimatorSet();
     private AnimatorSet mCloseAnimatorSet = new AnimatorSet();
@@ -88,6 +92,8 @@ public class FloatingActionMenu extends ViewGroup {
     private ValueAnimator mHideBackgroundAnimator;
     private int mBackgroundColor;
 
+    private int mLabelsPosition;
+
     public interface OnMenuToggleListener {
         void onMenuToggle(boolean opened);
     }
@@ -109,8 +115,11 @@ public class FloatingActionMenu extends ViewGroup {
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionMenu, 0, 0);
         mButtonSpacing = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_buttonSpacing, mButtonSpacing);
         mLabelsMargin = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_margin, mLabelsMargin);
-        mLabelsShowAnimation = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_showAnimation, R.anim.fab_slide_in_from_right);
-        mLabelsHideAnimation = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_hideAnimation, R.anim.fab_slide_out_to_right);
+        mLabelsPosition = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_position, LABELS_POSITION_LEFT);
+        mLabelsShowAnimation = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_showAnimation,
+                mLabelsPosition == LABELS_POSITION_LEFT ? R.anim.fab_slide_in_from_right : R.anim.fab_slide_in_from_left);
+        mLabelsHideAnimation = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_hideAnimation,
+                mLabelsPosition == LABELS_POSITION_LEFT ? R.anim.fab_slide_out_to_right : R.anim.fab_slide_out_to_left);
         mLabelsPaddingTop = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_paddingTop, mLabelsPaddingTop);
         mLabelsPaddingRight = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_paddingRight, mLabelsPaddingRight);
         mLabelsPaddingBottom = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_paddingBottom, mLabelsPaddingBottom);
@@ -231,8 +240,18 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     private void createDefaultIconAnimation() {
-        ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(mImageToggle, "rotation", OPENED_PLUS_ROTATION, CLOSED_PLUS_ROTATION);
-        ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(mImageToggle, "rotation", CLOSED_PLUS_ROTATION, OPENED_PLUS_ROTATION);
+        ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(
+                mImageToggle,
+                "rotation",
+                mLabelsPosition == LABELS_POSITION_LEFT ? OPENED_PLUS_ROTATION_LEFT : OPENED_PLUS_ROTATION_RIGHT,
+                CLOSED_PLUS_ROTATION
+        );
+
+        ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(
+                mImageToggle,
+                "rotation",
+                CLOSED_PLUS_ROTATION,
+                mLabelsPosition == LABELS_POSITION_LEFT ? OPENED_PLUS_ROTATION_LEFT : OPENED_PLUS_ROTATION_RIGHT);
 
         mOpenAnimatorSet.play(expandAnimator);
         mCloseAnimatorSet.play(collapseAnimator);
@@ -300,7 +319,9 @@ public class FloatingActionMenu extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int buttonsHorizontalCenter = r - l - mMaxButtonWidth / 2 - getPaddingRight();
+        int buttonsHorizontalCenter = mLabelsPosition == LABELS_POSITION_LEFT
+                ? r - l - mMaxButtonWidth / 2 - getPaddingRight()
+                : mMaxButtonWidth / 2 + getPaddingLeft();
         boolean openUp = mOpenDirection == OPEN_UP;
 
         int menuButtonTop = openUp
@@ -342,14 +363,26 @@ public class FloatingActionMenu extends ViewGroup {
             View label = (View) fab.getTag(R.id.fab_label);
             if (label != null) {
                 int labelsOffset = fab.getMeasuredWidth() / 2 + mLabelsMargin;
-                int labelXNearButton = buttonsHorizontalCenter - labelsOffset;
+                int labelXNearButton = mLabelsPosition == LABELS_POSITION_LEFT
+                        ? buttonsHorizontalCenter - labelsOffset
+                        : buttonsHorizontalCenter + labelsOffset;
 
-                int labelXAwayFromButton = labelXNearButton - label.getMeasuredWidth();
+                int labelXAwayFromButton = mLabelsPosition == LABELS_POSITION_LEFT
+                        ? labelXNearButton - label.getMeasuredWidth()
+                        : labelXNearButton + label.getMeasuredWidth();
+
+                int labelLeft = mLabelsPosition == LABELS_POSITION_LEFT
+                        ? labelXAwayFromButton
+                        : labelXNearButton;
+
+                int labelRight = mLabelsPosition == LABELS_POSITION_LEFT
+                        ? labelXNearButton
+                        : labelXAwayFromButton;
+
                 int labelTop = childY - mLabelsVerticalOffset + (fab.getMeasuredHeight()
                         - label.getMeasuredHeight()) / 2;
 
-                label.layout(labelXAwayFromButton, labelTop,
-                        labelXNearButton, labelTop + label.getMeasuredHeight());
+                label.layout(labelLeft, labelTop, labelRight, labelTop + label.getMeasuredHeight());
 
                 if (!mMenuOpened) {
                     label.setVisibility(INVISIBLE);

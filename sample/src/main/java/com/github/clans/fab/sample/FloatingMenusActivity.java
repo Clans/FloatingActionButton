@@ -47,6 +47,7 @@ public class FloatingMenusActivity extends ActionBarActivity {
         final FloatingActionMenu menu3 = (FloatingActionMenu) findViewById(R.id.menu3);
         FloatingActionMenu menu4 = (FloatingActionMenu) findViewById(R.id.menu4);
         FloatingActionMenu menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
+        FloatingActionMenu menuLabelsRight = (FloatingActionMenu) findViewById(R.id.menu_labels_right);
 
         FloatingActionButton fab = new FloatingActionButton(this);
         fab.setButtonSize(FloatingActionButton.SIZE_MINI);
@@ -65,12 +66,14 @@ public class FloatingMenusActivity extends ActionBarActivity {
         menus.add(menu2);
         menus.add(menu3);
         menus.add(menu4);
+        menus.add(menuLabelsRight);
 
         menuDown.hideMenuButton(false);
         menu1.hideMenuButton(false);
         menu2.hideMenuButton(false);
         menu3.hideMenuButton(false);
         menu4.hideMenuButton(false);
+        menuLabelsRight.hideMenuButton(false);
 
         int delay = 400;
         for (final FloatingActionMenu menu : menus) {
