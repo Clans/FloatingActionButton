@@ -49,17 +49,17 @@ public class FloatingMenusActivity extends ActionBarActivity {
         FloatingActionMenu menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         FloatingActionMenu menuLabelsRight = (FloatingActionMenu) findViewById(R.id.menu_labels_right);
 
-        FloatingActionButton fab = new FloatingActionButton(this);
-        fab.setButtonSize(FloatingActionButton.SIZE_MINI);
-        fab.setLabelText("Programmatically added button");
-        fab.setImageResource(R.drawable.ic_edit);
-        menu1.addMenuButton(fab);
+        FloatingActionButton programFab1 = new FloatingActionButton(this);
+        programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
+        programFab1.setLabelText("Programmatically added button");
+        programFab1.setImageResource(R.drawable.ic_edit);
+        menu1.addMenuButton(programFab1);
 
         ContextThemeWrapper context = new ContextThemeWrapper(this, R.style.MenuButtonsStyle);
-        FloatingActionButton fab2 = new FloatingActionButton(context);
-        fab2.setLabelText("Programmatically added button");
-        fab2.setImageResource(R.drawable.ic_edit);
-        menu2.addMenuButton(fab2);
+        FloatingActionButton programFab2 = new FloatingActionButton(context);
+        programFab2.setLabelText("Programmatically added button");
+        programFab2.setImageResource(R.drawable.ic_edit);
+        menu2.addMenuButton(programFab2);
 
         menus.add(menuDown);
         menus.add(menu1);
