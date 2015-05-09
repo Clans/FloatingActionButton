@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -45,16 +46,34 @@ public class FloatingMenusActivity extends ActionBarActivity {
         final FloatingActionMenu menu2 = (FloatingActionMenu) findViewById(R.id.menu2);
         final FloatingActionMenu menu3 = (FloatingActionMenu) findViewById(R.id.menu3);
         FloatingActionMenu menu4 = (FloatingActionMenu) findViewById(R.id.menu4);
+        FloatingActionMenu menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
+        FloatingActionMenu menuLabelsRight = (FloatingActionMenu) findViewById(R.id.menu_labels_right);
 
+        FloatingActionButton fab = new FloatingActionButton(this);
+        fab.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fab.setLabelText("Programmatically added button");
+        fab.setImageResource(R.drawable.ic_edit);
+        menu1.addMenuButton(fab);
+
+        ContextThemeWrapper context = new ContextThemeWrapper(this, R.style.MenuButtonsStyle);
+        FloatingActionButton fab2 = new FloatingActionButton(context);
+        fab2.setLabelText("Programmatically added button");
+        fab2.setImageResource(R.drawable.ic_edit);
+        menu2.addMenuButton(fab2);
+
+        menus.add(menuDown);
         menus.add(menu1);
         menus.add(menu2);
         menus.add(menu3);
         menus.add(menu4);
+        menus.add(menuLabelsRight);
 
+        menuDown.hideMenuButton(false);
         menu1.hideMenuButton(false);
         menu2.hideMenuButton(false);
         menu3.hideMenuButton(false);
         menu4.hideMenuButton(false);
+        menuLabelsRight.hideMenuButton(false);
 
         int delay = 400;
         for (final FloatingActionMenu menu : menus) {

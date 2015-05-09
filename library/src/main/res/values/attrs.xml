@@ -18,6 +18,12 @@
         <attr name="fab_hideAnimation" format="reference" />
         <attr name="fab_label" format="string" />
         <attr name="fab_elevationCompat" format="dimension" />
+        <attr name="fab_progress_color" format="color" />
+        <attr name="fab_progress_backgroundColor" format="color" />
+        <attr name="fab_progress_indeterminate" format="boolean" />
+        <attr name="fab_progress_max" format="integer" />
+        <attr name="fab_progress" format="integer" />
+        <attr name="fab_progress_showBackground" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="FloatingActionMenu">
@@ -38,6 +44,10 @@
         <attr name="menu_labels_colorNormal" format="color" />
         <attr name="menu_labels_colorPressed" format="color" />
         <attr name="menu_labels_colorRipple" format="color" />
+        <attr name="menu_labels_position" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
         <attr name="menu_icon" format="reference" />
         <attr name="menu_animationDelayPerItem" format="integer" />
         <attr name="menu_buttonToggleAnimation" format="reference" />
@@ -62,6 +72,11 @@
         <attr name="menu_colorNormal" format="color" />
         <attr name="menu_colorPressed" format="color" />
         <attr name="menu_colorRipple" format="color" />
+        <attr name="menu_openDirection" format="enum">
+            <enum name="up" value="0" />
+            <enum name="down" value="1" />
+        </attr>
+        <attr name="menu_backgroundColor" format="color" />
     </declare-styleable>
 
 </resources>
