@@ -2,6 +2,7 @@ package com.github.clans.fab;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -81,8 +82,11 @@ public class FloatingActionMenu extends ViewGroup {
     private boolean mIsMenuButtonAnimationRunning;
     private boolean mIsSetClosedOnTouchOutside;
     private int mOpenDirection;
-
     private OnMenuToggleListener mToggleListener;
+
+    private ValueAnimator mShowBackgroundAnimator;
+    private ValueAnimator mHideBackgroundAnimator;
+    private int mBackgroundColor;
 
     public interface OnMenuToggleListener {
         void onMenuToggle(boolean opened);
@@ -137,6 +141,7 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuFabSize = attr.getInt(R.styleable.FloatingActionMenu_menu_fab_size, FloatingActionButton.SIZE_NORMAL);
         mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_style, 0);
         mOpenDirection = attr.getInt(R.styleable.FloatingActionMenu_menu_openDirection, OPEN_UP);
+        mBackgroundColor = attr.getColor(R.styleable.FloatingActionMenu_menu_backgroundColor, Color.TRANSPARENT);
 
         if (attr.hasValue(R.styleable.FloatingActionMenu_menu_labels_padding)) {
             int padding = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_padding, 0);
@@ -148,12 +153,44 @@ public class FloatingActionMenu extends ViewGroup {
         mCloseInterpolator = new AnticipateInterpolator();
 
         initMenuButtonAnimations();
+        initBackgroundDimAnimation();
         createMenuButton();
     }
 
     private void initMenuButtonAnimations() {
         mMenuButtonShowAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
         mMenuButtonHideAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
+    }
+
+    private void initBackgroundDimAnimation() {
+        final int maxAlpha = Color.alpha(mBackgroundColor);
+        final int red = Color.red(mBackgroundColor);
+        final int green = Color.green(mBackgroundColor);
+        final int blue = Color.blue(mBackgroundColor);
+
+        mShowBackgroundAnimator = ValueAnimator.ofInt(0, maxAlpha);
+        mShowBackgroundAnimator.setDuration(ANIMATION_DURATION);
+        mShowBackgroundAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer alpha = (Integer) animation.getAnimatedValue();
+                setBackgroundColor(Color.argb(alpha, red, green, blue));
+            }
+        });
+
+        mHideBackgroundAnimator = ValueAnimator.ofInt(maxAlpha, 0);
+        mHideBackgroundAnimator.setDuration(ANIMATION_DURATION);
+        mHideBackgroundAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer alpha = (Integer) animation.getAnimatedValue();
+                setBackgroundColor(Color.argb(alpha, red, green, blue));
+            }
+        });
+    }
+
+    private boolean isBackgroundEnabled() {
+        return mBackgroundColor != Color.TRANSPARENT;
     }
 
     private void initPadding(int padding) {
@@ -499,6 +536,10 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void open(final boolean animate) {
         if (!isOpened()) {
+            if (isBackgroundEnabled()) {
+                mShowBackgroundAnimator.start();
+            }
+
             if (mIconAnimated) {
                 if (mIconToggleSet != null) {
                     mIconToggleSet.start();
@@ -507,6 +548,7 @@ public class FloatingActionMenu extends ViewGroup {
                     mOpenAnimatorSet.start();
                 }
             }
+
             mMenuOpened = true;
             int delay = 0;
             for (int i = getChildCount() - 1; i >= 0; i--) {
@@ -537,6 +579,10 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void close(final boolean animate) {
         if (isOpened()) {
+            if (isBackgroundEnabled()) {
+                mHideBackgroundAnimator.start();
+            }
+
             if (mIconAnimated) {
                 if (mIconToggleSet != null) {
                     mIconToggleSet.start();
@@ -545,6 +591,7 @@ public class FloatingActionMenu extends ViewGroup {
                     mOpenAnimatorSet.cancel();
                 }
             }
+
             mMenuOpened = false;
             int delay = 0;
             for (int i = 0; i < getChildCount(); i++) {
