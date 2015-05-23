@@ -184,7 +184,8 @@
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
         fab:menu_fab_size="mini"
-        fab:menu_openDirection="down">
+        fab:menu_openDirection="down"
+        fab:menu_fab_label="LABEL">
 
         <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
@@ -220,7 +221,8 @@
         android:paddingLeft="10dp"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
-        fab:menu_backgroundColor="#ccffffff">
+        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_fab_label="LABEL">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab1"
@@ -259,7 +261,8 @@
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
         fab:menu_backgroundColor="#ccffffff"
-        fab:menu_labels_position="right">
+        fab:menu_labels_position="right"
+        fab:menu_fab_label="LABEL">
 
         <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
