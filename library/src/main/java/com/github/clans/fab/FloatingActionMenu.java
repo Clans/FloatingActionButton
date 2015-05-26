@@ -1,5 +1,6 @@
 package com.github.clans.fab;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -70,6 +71,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mMenuColorPressed;
     private int mMenuColorRipple;
     private Drawable mIcon;
+    private Drawable mCollapsedIcon;
     private int mAnimationDelayPerItem;
     private Interpolator mOpenInterpolator;
     private Interpolator mCloseInterpolator;
@@ -140,10 +142,8 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_colorPressed, 0xFFE75043);
         mMenuColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_colorRipple, 0x99FFFFFF);
         mAnimationDelayPerItem = attr.getInt(R.styleable.FloatingActionMenu_menu_animationDelayPerItem, 50);
-        mIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
-        if (mIcon == null) {
-            mIcon = getResources().getDrawable(R.drawable.fab_add);
-        }
+        mIcon = getResources().getDrawable(R.drawable.fab_add);
+        mCollapsedIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
         mLabelsSingleLine = attr.getBoolean(R.styleable.FloatingActionMenu_menu_labels_singleLine, false);
         mLabelsEllipsize = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_ellipsize, 0);
         mLabelsMaxLines = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_maxLines, -1);
@@ -231,7 +231,11 @@ public class FloatingActionMenu extends ViewGroup {
         });
 
         mImageToggle = new ImageView(getContext());
-        mImageToggle.setImageDrawable(mIcon);
+        if (mCollapsedIcon != null) {
+            mImageToggle.setImageDrawable(mCollapsedIcon);
+        } else {
+            mImageToggle.setImageDrawable(mIcon);
+        }
 
         addView(mMenuButton, super.generateDefaultLayoutParams());
         addView(mImageToggle);
@@ -261,6 +265,57 @@ public class FloatingActionMenu extends ViewGroup {
 
         mOpenAnimatorSet.setDuration(ANIMATION_DURATION);
         mCloseAnimatorSet.setDuration(ANIMATION_DURATION);
+
+        mOpenAnimatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                if (mCollapsedIcon != null) {
+                    mImageToggle.setImageDrawable(mIcon);
+                }
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                if (mCollapsedIcon != null) {
+                    mImageToggle.setImageDrawable(mCollapsedIcon);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mCloseAnimatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (mCollapsedIcon != null) {
+                    mImageToggle.setImageDrawable(mCollapsedIcon);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                if (mCollapsedIcon != null) {
+                    mImageToggle.setImageDrawable(mIcon);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     @Override
