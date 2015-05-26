@@ -765,6 +765,13 @@ public class FloatingActionMenu extends ViewGroup {
         return mImageToggle;
     }
 
+    public void setCollapsedIcon(Drawable mMenuIcon) {
+        mCollapsedIcon = mMenuIcon;
+        if (!isOpened()) {
+            mImageToggle.setImageDrawable(mMenuIcon);
+        }
+    }
+
     public void setIconToggleAnimatorSet(AnimatorSet toggleAnimatorSet) {
         mIconToggleSet = toggleAnimatorSet;
     }
