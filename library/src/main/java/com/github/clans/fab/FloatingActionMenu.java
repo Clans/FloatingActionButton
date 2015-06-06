@@ -825,7 +825,7 @@ public class FloatingActionMenu extends ViewGroup {
         mButtonsCount--;
     }
     
-    public void getButtonsCount(){
+    public int getButtonsCount(){
         return mButtonsCount;    
     }
 }
