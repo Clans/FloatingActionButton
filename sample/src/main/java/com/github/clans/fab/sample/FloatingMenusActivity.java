@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FloatingMenusActivity extends ActionBarActivity {
+public class FloatingMenusActivity extends AppCompatActivity {
 
     private FloatingActionButton fab1;
     private FloatingActionButton fab2;
@@ -49,10 +50,16 @@ public class FloatingMenusActivity extends ActionBarActivity {
         FloatingActionMenu menuDown = (FloatingActionMenu) findViewById(R.id.menu_down);
         FloatingActionMenu menuLabelsRight = (FloatingActionMenu) findViewById(R.id.menu_labels_right);
 
-        FloatingActionButton programFab1 = new FloatingActionButton(this);
+        final FloatingActionButton programFab1 = new FloatingActionButton(this);
         programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
         programFab1.setLabelText("Programmatically added button");
         programFab1.setImageResource(R.drawable.ic_edit);
+        programFab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(FloatingMenusActivity.this, programFab1.getLabelText(), Toast.LENGTH_SHORT).show();
+            }
+        });
         menu1.addMenuButton(programFab1);
 
         ContextThemeWrapper context = new ContextThemeWrapper(this, R.style.MenuButtonsStyle);
@@ -85,7 +92,6 @@ public class FloatingMenusActivity extends ActionBarActivity {
             }, delay);
             delay += 150;
         }
-
 
         menu1.setClosedOnTouchOutside(true);
 

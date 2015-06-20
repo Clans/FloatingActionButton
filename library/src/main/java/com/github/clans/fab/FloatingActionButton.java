@@ -491,10 +491,12 @@ public class FloatingActionButton extends ImageButton {
     }
 
     void playShowAnimation() {
+        mHideAnimation.cancel();
         startAnimation(mShowAnimation);
     }
 
     void playHideAnimation() {
+        mShowAnimation.cancel();
         startAnimation(mHideAnimation);
     }
 

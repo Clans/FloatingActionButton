@@ -582,7 +582,6 @@ public class FloatingActionMenu extends ViewGroup {
                 }
             }
 
-            mMenuOpened = true;
             int delay = 0;
             for (int i = getChildCount() - 1; i >= 0; i--) {
                 View child = getChildAt(i);
@@ -590,13 +589,20 @@ public class FloatingActionMenu extends ViewGroup {
                         && child != mMenuButton && child.getVisibility() != GONE) {
 
                     final FloatingActionButton fab = (FloatingActionButton) child;
+                    final int count = i;
                     mUiHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            if (isOpened()) return;
+
                             fab.show(animate);
                             Label label = (Label) fab.getTag(R.id.fab_label);
                             if (label != null) {
                                 label.show(animate);
+                            }
+
+                            if (count == 0) {
+                                mMenuOpened = true;
                             }
                         }
                     }, delay);
@@ -625,7 +631,6 @@ public class FloatingActionMenu extends ViewGroup {
                 }
             }
 
-            mMenuOpened = false;
             int delay = 0;
             for (int i = 0; i < getChildCount(); i++) {
                 View child = getChildAt(i);
@@ -633,13 +638,20 @@ public class FloatingActionMenu extends ViewGroup {
                         && child != mMenuButton && child.getVisibility() != GONE) {
 
                     final FloatingActionButton fab = (FloatingActionButton) child;
+                    final int count = i;
                     mUiHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            if (!isOpened()) return;
+
                             fab.hide(animate);
                             Label label = (Label) fab.getTag(R.id.fab_label);
                             if (label != null) {
                                 label.hide(animate);
+                            }
+
+                            if (count == mButtonsCount - 2) {
+                                mMenuOpened = false;
                             }
                         }
                     }, delay);
