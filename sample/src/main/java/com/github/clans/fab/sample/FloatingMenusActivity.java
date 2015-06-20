@@ -54,13 +54,13 @@ public class FloatingMenusActivity extends AppCompatActivity {
         programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
         programFab1.setLabelText("Programmatically added button");
         programFab1.setImageResource(R.drawable.ic_edit);
+        menu1.addMenuButton(programFab1);
         programFab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(FloatingMenusActivity.this, programFab1.getLabelText(), Toast.LENGTH_SHORT).show();
             }
         });
-        menu1.addMenuButton(programFab1);
 
         ContextThemeWrapper context = new ContextThemeWrapper(this, R.style.MenuButtonsStyle);
         FloatingActionButton programFab2 = new FloatingActionButton(context);
