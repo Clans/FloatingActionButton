@@ -118,6 +118,8 @@ public class FloatingMenusActivity extends AppCompatActivity {
         fab22 = (FloatingActionButton) findViewById(R.id.fab22);
         fab32 = (FloatingActionButton) findViewById(R.id.fab32);
 
+        fab1.setEnabled(false);
+
         fab1.setOnClickListener(clickListener);
         fab2.setOnClickListener(clickListener);
         fab3.setOnClickListener(clickListener);
@@ -199,9 +201,11 @@ public class FloatingMenusActivity extends AppCompatActivity {
                     break;
                 case R.id.fab2:
                     text = fab2.getLabelText();
+                    fab2.setVisibility(View.GONE);
                     break;
                 case R.id.fab3:
                     text = fab3.getLabelText();
+                    fab2.setVisibility(View.VISIBLE);
                     break;
                 case R.id.fab12:
                     text = fab12.getLabelText();

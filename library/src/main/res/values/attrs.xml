@@ -4,6 +4,7 @@
     <declare-styleable name="FloatingActionButton">
         <attr name="fab_colorNormal" format="color" />
         <attr name="fab_colorPressed" format="color" />
+        <attr name="fab_colorDisabled" format="color" />
         <attr name="fab_colorRipple" format="color" />
         <attr name="fab_showShadow" format="boolean" />
         <attr name="fab_shadowColor" format="color" />

@@ -55,6 +55,7 @@ public class FloatingActionButton extends ImageButton {
 
     private int mColorNormal;
     private int mColorPressed;
+    private int mColorDisabled;
     private int mColorRipple;
     private Drawable mIcon;
     private int mIconSize = Util.dpToPx(getContext(), 24f);
@@ -118,6 +119,7 @@ public class FloatingActionButton extends ImageButton {
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionButton, defStyleAttr, 0);
         mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, 0xFFDA4336);
         mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, 0xFFE75043);
+        mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled, 0xFFAAAAAA);
         mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple, 0x99FFFFFF);
         mShowShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_showShadow, true);
         mShadowColor = attr.getColor(R.styleable.FloatingActionButton_fab_shadowColor, 0x66000000);
@@ -396,6 +398,7 @@ public class FloatingActionButton extends ImageButton {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private Drawable createFillDrawable() {
         StateListDrawable drawable = new StateListDrawable();
+        drawable.addState(new int[]{-android.R.attr.state_enabled}, createCircleDrawable(mColorDisabled));
         drawable.addState(new int[]{android.R.attr.state_pressed}, createCircleDrawable(mColorPressed));
         drawable.addState(new int[]{}, createCircleDrawable(mColorNormal));
 
@@ -534,7 +537,7 @@ public class FloatingActionButton extends ImageButton {
             drawable.setState(new int[]{});
         } else if (Util.hasLollipop()) {
             RippleDrawable ripple = (RippleDrawable) mBackgroundDrawable;
-            ripple.setState(new int[]{});
+            ripple.setState(new int[]{android.R.attr.state_enabled});
             ripple.setHotspot(calculateCenterX(), calculateCenterY());
             ripple.setVisible(true, true);
         }
@@ -542,8 +545,10 @@ public class FloatingActionButton extends ImageButton {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mClickListener != null) {
+        if (mClickListener != null && isEnabled()) {
             Label label = (Label) getTag(R.id.fab_label);
+            if (label == null) return super.onTouchEvent(event);
+
             int action = event.getAction();
             switch (action) {
                 case MotionEvent.ACTION_UP:
@@ -1205,5 +1210,23 @@ public class FloatingActionButton extends ImageButton {
 
     public synchronized boolean isProgressBackgroundShown() {
         return mShowProgressBackground;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        Label label = (Label) getTag(R.id.fab_label);
+        if (label != null) {
+            label.setEnabled(enabled);
+        }
+    }
+
+    @Override
+    public void setVisibility(int visibility) {
+        super.setVisibility(visibility);
+        Label label = (Label) getTag(R.id.fab_label);
+        if (label != null) {
+            label.setVisibility(visibility);
+        }
     }
 }
