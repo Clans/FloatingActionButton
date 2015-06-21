@@ -179,12 +179,14 @@ public class Label extends TextView {
 
     private void playShowAnimation() {
         if (mShowAnimation != null) {
+            mHideAnimation.cancel();
             startAnimation(mShowAnimation);
         }
     }
 
     private void playHideAnimation() {
         if (mHideAnimation != null) {
+            mShowAnimation.cancel();
             startAnimation(mHideAnimation);
         }
     }
@@ -242,18 +244,26 @@ public class Label extends TextView {
         mColorRipple = colorRipple;
     }
 
+    boolean isHidden() {
+        return getVisibility() == INVISIBLE;
+    }
+
     void show(boolean animate) {
-        if (animate) {
-            playShowAnimation();
+        if (isHidden()) {
+            if (animate) {
+                playShowAnimation();
+            }
+            setVisibility(VISIBLE);
         }
-        setVisibility(VISIBLE);
     }
 
     void hide(boolean animate) {
-        if (animate) {
-            playHideAnimation();
+        if (!isHidden()) {
+            if (animate) {
+                playHideAnimation();
+            }
+            setVisibility(INVISIBLE);
         }
-        setVisibility(INVISIBLE);
     }
 
     void setShowAnimation(Animation showAnimation) {
@@ -270,7 +280,9 @@ public class Label extends TextView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mFab == null || mFab.getOnClickListener() == null) return false;
+        if (mFab == null || mFab.getOnClickListener() == null || !mFab.isEnabled()) {
+            return super.onTouchEvent(event);
+        }
 
         int action = event.getAction();
         switch (action) {

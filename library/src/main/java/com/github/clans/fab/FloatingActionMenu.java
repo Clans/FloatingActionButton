@@ -93,6 +93,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mBackgroundColor;
 
     private int mLabelsPosition;
+    private Context mLabelsContext;
 
     public interface OnMenuToggleListener {
         void onMenuToggle(boolean opened);
@@ -160,6 +161,7 @@ public class FloatingActionMenu extends ViewGroup {
 
         mOpenInterpolator = new OvershootInterpolator();
         mCloseInterpolator = new AnticipateInterpolator();
+        mLabelsContext = new ContextThemeWrapper(getContext(), mLabelsStyle);
 
         initMenuButtonAnimations();
         initBackgroundDimAnimation();
@@ -240,10 +242,20 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     private void createDefaultIconAnimation() {
+        float collapseAngle;
+        float expandAngle;
+        if (mOpenDirection == OPEN_UP) {
+            collapseAngle = mLabelsPosition == LABELS_POSITION_LEFT ? OPENED_PLUS_ROTATION_LEFT : OPENED_PLUS_ROTATION_RIGHT;
+            expandAngle = mLabelsPosition == LABELS_POSITION_LEFT ? OPENED_PLUS_ROTATION_LEFT : OPENED_PLUS_ROTATION_RIGHT;
+        } else {
+            collapseAngle = mLabelsPosition == LABELS_POSITION_LEFT ? OPENED_PLUS_ROTATION_RIGHT : OPENED_PLUS_ROTATION_LEFT;
+            expandAngle = mLabelsPosition == LABELS_POSITION_LEFT ? OPENED_PLUS_ROTATION_RIGHT : OPENED_PLUS_ROTATION_LEFT;
+        }
+
         ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(
                 mImageToggle,
                 "rotation",
-                mLabelsPosition == LABELS_POSITION_LEFT ? OPENED_PLUS_ROTATION_LEFT : OPENED_PLUS_ROTATION_RIGHT,
+                collapseAngle,
                 CLOSED_PLUS_ROTATION
         );
 
@@ -251,7 +263,8 @@ public class FloatingActionMenu extends ViewGroup {
                 mImageToggle,
                 "rotation",
                 CLOSED_PLUS_ROTATION,
-                mLabelsPosition == LABELS_POSITION_LEFT ? OPENED_PLUS_ROTATION_LEFT : OPENED_PLUS_ROTATION_RIGHT);
+                expandAngle
+        );
 
         mOpenAnimatorSet.play(expandAnimator);
         mCloseAnimatorSet.play(collapseAnimator);
@@ -409,65 +422,68 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     private void createLabels() {
-        Context context = new ContextThemeWrapper(getContext(), mLabelsStyle);
-
         for (int i = 0; i < mButtonsCount; i++) {
 
             if (getChildAt(i) == mImageToggle) continue;
 
             final FloatingActionButton fab = (FloatingActionButton) getChildAt(i);
-            String text = fab.getLabelText();
 
-            if (fab == mMenuButton || TextUtils.isEmpty(text) || fab.getTag(R.id.fab_label) != null) {
-                continue;
-            }
+            if (fab == mMenuButton || fab.getTag(R.id.fab_label) != null) continue;
 
-            final Label label = new Label(context);
-            label.setFab(fab);
-            label.setShowAnimation(AnimationUtils.loadAnimation(getContext(), mLabelsShowAnimation));
-            label.setHideAnimation(AnimationUtils.loadAnimation(getContext(), mLabelsHideAnimation));
-
-            if (mLabelsStyle > 0) {
-                label.setTextAppearance(getContext(), mLabelsStyle);
-                label.setShowShadow(false);
-                label.setUsingStyle(true);
-            } else {
-                label.setColors(mLabelsColorNormal, mLabelsColorPressed, mLabelsColorRipple);
-                label.setShowShadow(mLabelsShowShadow);
-                label.setCornerRadius(mLabelsCornerRadius);
-                if (mLabelsEllipsize > 0) {
-                    setLabelEllipsize(label);
-                }
-                label.setMaxLines(mLabelsMaxLines);
-                label.updateBackground();
-
-                label.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLabelsTextSize);
-                label.setTextColor(mLabelsTextColor);
-
-                int left = mLabelsPaddingLeft;
-                int top = mLabelsPaddingTop;
-                if (mLabelsShowShadow) {
-                    left += fab.getShadowRadius() + Math.abs(fab.getShadowXOffset());
-                    top += fab.getShadowRadius() + Math.abs(fab.getShadowYOffset());
-                }
-
-                label.setPadding(
-                        left,
-                        top,
-                        mLabelsPaddingLeft,
-                        mLabelsPaddingTop
-                );
-
-                if (mLabelsMaxLines < 0 || mLabelsSingleLine) {
-                    label.setSingleLine(mLabelsSingleLine);
-                }
-            }
-
-            label.setText(text);
-
-            addView(label);
-            fab.setTag(R.id.fab_label, label);
+            addLabel(fab);
         }
+    }
+
+    private void addLabel(FloatingActionButton fab) {
+        String text = fab.getLabelText();
+
+        if (TextUtils.isEmpty(text)) return;
+
+        final Label label = new Label(mLabelsContext);
+        label.setFab(fab);
+        label.setShowAnimation(AnimationUtils.loadAnimation(getContext(), mLabelsShowAnimation));
+        label.setHideAnimation(AnimationUtils.loadAnimation(getContext(), mLabelsHideAnimation));
+
+        if (mLabelsStyle > 0) {
+            label.setTextAppearance(getContext(), mLabelsStyle);
+            label.setShowShadow(false);
+            label.setUsingStyle(true);
+        } else {
+            label.setColors(mLabelsColorNormal, mLabelsColorPressed, mLabelsColorRipple);
+            label.setShowShadow(mLabelsShowShadow);
+            label.setCornerRadius(mLabelsCornerRadius);
+            if (mLabelsEllipsize > 0) {
+                setLabelEllipsize(label);
+            }
+            label.setMaxLines(mLabelsMaxLines);
+            label.updateBackground();
+
+            label.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLabelsTextSize);
+            label.setTextColor(mLabelsTextColor);
+
+            int left = mLabelsPaddingLeft;
+            int top = mLabelsPaddingTop;
+            if (mLabelsShowShadow) {
+                left += fab.getShadowRadius() + Math.abs(fab.getShadowXOffset());
+                top += fab.getShadowRadius() + Math.abs(fab.getShadowYOffset());
+            }
+
+            label.setPadding(
+                    left,
+                    top,
+                    mLabelsPaddingLeft,
+                    mLabelsPaddingTop
+            );
+
+            if (mLabelsMaxLines < 0 || mLabelsSingleLine) {
+                label.setSingleLine(mLabelsSingleLine);
+            }
+        }
+
+        label.setText(text);
+
+        addView(label);
+        fab.setTag(R.id.fab_label, label);
     }
 
     private void setLabelEllipsize(Label label) {
@@ -582,7 +598,6 @@ public class FloatingActionMenu extends ViewGroup {
                 }
             }
 
-            mMenuOpened = true;
             int delay = 0;
             for (int i = getChildCount() - 1; i >= 0; i--) {
                 View child = getChildAt(i);
@@ -590,13 +605,20 @@ public class FloatingActionMenu extends ViewGroup {
                         && child != mMenuButton && child.getVisibility() != GONE) {
 
                     final FloatingActionButton fab = (FloatingActionButton) child;
+                    final int count = i;
                     mUiHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            if (isOpened()) return;
+
                             fab.show(animate);
                             Label label = (Label) fab.getTag(R.id.fab_label);
                             if (label != null) {
                                 label.show(animate);
+                            }
+
+                            if (count == 0) {
+                                mMenuOpened = true;
                             }
                         }
                     }, delay);
@@ -625,7 +647,6 @@ public class FloatingActionMenu extends ViewGroup {
                 }
             }
 
-            mMenuOpened = false;
             int delay = 0;
             for (int i = 0; i < getChildCount(); i++) {
                 View child = getChildAt(i);
@@ -633,13 +654,20 @@ public class FloatingActionMenu extends ViewGroup {
                         && child != mMenuButton && child.getVisibility() != GONE) {
 
                     final FloatingActionButton fab = (FloatingActionButton) child;
+                    final int count = i;
                     mUiHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            if (!isOpened()) return;
+
                             fab.hide(animate);
                             Label label = (Label) fab.getTag(R.id.fab_label);
                             if (label != null) {
                                 label.hide(animate);
+                            }
+
+                            if (count == mButtonsCount - 3) {
+                                mMenuOpened = false;
                             }
                         }
                     }, delay);
@@ -810,9 +838,9 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     public void addMenuButton(FloatingActionButton fab) {
-        addView(fab, mButtonsCount - 1);
+        addView(fab, mButtonsCount - 2);
         mButtonsCount++;
-        createLabels();
+        addLabel(fab);
     }
 
     public void removeMenuButton(FloatingActionButton fab) {
