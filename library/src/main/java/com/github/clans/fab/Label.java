@@ -244,26 +244,18 @@ public class Label extends TextView {
         mColorRipple = colorRipple;
     }
 
-    boolean isHidden() {
-        return getVisibility() == INVISIBLE;
-    }
-
     void show(boolean animate) {
-        if (isHidden()) {
-            if (animate) {
-                playShowAnimation();
-            }
-            setVisibility(VISIBLE);
+        if (animate) {
+            playShowAnimation();
         }
+        setVisibility(VISIBLE);
     }
 
     void hide(boolean animate) {
-        if (!isHidden()) {
-            if (animate) {
-                playHideAnimation();
-            }
-            setVisibility(INVISIBLE);
+        if (animate) {
+            playHideAnimation();
         }
+        setVisibility(INVISIBLE);
     }
 
     void setShowAnimation(Animation showAnimation) {
