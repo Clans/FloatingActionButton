@@ -132,6 +132,7 @@ Here are all the **FloatingActionMenu**'s xml attributes with their **default va
         fab:menu_labels_colorNormal="#333333"
         fab:menu_labels_colorPressed="#444444"
         fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_labels_showShadow="true"
         fab:menu_labels_singleLine="false"
         fab:menu_labels_ellipsize="none"
         fab:menu_labels_maxLines="-1"
