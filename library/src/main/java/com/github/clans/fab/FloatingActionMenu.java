@@ -23,7 +23,24 @@ import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
+/* --- Show/Hide --- */
+
+import com.github.clans.fab.makovkastar.AbsListViewScrollDetector;
+import com.github.clans.fab.makovkastar.ObservableScrollView;
+import com.github.clans.fab.makovkastar.ScrollDirectionListener;
+import com.github.clans.fab.makovkastar.ScrollViewScrollDetector;
+
 public class FloatingActionMenu extends ViewGroup {
+
+    /* --- Show/Hide [bgn] --- */
+
+    private static int TRANSLATE_DURATION_MILLIS = 200;
+    
+    private int                mScrollThreshold      = 2;
+    private boolean            mVisible              = true;
+    private final Interpolator mShowHideInterpolator = new AccelerateDecelerateInterpolator();
+
+    /* --- Show/Hide [end] --- */
 
     private static final int ANIMATION_DURATION = 300;
     private static final float CLOSED_PLUS_ROTATION = 0f;
@@ -848,4 +865,165 @@ public class FloatingActionMenu extends ViewGroup {
         removeView(fab);
         mButtonsCount--;
     }
+
+    /* --- Show/Hide [bgn] --- */
+
+    // TODO build a setter for mScrollThreshold so we can adjust it on the fly if correct int to px value?
+
+    public void attachToListView(@NonNull AbsListView listView) {
+        attachToListView(listView, null, null);
+    }
+
+    public void attachToListView(@NonNull AbsListView listView, ScrollDirectionListener scrollDirectionListener, AbsListView.OnScrollListener onScrollListener) {
+
+        AbsListViewScrollDetectorImpl scrollDetector = new AbsListViewScrollDetectorImpl();
+        scrollDetector.setScrollDirectionListener(scrollDirectionListener);
+        scrollDetector.setOnScrollListener(onScrollListener);
+        scrollDetector.setListView(listView);
+        scrollDetector.setScrollThreshold(mScrollThreshold);
+        listView.setOnScrollListener(scrollDetector);
+    }
+
+    public void attachToScrollView(@NonNull ObservableScrollView scrollView) {
+        attachToScrollView(scrollView, null, null);
+    }
+
+    public void attachToScrollView(@NonNull ObservableScrollView scrollView, ScrollDirectionListener scrollDirectionListener, ObservableScrollView.OnScrollChangedListener onScrollChangedListener) {
+        ScrollViewScrollDetectorImpl scrollDetector = new ScrollViewScrollDetectorImpl();
+        scrollDetector.setScrollDirectionListener(scrollDirectionListener);
+        scrollDetector.setOnScrollChangedListener(onScrollChangedListener);
+        scrollDetector.setScrollThreshold(mScrollThreshold);
+        scrollView.setOnScrollChangedListener(scrollDetector);
+    }
+
+    private class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
+
+        private ScrollDirectionListener      mScrollDirectionListener;
+        private AbsListView.OnScrollListener mOnScrollListener;
+
+        private void setScrollDirectionListener(ScrollDirectionListener scrollDirectionListener) {
+
+            mScrollDirectionListener = scrollDirectionListener;
+        }
+
+        public void setOnScrollListener(AbsListView.OnScrollListener onScrollListener) {
+
+            mOnScrollListener = onScrollListener;
+        }
+
+        @Override public void onScrollDown() {
+
+            show();
+            if (mScrollDirectionListener != null) {
+                mScrollDirectionListener.onScrollDown();
+            }
+        }
+
+        @Override public void onScrollUp() {
+
+            hide();
+            if (mScrollDirectionListener != null) {
+                mScrollDirectionListener.onScrollUp();
+            }
+        }
+    }
+
+    private class ScrollViewScrollDetectorImpl extends ScrollViewScrollDetector {
+        private ScrollDirectionListener mScrollDirectionListener;
+
+        private ObservableScrollView.OnScrollChangedListener mOnScrollChangedListener;
+
+        private void setScrollDirectionListener(ScrollDirectionListener scrollDirectionListener) {
+            mScrollDirectionListener = scrollDirectionListener;
+        }
+
+        public void setOnScrollChangedListener(ObservableScrollView.OnScrollChangedListener onScrollChangedListener) {
+            mOnScrollChangedListener = onScrollChangedListener;
+        }
+
+        @Override
+        public void onScrollDown() {
+            show();
+            if (mScrollDirectionListener != null) {
+                mScrollDirectionListener.onScrollDown();
+            }
+        }
+
+        @Override
+        public void onScrollUp() {
+            hide();
+            if (mScrollDirectionListener != null) {
+                mScrollDirectionListener.onScrollUp();
+            }
+        }
+
+        @Override
+        public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+            if (mOnScrollChangedListener != null) {
+                mOnScrollChangedListener.onScrollChanged(who, l, t, oldl, oldt);
+            }
+
+            super.onScrollChanged(who, l, t, oldl, oldt);
+        }
+    }
+
+    public void show() {
+        show(true);
+    }
+
+    public void hide() {
+        hide(true);
+    }
+
+    public void show(boolean animate) {
+        toggle(true, animate, false);
+    }
+
+    public void hide(boolean animate) {
+        toggle(false, animate, false);
+    }
+
+    private void toggle(final boolean visible, final boolean animate, boolean force) {
+        if (mVisible != visible || force) {
+            mVisible = visible;
+            int height = getHeight();
+            if (height == 0 && !force) {
+                ViewTreeObserver vto = getViewTreeObserver();
+                if (vto.isAlive()) {
+                    vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                        @Override
+                        public boolean onPreDraw() {
+                            ViewTreeObserver currentVto = getViewTreeObserver();
+                            if (currentVto.isAlive()) {
+                                currentVto.removeOnPreDrawListener(this);
+                            }
+                            toggle(visible, animate, true);
+                            return true;
+                        }
+                    });
+                    return;
+                }
+            }
+            int translationY = visible ? 0 : height + getMarginBottom();
+            if (animate) {
+                ViewPropertyAnimator.animate(this).setInterpolator(mShowHideInterpolator)
+                        .setDuration(TRANSLATE_DURATION_MILLIS)
+                        .translationY(translationY);
+            } else {
+                ViewHelper.setTranslationY(this, translationY);
+            }
+
+        }
+    }
+
+    private int getMarginBottom() {
+        int marginBottom = 0;
+        final ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            marginBottom = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
+        }
+        return marginBottom;
+    }
+
+    /* --- Show/Hide [end] --- */
 }
