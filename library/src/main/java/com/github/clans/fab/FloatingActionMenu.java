@@ -318,7 +318,6 @@ public class FloatingActionMenu extends ViewGroup {
         height += mButtonSpacing * (getChildCount() - 1) + getPaddingTop() + getPaddingBottom();
         height = adjustForOvershoot(height);
 
-
         if (getLayoutParams().width == LayoutParams.MATCH_PARENT) {
             width = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
         }
@@ -409,7 +408,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     private int adjustForOvershoot(int dimension) {
-        return dimension * 12 / 10;
+        return (int) (dimension * 0.03 + dimension);
     }
 
     @Override
