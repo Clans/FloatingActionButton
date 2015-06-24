@@ -315,7 +315,7 @@ public class FloatingActionMenu extends ViewGroup {
 
         width = Math.max(mMaxButtonWidth, maxLabelWidth + mLabelsMargin) + getPaddingLeft() + getPaddingRight();
 
-        height += mButtonSpacing * (getChildCount() - 1) + getPaddingTop() + getPaddingBottom();
+        height += mButtonSpacing * (mButtonsCount - 1) + getPaddingTop() + getPaddingBottom();
         height = adjustForOvershoot(height);
 
         if (getLayoutParams().width == LayoutParams.MATCH_PARENT) {
