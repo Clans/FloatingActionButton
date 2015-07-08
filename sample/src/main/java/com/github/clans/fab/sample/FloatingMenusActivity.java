@@ -59,6 +59,7 @@ public class FloatingMenusActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(FloatingMenusActivity.this, programFab1.getLabelText(), Toast.LENGTH_SHORT).show();
+                fab3.setLabelVisibility(fab3.getLabelVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
             }
         });
 

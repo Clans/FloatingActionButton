@@ -612,7 +612,7 @@ public class FloatingActionMenu extends ViewGroup {
 
                             fab.show(animate);
                             Label label = (Label) fab.getTag(R.id.fab_label);
-                            if (label != null) {
+                            if (label != null && label.isHandleVisibilityChanges()) {
                                 label.show(animate);
                             }
 
@@ -661,7 +661,7 @@ public class FloatingActionMenu extends ViewGroup {
 
                             fab.hide(animate);
                             Label label = (Label) fab.getTag(R.id.fab_label);
-                            if (label != null) {
+                            if (label != null && label.isHandleVisibilityChanges()) {
                                 label.hide(animate);
                             }
 
