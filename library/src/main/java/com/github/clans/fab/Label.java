@@ -46,6 +46,7 @@ public class Label extends TextView {
     private Animation mShowAnimation;
     private Animation mHideAnimation;
     private boolean mUsingStyle;
+    private boolean mHandleVisibilityChanges = true;
 
     public Label(Context context) {
         super(context);
@@ -268,6 +269,14 @@ public class Label extends TextView {
 
     void setUsingStyle(boolean usingStyle) {
         mUsingStyle = usingStyle;
+    }
+
+    void setHandleVisibilityChanges(boolean handle) {
+        mHandleVisibilityChanges = handle;
+    }
+
+    boolean isHandleVisibilityChanges() {
+        return mHandleVisibilityChanges;
     }
 
     @Override

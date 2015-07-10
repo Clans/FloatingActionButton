@@ -507,8 +507,8 @@ public class FloatingActionButton extends ImageButton {
         return mClickListener;
     }
 
-    TextView getLabelView() {
-        return (TextView) getTag(R.id.fab_label);
+    Label getLabelView() {
+        return (Label) getTag(R.id.fab_label);
     }
 
     void setColors(int colorNormal, int colorPressed, int colorRipple) {
@@ -521,7 +521,7 @@ public class FloatingActionButton extends ImageButton {
     void onActionDown() {
         if (mBackgroundDrawable instanceof StateListDrawable) {
             StateListDrawable drawable = (StateListDrawable) mBackgroundDrawable;
-            drawable.setState(new int[]{android.R.attr.state_pressed});
+            drawable.setState(new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed});
         } else if (Util.hasLollipop()) {
             RippleDrawable ripple = (RippleDrawable) mBackgroundDrawable;
             ripple.setState(new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed});
@@ -534,7 +534,7 @@ public class FloatingActionButton extends ImageButton {
     void onActionUp() {
         if (mBackgroundDrawable instanceof StateListDrawable) {
             StateListDrawable drawable = (StateListDrawable) mBackgroundDrawable;
-            drawable.setState(new int[]{});
+            drawable.setState(new int[]{android.R.attr.state_enabled});
         } else if (Util.hasLollipop()) {
             RippleDrawable ripple = (RippleDrawable) mBackgroundDrawable;
             ripple.setState(new int[]{android.R.attr.state_enabled});
@@ -1025,7 +1025,7 @@ public class FloatingActionButton extends ImageButton {
             if (animate) {
                 playShowAnimation();
             }
-            setVisibility(VISIBLE);
+            super.setVisibility(VISIBLE);
         }
     }
 
@@ -1039,7 +1039,7 @@ public class FloatingActionButton extends ImageButton {
             if (animate) {
                 playHideAnimation();
             }
-            setVisibility(INVISIBLE);
+            super.setVisibility(INVISIBLE);
         }
     }
 
@@ -1072,9 +1072,10 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void setLabelVisibility(int visibility) {
-        TextView labelView = getLabelView();
+        Label labelView = getLabelView();
         if (labelView != null) {
             labelView.setVisibility(visibility);
+            labelView.setHandleVisibilityChanges(visibility == VISIBLE);
         }
     }
 
