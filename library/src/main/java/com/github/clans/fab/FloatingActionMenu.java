@@ -47,6 +47,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mLabelsVerticalOffset = Util.dpToPx(getContext(), 0f);
     private int mButtonsCount;
     private boolean mMenuOpened;
+    private boolean mIsMenuOpening;
     private Handler mUiHandler = new Handler();
     private int mLabelsShowAnimation;
     private int mLabelsHideAnimation;
@@ -368,7 +369,7 @@ public class FloatingActionMenu extends ViewGroup {
             fab.layout(childX, childY, childX + fab.getMeasuredWidth(),
                     childY + fab.getMeasuredHeight());
 
-            if (!mMenuOpened) {
+            if (!mIsMenuOpening) {
                 fab.hide(false);
             }
 
@@ -396,7 +397,7 @@ public class FloatingActionMenu extends ViewGroup {
 
                 label.layout(labelLeft, labelTop, labelRight, labelTop + label.getMeasuredHeight());
 
-                if (!mMenuOpened) {
+                if (!mIsMenuOpening) {
                     label.setVisibility(INVISIBLE);
                 }
             }
@@ -598,6 +599,7 @@ public class FloatingActionMenu extends ViewGroup {
             }
 
             int delay = 0;
+            mIsMenuOpening = true;
             for (int i = getChildCount() - 1; i >= 0; i--) {
                 View child = getChildAt(i);
                 if (child instanceof FloatingActionButton
@@ -647,6 +649,7 @@ public class FloatingActionMenu extends ViewGroup {
             }
 
             int delay = 0;
+            mIsMenuOpening = false;
             for (int i = 0; i < getChildCount(); i++) {
                 View child = getChildAt(i);
                 if (child instanceof FloatingActionButton
