@@ -624,6 +624,13 @@ public class FloatingActionMenu extends ViewGroup {
                         }
                     }, delay);
                     delay += mAnimationDelayPerItem;
+                }else if(child.getVisibility() == GONE && i == 0){
+                    mUiHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mMenuOpened = true;
+                        }
+                    }, delay);
                 }
             }
 
@@ -674,6 +681,13 @@ public class FloatingActionMenu extends ViewGroup {
                         }
                     }, delay);
                     delay += mAnimationDelayPerItem;
+                } else if(child.getVisibility() == GONE && (i == mButtonsCount - 3)){
+                    mUiHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mMenuOpened = false;
+                        }
+                    }, delay);
                 }
             }
 
