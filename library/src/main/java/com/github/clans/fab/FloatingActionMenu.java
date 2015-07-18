@@ -22,6 +22,7 @@ import android.view.animation.AnticipateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class FloatingActionMenu extends ViewGroup {
 
@@ -599,14 +600,15 @@ public class FloatingActionMenu extends ViewGroup {
             }
 
             int delay = 0;
+            int counter = 0;
             mIsMenuOpening = true;
             for (int i = getChildCount() - 1; i >= 0; i--) {
                 View child = getChildAt(i);
                 if (child instanceof FloatingActionButton
                         && child != mMenuButton && child.getVisibility() != GONE) {
+                    counter++;
 
                     final FloatingActionButton fab = (FloatingActionButton) child;
-                    final int count = i;
                     mUiHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -617,19 +619,22 @@ public class FloatingActionMenu extends ViewGroup {
                             if (label != null && label.isHandleVisibilityChanges()) {
                                 label.show(animate);
                             }
-
-                            if (count == 0) {
-                                mMenuOpened = true;
-                            }
                         }
                     }, delay);
                     delay += mAnimationDelayPerItem;
                 }
             }
 
-            if (mToggleListener != null) {
-                mToggleListener.onMenuToggle(true);
-            }
+            mUiHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mMenuOpened = true;
+
+                    if (mToggleListener != null) {
+                        mToggleListener.onMenuToggle(true);
+                    }
+                }
+            }, ++counter * mAnimationDelayPerItem);
         }
     }
 
@@ -649,14 +654,15 @@ public class FloatingActionMenu extends ViewGroup {
             }
 
             int delay = 0;
+            int counter = 0;
             mIsMenuOpening = false;
             for (int i = 0; i < getChildCount(); i++) {
                 View child = getChildAt(i);
                 if (child instanceof FloatingActionButton
                         && child != mMenuButton && child.getVisibility() != GONE) {
+                    counter++;
 
                     final FloatingActionButton fab = (FloatingActionButton) child;
-                    final int count = i;
                     mUiHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -667,19 +673,22 @@ public class FloatingActionMenu extends ViewGroup {
                             if (label != null && label.isHandleVisibilityChanges()) {
                                 label.hide(animate);
                             }
-
-                            if (count == mButtonsCount - 3) {
-                                mMenuOpened = false;
-                            }
                         }
                     }, delay);
                     delay += mAnimationDelayPerItem;
                 }
             }
 
-            if (mToggleListener != null) {
-                mToggleListener.onMenuToggle(false);
-            }
+            mUiHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mMenuOpened = false;
+
+                    if (mToggleListener != null) {
+                        mToggleListener.onMenuToggle(false);
+                    }
+                }
+            }, ++counter * mAnimationDelayPerItem);
         }
     }
 
