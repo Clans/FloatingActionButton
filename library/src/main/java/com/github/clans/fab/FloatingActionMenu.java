@@ -859,4 +859,8 @@ public class FloatingActionMenu extends ViewGroup {
         removeView(fab);
         mButtonsCount--;
     }
+
+    public FloatingActionButton getMenuButton() {
+        return mMenuButton;
+    }
 }
