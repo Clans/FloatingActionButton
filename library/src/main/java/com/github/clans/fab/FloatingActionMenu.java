@@ -748,6 +748,10 @@ public class FloatingActionMenu extends ViewGroup {
     public ImageView getMenuIconView() {
         return mImageToggle;
     }
+    
+    public void setMenuIconView(ImageView image){
+        mImageToggle=image;
+    }
 
     public void setIconToggleAnimatorSet(AnimatorSet toggleAnimatorSet) {
         mIconToggleSet = toggleAnimatorSet;
@@ -858,5 +862,9 @@ public class FloatingActionMenu extends ViewGroup {
         removeView(fab.getLabelView());
         removeView(fab);
         mButtonsCount--;
+    }
+    
+    public int getButtonsCount(){
+        return mButtonsCount;    
     }
 }
