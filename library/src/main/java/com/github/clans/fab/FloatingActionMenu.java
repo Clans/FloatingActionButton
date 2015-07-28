@@ -22,7 +22,9 @@ import android.view.animation.AnticipateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FloatingActionMenu extends ViewGroup {
 
@@ -859,4 +861,20 @@ public class FloatingActionMenu extends ViewGroup {
         removeView(fab);
         mButtonsCount--;
     }
+
+    public void removeAllMenuButtons() {
+        close(true);
+        
+        List<FloatingActionButton> viewsToRemove = new ArrayList<>();
+        for (int i = 0; i < getChildCount(); i++) {
+            View v = getChildAt(i);
+            if (v != mMenuButton && v != mImageToggle && v instanceof FloatingActionButton) {
+                viewsToRemove.add((FloatingActionButton) v);
+            }
+        }
+        for (FloatingActionButton v : viewsToRemove) {
+            removeMenuButton(v);
+        }
+    }
+
 }
