@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
@@ -880,17 +881,6 @@ public class FloatingActionMenu extends ViewGroup {
         mButtonsCount--;
     }
 
-//    @Override
-//    public void setElevation(float elevation) {
-//        if (Util.hasLollipop() && elevation > 0) {
-//            super.setElevation(elevation);
-//
-//            mMenuButton.setElevation(elevation);
-//            setImageToggleElevationCompat(elevation);
-//            setClipToPadding(false);
-//        }
-//    }
-
     /**
      * Sets the shadow color and radius to mimic the native elevation.
      *
@@ -914,7 +904,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setMenuElevationCompat(float elevation) {
-        super.setElevation(elevation);
+        setElevation(elevation);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
