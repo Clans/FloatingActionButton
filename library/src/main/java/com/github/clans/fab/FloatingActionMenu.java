@@ -386,10 +386,7 @@ public class FloatingActionMenu extends ViewGroup {
 
             View label = (View) fab.getTag(R.id.fab_label);
             if (label != null) {
-                int labelsOffset = fab.getMeasuredWidth() / 2 + mLabelsMargin +
-                        // compensate for shadow if native elevation is used
-                        // * 2 because we need to account for FAB and label shadow
-                        fab.getElevationCompatShadow() * 2;
+                int labelsOffset = fab.getMeasuredWidth() / 2 + mLabelsMargin;
                 int labelXNearButton = mLabelsPosition == LABELS_POSITION_LEFT
                         ? buttonsHorizontalCenter - labelsOffset
                         : buttonsHorizontalCenter + labelsOffset;
@@ -893,10 +890,7 @@ public class FloatingActionMenu extends ViewGroup {
             setImageToggleElevationCompat(elevation);
             setClipToPadding(false);
 
-            ViewGroup.LayoutParams layoutParams = getLayoutParams();
-            if (layoutParams != null) {
-                setLayoutParams(layoutParams);
-            }
+            mLabelsMargin = Util.dpToPx(getContext(), 16f);
         }
 
         mMenuButton.setElevationCompat(elevation);
@@ -911,16 +905,5 @@ public class FloatingActionMenu extends ViewGroup {
     private void setImageToggleElevationCompat(float elevation) {
         // set elevation +1 as it needs to be above the fab
         mImageToggle.setElevation(elevation + 1);
-    }
-
-    @Override
-    public void setLayoutParams(ViewGroup.LayoutParams params) {
-        if (params instanceof ViewGroup.MarginLayoutParams && mElevationCompat > 0) {
-            ((ViewGroup.MarginLayoutParams) params).leftMargin += getShadowX()* 3;
-            ((ViewGroup.MarginLayoutParams) params).topMargin += getShadowY() * 3;
-            ((ViewGroup.MarginLayoutParams) params).rightMargin += getShadowX() * 3;
-            ((ViewGroup.MarginLayoutParams) params).bottomMargin += getShadowY() * 3;
-        }
-        super.setLayoutParams(params);
     }
 }

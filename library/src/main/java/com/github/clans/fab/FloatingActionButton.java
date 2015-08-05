@@ -329,26 +329,6 @@ public class FloatingActionButton extends ImageButton {
         updateBackground();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void setLayoutParams(ViewGroup.LayoutParams params) {
-        if (params instanceof ViewGroup.MarginLayoutParams && mElevationCompat > 0) {
-            ((ViewGroup.MarginLayoutParams) params).leftMargin += getShadowX();
-            ((ViewGroup.MarginLayoutParams) params).topMargin += getShadowY();
-            ((ViewGroup.MarginLayoutParams) params).rightMargin += getShadowX();
-            ((ViewGroup.MarginLayoutParams) params).bottomMargin += getShadowY();
-        }
-        super.setLayoutParams(params);
-    }
-
-    int getElevationCompatShadow() {
-        if (mElevationCompat > 0) {
-            return getShadowX();
-        }
-
-        return 0;
-    }
-
     void updateBackground() {
         LayerDrawable layerDrawable;
         if (hasShadow()) {
@@ -1111,8 +1091,7 @@ public class FloatingActionButton extends ImageButton {
     /**
      * Sets the shadow color and radius to mimic the native elevation.
      *
-     * <p><b>API 21+</b>: Sets the native elevation of this view, in pixels. Updates margins to
-     * make the view hold its position in layout across different platform versions.</p>
+     * <p><b>API 21+</b>: Sets the native elevation of this view, in pixels.</p>
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void setElevationCompat(float elevation) {
@@ -1126,11 +1105,6 @@ public class FloatingActionButton extends ImageButton {
             mElevationCompat = elevation;
             mShowShadow = false;
             updateBackground();
-
-            ViewGroup.LayoutParams layoutParams = getLayoutParams();
-            if (layoutParams != null) {
-                setLayoutParams(layoutParams);
-            }
         } else {
             mShowShadow = true;
             updateBackground();
