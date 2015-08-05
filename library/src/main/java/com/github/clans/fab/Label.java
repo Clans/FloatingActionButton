@@ -170,11 +170,6 @@ public class Label extends TextView {
         mElevationCompat = fab.getElevationCompat();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setLabelElevationCompat(float elevation) {
-        setElevation(elevation);
-    }
-
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setBackgroundCompat(Drawable drawable) {
@@ -245,6 +240,11 @@ public class Label extends TextView {
         } else {
             mShowShadow = show;
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setLabelElevationCompat(float elevation) {
+        setElevation(elevation);
     }
 
     boolean isUsingElevationCompat() {
