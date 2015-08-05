@@ -497,14 +497,6 @@ public class FloatingActionMenu extends ViewGroup {
         fab.setTag(R.id.fab_label, label);
     }
 
-    private int getShadowX() {
-        return (int) mMenuShadowRadius + (int) Math.abs(mMenuShadowXOffset);
-    }
-
-    private int getShadowY() {
-        return (int) mMenuShadowRadius + (int) Math.abs(mMenuShadowYOffset);
-    }
-
     private void setLabelEllipsize(Label label) {
         switch (mLabelsEllipsize) {
             case 1:
