@@ -3,13 +3,16 @@ package com.github.clans.fab;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
@@ -22,7 +25,6 @@ import android.view.animation.AnticipateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class FloatingActionMenu extends ViewGroup {
 
@@ -97,6 +99,8 @@ public class FloatingActionMenu extends ViewGroup {
     private int mLabelsPosition;
     private Context mLabelsContext;
 
+    private float mElevationCompat;
+
     public interface OnMenuToggleListener {
         void onMenuToggle(boolean opened);
     }
@@ -116,8 +120,6 @@ public class FloatingActionMenu extends ViewGroup {
 
     private void init(Context context, AttributeSet attrs) {
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionMenu, 0, 0);
-        mButtonSpacing = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_buttonSpacing, mButtonSpacing);
-        mLabelsMargin = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_margin, mLabelsMargin);
         mLabelsPosition = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_position, LABELS_POSITION_LEFT);
         mLabelsShowAnimation = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_showAnimation,
                 mLabelsPosition == LABELS_POSITION_LEFT ? R.anim.fab_slide_in_from_right : R.anim.fab_slide_in_from_left);
@@ -154,6 +156,18 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_style, 0);
         mOpenDirection = attr.getInt(R.styleable.FloatingActionMenu_menu_openDirection, OPEN_UP);
         mBackgroundColor = attr.getColor(R.styleable.FloatingActionMenu_menu_backgroundColor, Color.TRANSPARENT);
+
+        if (attr.hasValue(R.styleable.FloatingActionMenu_menu_elevationCompat)) {
+            mElevationCompat = attr.getDimensionPixelOffset(R.styleable.FloatingActionMenu_menu_elevationCompat, 0);
+            if (Util.hasLollipop()) {
+                int spacingWithElevation = getResources().getDimensionPixelSize(R.dimen.normal_space);
+                mButtonSpacing = spacingWithElevation;
+                mLabelsMargin = spacingWithElevation;
+            }
+        }
+
+        mButtonSpacing = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_buttonSpacing, mButtonSpacing);
+        mLabelsMargin = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_margin, mLabelsMargin);
 
         if (attr.hasValue(R.styleable.FloatingActionMenu_menu_labels_padding)) {
             int padding = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_padding, 0);
@@ -214,28 +228,30 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     private void createMenuButton() {
+        mImageToggle = new ImageView(getContext());
+        mImageToggle.setImageDrawable(mIcon);
+
         mMenuButton = new FloatingActionButton(getContext());
-
-        mMenuButton.mShowShadow = mMenuShowShadow;
-        if (mMenuShowShadow) {
-            mMenuButton.mShadowRadius = Util.dpToPx(getContext(), mMenuShadowRadius);
-            mMenuButton.mShadowXOffset = Util.dpToPx(getContext(), mMenuShadowXOffset);
-            mMenuButton.mShadowYOffset = Util.dpToPx(getContext(), mMenuShadowYOffset);
-        }
         mMenuButton.setColors(mMenuColorNormal, mMenuColorPressed, mMenuColorRipple);
-        mMenuButton.mShadowColor = mMenuShadowColor;
         mMenuButton.mFabSize = mMenuFabSize;
-        mMenuButton.updateBackground();
-
+        if (mElevationCompat > 0) {
+            setElevationCompat(mElevationCompat);
+        } else {
+            mMenuButton.mShowShadow = mMenuShowShadow;
+            if (mMenuShowShadow) {
+                mMenuButton.mShadowRadius = Util.dpToPx(getContext(), mMenuShadowRadius);
+                mMenuButton.mShadowXOffset = Util.dpToPx(getContext(), mMenuShadowXOffset);
+                mMenuButton.mShadowYOffset = Util.dpToPx(getContext(), mMenuShadowYOffset);
+            }
+            mMenuButton.mShadowColor = mMenuShadowColor;
+            mMenuButton.updateBackground();
+        }
         mMenuButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggle(mIsAnimated);
             }
         });
-
-        mImageToggle = new ImageView(getContext());
-        mImageToggle.setImageDrawable(mIcon);
 
         addView(mMenuButton, super.generateDefaultLayoutParams());
         addView(mImageToggle);
@@ -464,7 +480,7 @@ public class FloatingActionMenu extends ViewGroup {
 
             int left = mLabelsPaddingLeft;
             int top = mLabelsPaddingTop;
-            if (mLabelsShowShadow) {
+            if (mLabelsShowShadow && !label.isUsingElevationCompat()) {
                 left += fab.getShadowRadius() + Math.abs(fab.getShadowXOffset());
                 top += fab.getShadowRadius() + Math.abs(fab.getShadowYOffset());
             }
@@ -858,5 +874,31 @@ public class FloatingActionMenu extends ViewGroup {
         removeView(fab.getLabelView());
         removeView(fab);
         mButtonsCount--;
+    }
+
+    /**
+     * Sets the shadow color and radius to mimic the native elevation.
+     *
+     * <p><b>API 21+</b>: Sets the native elevation of this view, in pixels.</p>
+     */
+    public void setElevationCompat(float elevation) {
+        if (Util.hasLollipop()) {
+            setMenuElevationCompat(elevation);
+            setImageToggleElevationCompat(elevation);
+            setClipToPadding(false);
+        }
+
+        mMenuButton.setElevationCompat(elevation);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setMenuElevationCompat(float elevation) {
+        setElevation(elevation);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setImageToggleElevationCompat(float elevation) {
+        // set elevation +1 as it needs to be above the fab
+        mImageToggle.setElevation(elevation + 1);
     }
 }

@@ -64,8 +64,8 @@ public class FloatingActionButton extends ImageButton {
     private String mLabelText;
     private OnClickListener mClickListener;
     private Drawable mBackgroundDrawable;
+    private float mElevationCompat;
     private boolean mUsingElevation;
-    private boolean mUsingElevationCompat;
 
     // Progress
     private boolean mProgressBarEnabled;
@@ -327,18 +327,6 @@ public class FloatingActionButton extends ImageButton {
         setupProgressBounds();
         setupProgressBarPaints();
         updateBackground();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void setLayoutParams(ViewGroup.LayoutParams params) {
-        if (params instanceof ViewGroup.MarginLayoutParams && mUsingElevationCompat) {
-            ((ViewGroup.MarginLayoutParams) params).leftMargin += getShadowX();
-            ((ViewGroup.MarginLayoutParams) params).topMargin += getShadowY();
-            ((ViewGroup.MarginLayoutParams) params).rightMargin += getShadowX();
-            ((ViewGroup.MarginLayoutParams) params).bottomMargin += getShadowY();
-        }
-        super.setLayoutParams(params);
     }
 
     void updateBackground() {
@@ -1103,8 +1091,7 @@ public class FloatingActionButton extends ImageButton {
     /**
      * Sets the shadow color and radius to mimic the native elevation.
      *
-     * <p><b>API 21+</b>: Sets the native elevation of this view, in pixels. Updates margins to
-     * make the view hold its position in layout across different platform versions.</p>
+     * <p><b>API 21+</b>: Sets the native elevation of this view, in pixels.</p>
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void setElevationCompat(float elevation) {
@@ -1115,14 +1102,9 @@ public class FloatingActionButton extends ImageButton {
 
         if (Util.hasLollipop()) {
             super.setElevation(elevation);
-            mUsingElevationCompat = true;
+            mElevationCompat = elevation;
             mShowShadow = false;
             updateBackground();
-
-            ViewGroup.LayoutParams layoutParams = getLayoutParams();
-            if (layoutParams != null) {
-                setLayoutParams(layoutParams);
-            }
         } else {
             mShowShadow = true;
             updateBackground();
@@ -1229,5 +1211,9 @@ public class FloatingActionButton extends ImageButton {
         if (label != null) {
             label.setVisibility(visibility);
         }
+    }
+
+    public float getElevationCompat() {
+        return mElevationCompat;
     }
 }
