@@ -47,6 +47,7 @@ public class Label extends TextView {
     private Animation mHideAnimation;
     private boolean mUsingStyle;
     private boolean mHandleVisibilityChanges = true;
+    private float mElevationCompat;
 
     public Label(Context context) {
         super(context);
@@ -129,7 +130,7 @@ public class Label extends TextView {
             setOutlineProvider(new ViewOutlineProvider() {
                 @Override
                 public void getOutline(View view, Outline outline) {
-                    outline.setOval(0, 0, view.getWidth(), view.getHeight());
+                    outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), mCornerRadius);
                 }
             });
             setClipToOutline(true);
@@ -166,6 +167,12 @@ public class Label extends TextView {
         mShadowXOffset = fab.getShadowXOffset();
         mShadowYOffset = fab.getShadowYOffset();
         mShowShadow = fab.hasShadow();
+        mElevationCompat = fab.getElevationCompat();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setLabelElevationCompat(float elevation) {
+        setElevation(elevation);
     }
 
     @SuppressWarnings("deprecation")
@@ -232,7 +239,16 @@ public class Label extends TextView {
     }
 
     void setShowShadow(boolean show) {
-        mShowShadow = show;
+        if (show && isUsingElevationCompat()) {
+            setLabelElevationCompat(mElevationCompat);
+            mShowShadow = false;
+        } else {
+            mShowShadow = show;
+        }
+    }
+
+    boolean isUsingElevationCompat() {
+        return mElevationCompat > 0;
     }
 
     void setCornerRadius(int cornerRadius) {

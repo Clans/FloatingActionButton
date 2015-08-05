@@ -64,8 +64,8 @@ public class FloatingActionButton extends ImageButton {
     private String mLabelText;
     private OnClickListener mClickListener;
     private Drawable mBackgroundDrawable;
+    private float mElevationCompat;
     private boolean mUsingElevation;
-    private boolean mUsingElevationCompat;
 
     // Progress
     private boolean mProgressBarEnabled;
@@ -332,13 +332,21 @@ public class FloatingActionButton extends ImageButton {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setLayoutParams(ViewGroup.LayoutParams params) {
-        if (params instanceof ViewGroup.MarginLayoutParams && mUsingElevationCompat) {
+        if (params instanceof ViewGroup.MarginLayoutParams && mElevationCompat > 0) {
             ((ViewGroup.MarginLayoutParams) params).leftMargin += getShadowX();
             ((ViewGroup.MarginLayoutParams) params).topMargin += getShadowY();
             ((ViewGroup.MarginLayoutParams) params).rightMargin += getShadowX();
             ((ViewGroup.MarginLayoutParams) params).bottomMargin += getShadowY();
         }
         super.setLayoutParams(params);
+    }
+
+    int getElevationCompatShadow() {
+        if (mElevationCompat > 0) {
+            return getShadowX();
+        }
+
+        return 0;
     }
 
     void updateBackground() {
@@ -1115,7 +1123,7 @@ public class FloatingActionButton extends ImageButton {
 
         if (Util.hasLollipop()) {
             super.setElevation(elevation);
-            mUsingElevationCompat = true;
+            mElevationCompat = elevation;
             mShowShadow = false;
             updateBackground();
 
@@ -1229,5 +1237,9 @@ public class FloatingActionButton extends ImageButton {
         if (label != null) {
             label.setVisibility(visibility);
         }
+    }
+
+    public float getElevationCompat() {
+        return mElevationCompat;
     }
 }

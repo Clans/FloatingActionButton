@@ -28,6 +28,7 @@
     </declare-styleable>
 
     <declare-styleable name="FloatingActionMenu">
+        <attr name="menu_elevationCompat" format="dimension" />
         <attr name="menu_showShadow" format="boolean" />
         <attr name="menu_buttonSpacing" format="dimension" />
         <attr name="menu_labels_margin" format="dimension" />

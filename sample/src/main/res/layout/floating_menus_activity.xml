@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false">
 
     <TextView
         android:id="@+id/header"
@@ -180,7 +181,8 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
-        android:elevation="6dp"
+        fab:menu_elevationCompat="6dp"
+        fab:menu_buttonSpacing="16dp"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
         fab:menu_fab_size="mini"
@@ -190,6 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
+            fab:fab_elevationCompat="6dp"
             fab:fab_size="mini"
             fab:fab_label="Menu item 1" />
 
@@ -197,6 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
+            fab:fab_elevationCompat="6dp"
             fab:fab_size="mini"
             fab:fab_label="Menu item 2" />
 
@@ -204,6 +208,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
+            fab:fab_elevationCompat="6dp"
             fab:fab_size="mini"
             fab:fab_label="@string/lorem_ipsum" />
 
