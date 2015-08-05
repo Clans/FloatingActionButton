@@ -873,8 +873,7 @@ public class FloatingActionMenu extends ViewGroup {
     /**
      * Sets the shadow color and radius to mimic the native elevation.
      *
-     * <p><b>API 21+</b>: Sets the native elevation of this view, in pixels. Updates margins to
-     * make the view hold its position in layout across different platform versions.</p>
+     * <p><b>API 21+</b>: Sets the native elevation of this view, in pixels.</p>
      */
     public void setElevationCompat(float elevation) {
         if (Util.hasLollipop()) {
