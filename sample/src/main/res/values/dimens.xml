@@ -1,3 +1,5 @@
 <resources>
 
+    <dimen name="top_margin">75dp</dimen>
+
 </resources>

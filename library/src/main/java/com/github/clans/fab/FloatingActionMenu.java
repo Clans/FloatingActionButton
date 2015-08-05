@@ -120,8 +120,6 @@ public class FloatingActionMenu extends ViewGroup {
 
     private void init(Context context, AttributeSet attrs) {
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionMenu, 0, 0);
-        mButtonSpacing = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_buttonSpacing, mButtonSpacing);
-        mLabelsMargin = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_margin, mLabelsMargin);
         mLabelsPosition = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_position, LABELS_POSITION_LEFT);
         mLabelsShowAnimation = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_showAnimation,
                 mLabelsPosition == LABELS_POSITION_LEFT ? R.anim.fab_slide_in_from_right : R.anim.fab_slide_in_from_left);
@@ -161,7 +159,15 @@ public class FloatingActionMenu extends ViewGroup {
 
         if (attr.hasValue(R.styleable.FloatingActionMenu_menu_elevationCompat)) {
             mElevationCompat = attr.getDimensionPixelOffset(R.styleable.FloatingActionMenu_menu_elevationCompat, 0);
+            if (Util.hasLollipop()) {
+                int spacingWithElevation = getResources().getDimensionPixelSize(R.dimen.normal_space);
+                mButtonSpacing = spacingWithElevation;
+                mLabelsMargin = spacingWithElevation;
+            }
         }
+
+        mButtonSpacing = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_buttonSpacing, mButtonSpacing);
+        mLabelsMargin = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_margin, mLabelsMargin);
 
         if (attr.hasValue(R.styleable.FloatingActionMenu_menu_labels_padding)) {
             int padding = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_padding, 0);
@@ -880,8 +886,6 @@ public class FloatingActionMenu extends ViewGroup {
             setMenuElevationCompat(elevation);
             setImageToggleElevationCompat(elevation);
             setClipToPadding(false);
-
-            mLabelsMargin = Util.dpToPx(getContext(), 16f);
         }
 
         mMenuButton.setElevationCompat(elevation);
