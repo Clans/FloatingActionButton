@@ -1,5 +1,6 @@
 package com.github.clans.fab;
 
+import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -31,6 +32,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
@@ -1243,6 +1245,42 @@ public class FloatingActionButton extends ImageButton {
         Label label = (Label) getTag(R.id.fab_label);
         if (label != null) {
             label.setVisibility(visibility);
+        }
+    }
+
+    public void hideButtonInMenu(boolean animate) {
+        if (!isHidden()) {
+            hide(animate);
+
+            Label label = getLabelView();
+            if (label != null) {
+                label.hide(animate);
+            }
+
+            getHideAnimation().setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    setVisibility(GONE);
+                    getHideAnimation().setAnimationListener(null);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+        }
+    }
+
+    public void showButtonInMenu(boolean animate) {
+        setVisibility(INVISIBLE);
+        show(animate);
+        Label label = getLabelView();
+        if (label != null) {
+            label.show(animate);
         }
     }
 }
