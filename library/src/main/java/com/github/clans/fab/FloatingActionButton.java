@@ -880,6 +880,21 @@ public class FloatingActionButton extends ImageButton {
         return mColorRipple;
     }
 
+    public void setColorDisabled(int color) {
+        if (color != mColorDisabled) {
+            mColorDisabled = color;
+            updateBackground();
+        }
+    }
+
+    public void setColorDisabledResId(int colorResId) {
+        setColorDisabled(getResources().getColor(colorResId));
+    }
+
+    public int getColorDisabled() {
+        return mColorDisabled;
+    }
+
     public void setShowShadow(boolean show) {
         if (mShowShadow != show) {
             mShowShadow = show;
