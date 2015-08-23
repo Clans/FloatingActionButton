@@ -1248,6 +1248,9 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
+    /**
+     * <b>This will clear all AnimationListeners.</b>
+     */
     public void hideButtonInMenu(boolean animate) {
         if (!isHidden()) {
             hide(animate);
