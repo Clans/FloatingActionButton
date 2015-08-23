@@ -862,6 +862,19 @@ public class FloatingActionMenu extends ViewGroup {
         mButtonsCount--;
     }
 
+    public void addMenuButton(FloatingActionButton fab, int index) {
+        int size = mButtonsCount - 2;
+        if (index < 0) {
+            index = 0;
+        } else if (index > size) {
+            index = size;
+        }
+
+        addView(fab, index);
+        mButtonsCount++;
+        addLabel(fab);
+    }
+
     public void removeAllMenuButtons() {
         close(true);
         
