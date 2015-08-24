@@ -21,11 +21,13 @@ Watch a short **[Demo Video](https://youtu.be/XngUY3PN1IQ)** on YouTube or try i
 - Option to set custom icon drawable
 - Support for **normal** `56dp` and **mini** `40dp` button sizes
 - Custom FloatingActionMenu icon animations
-- *Option to expand menu up and down*
-- *Option to show labels to the left and to the right of the menu*
-- *Option to show circle progress on `FloactinActionButton`*
-- *Option to add button to the `FloatingActionMenu` programmatically*
-- *Option to dim the `FloatinActionMenu`'s background*
+- Option to expand menu up and down
+- Option to show labels to the left and to the right of the menu
+- Option to show circle progress on `FloactinActionButton`
+- Option to add button to the `FloatingActionMenu` programmatically
+- Option to dim the `FloatinActionMenu`'s background
+- *Option to remove all buttons from the `FloatingActionMenu`*
+- *Option to set a label for the `FloatingActionMenu`'s button*
 
 # Usage
 Add a dependency to your `build.gradle`:
