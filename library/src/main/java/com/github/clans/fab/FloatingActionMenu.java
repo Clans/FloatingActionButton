@@ -168,20 +168,26 @@ public class FloatingActionMenu extends ViewGroup {
             int padding = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_padding, 0);
             initPadding(padding);
         }
-        attr.recycle();
 
         mOpenInterpolator = new OvershootInterpolator();
         mCloseInterpolator = new AnticipateInterpolator();
         mLabelsContext = new ContextThemeWrapper(getContext(), mLabelsStyle);
 
-        initMenuButtonAnimations();
         initBackgroundDimAnimation();
         createMenuButton();
+        initMenuButtonAnimations(attr);
+
+        attr.recycle();
     }
 
-    private void initMenuButtonAnimations() {
-        mMenuButtonShowAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
-        mMenuButtonHideAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
+    private void initMenuButtonAnimations(TypedArray attr) {
+        int showResId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_fab_show_animation, R.anim.fab_scale_up);
+        Animation showAnimation = AnimationUtils.loadAnimation(getContext(), showResId);
+        setMenuButtonShowAnimation(showAnimation);
+
+        int hideResId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_fab_hide_animation, R.anim.fab_scale_down);
+        Animation hideAnimation = AnimationUtils.loadAnimation(getContext(), hideResId);
+        setMenuButtonHideAnimation(hideAnimation);
     }
 
     private void initBackgroundDimAnimation() {
