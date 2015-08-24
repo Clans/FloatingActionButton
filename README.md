@@ -141,7 +141,10 @@ Here are all the **FloatingActionMenu**'s xml attributes with their **default va
         fab:menu_labels_style="@style/YourCustomLabelsStyle"
         fab:menu_labels_position="left"
         fab:menu_openDirection="up"
-        fab:menu_backgroundColor="@android:color/transparent">
+        fab:menu_backgroundColor="@android:color/transparent"
+        fab:menu_fab_label="your_label_here"
+        fab:menu_fab_show_animation="@anim/my_show_animation"
+        fab:menu_fab_hide_animation="@anim/my_hide_animation">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_item"
