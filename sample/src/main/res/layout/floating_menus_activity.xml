@@ -220,7 +220,8 @@
         android:paddingLeft="10dp"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
-        fab:menu_backgroundColor="#ccffffff">
+        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_fab_label="Menu label">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab1"

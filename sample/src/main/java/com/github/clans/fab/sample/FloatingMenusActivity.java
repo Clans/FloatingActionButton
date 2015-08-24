@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
@@ -43,7 +42,7 @@ public class FloatingMenusActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionMenu menu1 = (FloatingActionMenu) findViewById(R.id.menu1);
+        final FloatingActionMenu menu1 = (FloatingActionMenu) findViewById(R.id.menu1);
         final FloatingActionMenu menu2 = (FloatingActionMenu) findViewById(R.id.menu2);
         final FloatingActionMenu menu3 = (FloatingActionMenu) findViewById(R.id.menu3);
         FloatingActionMenu menu4 = (FloatingActionMenu) findViewById(R.id.menu4);
@@ -59,6 +58,17 @@ public class FloatingMenusActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(FloatingMenusActivity.this, programFab1.getLabelText(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        menu1.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (menu1.isOpened()) {
+                    Toast.makeText(FloatingMenusActivity.this, menu1.getMenuButtonLabelText(), Toast.LENGTH_SHORT).show();
+                }
+
+                menu1.toggle(true);
             }
         });
 

@@ -1248,8 +1248,11 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
+    /**
+     * <b>This will clear all AnimationListeners.</b>
+     */
     public void hideButtonInMenu(boolean animate) {
-        if (!isHidden()) {
+        if (!isHidden() && getVisibility() != GONE) {
             hide(animate);
 
             Label label = getLabelView();
@@ -1276,6 +1279,8 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void showButtonInMenu(boolean animate) {
+        if (getVisibility() == VISIBLE) return;
+
         setVisibility(INVISIBLE);
         show(animate);
         Label label = getLabelView();
