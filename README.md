@@ -21,17 +21,19 @@ Watch a short **[Demo Video](https://youtu.be/XngUY3PN1IQ)** on YouTube or try i
 - Option to set custom icon drawable
 - Support for **normal** `56dp` and **mini** `40dp` button sizes
 - Custom FloatingActionMenu icon animations
-- *Option to expand menu up and down*
-- *Option to show labels to the left and to the right of the menu*
-- *Option to show circle progress on `FloactinActionButton`*
-- *Option to add button to the `FloatingActionMenu` programmatically*
-- *Option to dim the `FloatinActionMenu`'s background*
+- Option to expand menu up and down
+- Option to show labels to the left and to the right of the menu
+- Option to show circle progress on `FloactinActionButton`
+- Option to add button to the `FloatingActionMenu` programmatically
+- Option to dim the `FloatinActionMenu`'s background
+- *Option to remove all buttons from the `FloatingActionMenu`*
+- *Option to set a label for the `FloatingActionMenu`'s button*
 
 # Usage
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    compile 'com.github.clans:fab:1.5.5'
+    compile 'com.github.clans:fab:1.6.0'
 }
 ```
 Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
@@ -139,7 +141,10 @@ Here are all the **FloatingActionMenu**'s xml attributes with their **default va
         fab:menu_labels_style="@style/YourCustomLabelsStyle"
         fab:menu_labels_position="left"
         fab:menu_openDirection="up"
-        fab:menu_backgroundColor="@android:color/transparent">
+        fab:menu_backgroundColor="@android:color/transparent"
+        fab:menu_fab_label="your_label_here"
+        fab:menu_fab_show_animation="@anim/my_show_animation"
+        fab:menu_fab_hide_animation="@anim/my_hide_animation">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_item"
