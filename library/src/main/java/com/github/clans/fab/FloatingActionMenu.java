@@ -793,16 +793,84 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuButton.setHideAnimation(hideAnimation);
     }
 
+    public boolean isMenuHidden() {
+        return getVisibility() == INVISIBLE;
+    }
+
     public boolean isMenuButtonHidden() {
         return mMenuButton.isHidden();
     }
 
+    /**
+     * Makes the whole {@link #FloatingActionMenu} to appear and sets its visibility to {@link #VISIBLE}
+     *
+     * @param animate if true - plays "show animation"
+     */
+    public void showMenu(boolean animate) {
+        if (isMenuHidden()) {
+            if (animate) {
+                startAnimation(mMenuButtonShowAnimation);
+            }
+            setVisibility(VISIBLE);
+        }
+    }
+
+    /**
+     * Makes the {@link #FloatingActionMenu} to disappear and sets its visibility to {@link #INVISIBLE}
+     *
+     * @param animate if true - plays "hide animation"
+     */
+    public void hideMenu(final boolean animate) {
+        if (!isMenuHidden() && !mIsMenuButtonAnimationRunning) {
+            mIsMenuButtonAnimationRunning = true;
+            if (isOpened()) {
+                close(animate);
+                mUiHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (animate) {
+                            startAnimation(mMenuButtonHideAnimation);
+                        }
+                        setVisibility(INVISIBLE);
+                        mIsMenuButtonAnimationRunning = false;
+                    }
+                }, mAnimationDelayPerItem * mButtonsCount);
+            } else {
+                if (animate) {
+                    startAnimation(mMenuButtonHideAnimation);
+                }
+                setVisibility(INVISIBLE);
+                mIsMenuButtonAnimationRunning = false;
+            }
+        }
+    }
+
+    public void toggleMenu(boolean animate) {
+        if (isMenuHidden()) {
+            showMenu(animate);
+        } else {
+            hideMenu(animate);
+        }
+    }
+
+    /**
+     * Makes the {@link FloatingActionButton} to appear inside the {@link #FloatingActionMenu} and
+     * sets its visibility to {@link #VISIBLE}
+     *
+     * @param animate if true - plays "show animation"
+     */
     public void showMenuButton(boolean animate) {
         if (isMenuButtonHidden()) {
             showMenuButtonWithImage(animate);
         }
     }
 
+    /**
+     * Makes the {@link FloatingActionButton} to disappear inside the {@link #FloatingActionMenu} and
+     * sets its visibility to {@link #INVISIBLE}
+     *
+     * @param animate if true - plays "hide animation"
+     */
     public void hideMenuButton(final boolean animate) {
         if (!isMenuButtonHidden() && !mIsMenuButtonAnimationRunning) {
             mIsMenuButtonAnimationRunning = true;
