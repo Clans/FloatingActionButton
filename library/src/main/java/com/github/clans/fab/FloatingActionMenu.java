@@ -158,6 +158,7 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_style, 0);
         mOpenDirection = attr.getInt(R.styleable.FloatingActionMenu_menu_openDirection, OPEN_UP);
         mBackgroundColor = attr.getColor(R.styleable.FloatingActionMenu_menu_backgroundColor, Color.TRANSPARENT);
+        mIsSetClosedOnTouchOutside = attr.getBoolean(R.styleable.FloatingActionMenu_menu_closeOnTouchOutside, false);
 
         if (attr.hasValue(R.styleable.FloatingActionMenu_menu_fab_label)) {
             mUsingMenuLabel = true;

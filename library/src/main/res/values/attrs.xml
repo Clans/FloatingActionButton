@@ -81,6 +81,7 @@
         <attr name="menu_fab_label" format="string" />
         <attr name="menu_fab_show_animation" format="reference" />
         <attr name="menu_fab_hide_animation" format="reference" />
+        <attr name="menu_closeOnTouchOutside" format="boolean" />
     </declare-styleable>
 
 </resources>
