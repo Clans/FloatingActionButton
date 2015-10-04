@@ -504,6 +504,7 @@ public class FloatingActionMenu extends ViewGroup {
         }
 
         label.setText(text);
+        label.setOnClickListener(fab.getOnClickListener());
 
         addView(label);
         fab.setTag(R.id.fab_label, label);
