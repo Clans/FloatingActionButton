@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -58,7 +59,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mLabelsPaddingRight = Util.dpToPx(getContext(), 8f);
     private int mLabelsPaddingBottom = Util.dpToPx(getContext(), 4f);
     private int mLabelsPaddingLeft = Util.dpToPx(getContext(), 8f);
-    private int mLabelsTextColor;
+    private ColorStateList mLabelsTextColor;
     private float mLabelsTextSize;
     private int mLabelsCornerRadius = Util.dpToPx(getContext(), 3f);
     private boolean mLabelsShowShadow;
@@ -131,7 +132,10 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsPaddingRight = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_paddingRight, mLabelsPaddingRight);
         mLabelsPaddingBottom = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_paddingBottom, mLabelsPaddingBottom);
         mLabelsPaddingLeft = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_paddingLeft, mLabelsPaddingLeft);
-        mLabelsTextColor = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_textColor, Color.WHITE);
+        mLabelsTextColor = attr.getColorStateList(R.styleable.FloatingActionMenu_menu_labels_textColor);
+        // set default value if null same as for textview
+        if (mLabelsTextColor == null)
+            mLabelsTextColor = ColorStateList.valueOf(0xFF000000);
         mLabelsTextSize = attr.getDimension(R.styleable.FloatingActionMenu_menu_labels_textSize, getResources().getDimension(R.dimen.labels_text_size));
         mLabelsCornerRadius = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_cornerRadius, mLabelsCornerRadius);
         mLabelsShowShadow = attr.getBoolean(R.styleable.FloatingActionMenu_menu_labels_showShadow, true);
