@@ -134,8 +134,9 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsPaddingLeft = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_paddingLeft, mLabelsPaddingLeft);
         mLabelsTextColor = attr.getColorStateList(R.styleable.FloatingActionMenu_menu_labels_textColor);
         // set default value if null same as for textview
-        if (mLabelsTextColor == null)
-            mLabelsTextColor = ColorStateList.valueOf(0xFF000000);
+        if (mLabelsTextColor == null) {
+            mLabelsTextColor = ColorStateList.valueOf(Color.WHITE);
+        }
         mLabelsTextSize = attr.getDimension(R.styleable.FloatingActionMenu_menu_labels_textSize, getResources().getDimension(R.dimen.labels_text_size));
         mLabelsCornerRadius = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_cornerRadius, mLabelsCornerRadius);
         mLabelsShowShadow = attr.getBoolean(R.styleable.FloatingActionMenu_menu_labels_showShadow, true);
