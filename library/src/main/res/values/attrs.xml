@@ -38,7 +38,7 @@
         <attr name="menu_labels_paddingRight" format="dimension" />
         <attr name="menu_labels_paddingBottom" format="dimension" />
         <attr name="menu_labels_padding" format="dimension" />
-        <attr name="menu_labels_textColor" format="color" />
+        <attr name="menu_labels_textColor" format="reference|color" />
         <attr name="menu_labels_textSize" format="dimension" />
         <attr name="menu_labels_cornerRadius" format="dimension" />
         <attr name="menu_labels_showShadow" format="boolean" />
