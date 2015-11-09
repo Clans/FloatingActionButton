@@ -291,6 +291,11 @@ public class Label extends TextView {
                 onActionUp();
                 mFab.onActionUp();
                 break;
+
+            case MotionEvent.ACTION_CANCEL:
+                onActionUp();
+                mFab.onActionUp();
+                break;
         }
 
         mGestureDetector.onTouchEvent(event);

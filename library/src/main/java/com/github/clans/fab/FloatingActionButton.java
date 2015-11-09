@@ -557,9 +557,16 @@ public class FloatingActionButton extends ImageButton {
                     if (label != null) {
                         label.onActionUp();
                     }
+                    onActionUp();
+                    break;
+
+                case MotionEvent.ACTION_CANCEL:
+                    if (label != null) {
+                        label.onActionUp();
+                    }
+                    onActionUp();
                     break;
             }
-
             mGestureDetector.onTouchEvent(event);
         }
         return super.onTouchEvent(event);
