@@ -20,4 +20,14 @@
         android:src="@drawable/ic_menu"
         app:fab_elevationCompat="4dp"/>
 
+    <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_edit"
+            app:fab_elevationCompat="4dp"/>
+
 </FrameLayout>

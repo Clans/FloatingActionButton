@@ -22,6 +22,10 @@
         <activity
             android:label="@string/recyclerview_fab_example"
             android:name="com.github.clans.fab.sample.RecyclerViewActivity" />
+        <activity android:name="com.github.clans.fab.sample.CoordinatorLayoutActivity"
+                  android:label="@string/coordinatorlayout_example"
+                  android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

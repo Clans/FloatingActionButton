@@ -70,5 +70,12 @@ public class MainActivity extends ActionBarActivity {
                 mPreviousVisibleItem = firstVisibleItem;
             }
         });
+
+        findViewById(R.id.fab_edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CoordinatorLayoutActivity.class));
+            }
+        });
     }
 }
