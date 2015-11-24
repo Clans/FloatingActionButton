@@ -1295,4 +1295,12 @@ public class FloatingActionButton extends ImageButton {
             label.show(animate);
         }
     }
+
+    public int getProgressBarWidth() {
+        return this.mProgressWidth;
+    }
+
+    public void setProgressBarWidth(float mProgressWidth) {
+        this.mProgressWidth = Util.dpToPx(this.getContext(), mProgressWidth);
+    }
 }
