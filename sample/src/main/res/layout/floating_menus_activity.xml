@@ -260,7 +260,8 @@
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
         fab:menu_backgroundColor="#ccffffff"
-        fab:menu_labels_position="right">
+        fab:menu_labels_position="right"
+        fab:menu_closeOnTouchOutside="true">
 
         <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
