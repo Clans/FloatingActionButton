@@ -21,4 +21,25 @@
         fab:fab_showAnimation="@anim/show_from_bottom"
         fab:fab_hideAnimation="@anim/hide_to_bottom"/>
 
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_loading_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:src="@drawable/ic_progress"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        fab:fab_elevationCompat="4dp"
+        fab:fab_progress_backgroundColor="#9AC3FF"
+        fab:fab_progress_color="#264F8C"
+        fab:fab_colorNormal="#19345D"
+        fab:fab_colorPressed="#19345D"
+        fab:fab_colorRipple="#122645"
+        fab:fab_icon_success="@drawable/ic_done"
+        fab:fab_icon_failure="@drawable/ic_close"
+        fab:fab_color_success="#84CA4B"
+        fab:fab_color_failure="#F8AE41"
+        fab:fab_success_failure_transition_animation_time="300"
+        fab:fab_success_failure_transition_animation_wait_time="2750" />
+
 </FrameLayout>

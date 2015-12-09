@@ -38,6 +38,7 @@ public class RecyclerViewActivity extends ActionBarActivity {
         }
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton loadingSuccessFab = (FloatingActionButton) findViewById(R.id.fab_loading_success);
         fab.setMax(mMaxProgress);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -90,6 +91,20 @@ public class RecyclerViewActivity extends ActionBarActivity {
                         fab.show(true);
                     }
                 }
+            }
+        });
+
+        loadingSuccessFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingSuccessFab.setIndeterminate(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingSuccessFab.animateSuccess();
+                        loadingSuccessFab.setIndeterminate(false);
+                    }
+                }, 1500);
             }
         });
     }

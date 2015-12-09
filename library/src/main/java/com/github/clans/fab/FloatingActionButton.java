@@ -1,6 +1,9 @@
 package com.github.clans.fab;
 
-import android.animation.LayoutTransition;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -20,6 +23,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
@@ -32,7 +36,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
@@ -54,20 +57,29 @@ public class FloatingActionButton extends ImageButton {
     private static final long PAUSE_GROWING_TIME = 200;
     private static final double BAR_SPIN_CYCLE_TIME = 500;
     private static final int BAR_MAX_LENGTH = 270;
+    private static final int DEFAULT_TRANSITION_ANIMATION_TIME = 300;
+    private static final int DEFAULT_TRANSITION_ANIMATION_WAIT_TIME = 2750;
 
     private int mColorNormal;
     private int mColorPressed;
     private int mColorDisabled;
     private int mColorRipple;
+    private int mColorSuccess;
+    private int mColorFailure;
     private Drawable mIcon;
     private int mIconSize = Util.dpToPx(getContext(), 24f);
     private Animation mShowAnimation;
     private Animation mHideAnimation;
+    private AnimatorSet mSuccessFailureStateAnimatorSet;
     private String mLabelText;
     private OnClickListener mClickListener;
     private Drawable mBackgroundDrawable;
     private boolean mUsingElevation;
     private boolean mUsingElevationCompat;
+    private Drawable mSuccessDrawable;
+    private Drawable mFailureDrawable;
+    private int mSuccessFailureAnimationTime;
+    private int mSuccessFailureAnimationWaitTime;
 
     // Progress
     private boolean mProgressBarEnabled;
@@ -135,6 +147,12 @@ public class FloatingActionButton extends ImageButton {
         mProgressBackgroundColor = attr.getColor(R.styleable.FloatingActionButton_fab_progress_backgroundColor, 0x4D000000);
         mProgressMax = attr.getInt(R.styleable.FloatingActionButton_fab_progress_max, mProgressMax);
         mShowProgressBackground = attr.getBoolean(R.styleable.FloatingActionButton_fab_progress_showBackground, true);
+        mSuccessDrawable = attr.getDrawable(R.styleable.FloatingActionButton_fab_icon_success);
+        mFailureDrawable = attr.getDrawable(R.styleable.FloatingActionButton_fab_icon_failure);
+        mColorSuccess = attr.getColor(R.styleable.FloatingActionButton_fab_color_success, 0xFF84CA4B);
+        mColorFailure = attr.getColor(R.styleable.FloatingActionButton_fab_color_failure, 0xFFF8AE41);
+        mSuccessFailureAnimationTime = attr.getInt(R.styleable.FloatingActionButton_fab_success_failure_transition_animation_time, DEFAULT_TRANSITION_ANIMATION_TIME);
+        mSuccessFailureAnimationWaitTime = attr.getInt(R.styleable.FloatingActionButton_fab_success_failure_transition_animation_wait_time, DEFAULT_TRANSITION_ANIMATION_WAIT_TIME);
 
         if (attr.hasValue(R.styleable.FloatingActionButton_fab_progress)) {
             mProgress = attr.getInt(R.styleable.FloatingActionButton_fab_progress, 0);
@@ -1294,5 +1312,81 @@ public class FloatingActionButton extends ImageButton {
         if (label != null) {
             label.show(animate);
         }
+    }
+
+    public void animateFailure() {
+        animateFromToFrom(mIcon, mFailureDrawable, mColorNormal, mColorFailure);
+    }
+
+    public void animateSuccess() {
+        animateFromToFrom(mIcon, mSuccessDrawable, mColorNormal, mColorSuccess);
+    }
+
+    public boolean isSuccessOrFailureAnimationRunning() {
+        if (mSuccessFailureStateAnimatorSet != null && mSuccessFailureStateAnimatorSet.isRunning()) {
+            return true;
+        }
+        return false;
+    }
+
+    public void animateFromToFrom(Drawable animateFromDrawable,
+                                  Drawable animateToDrawable,
+                                  Integer colorFrom,
+                                  Integer colorTo) {
+        if (isSuccessOrFailureAnimationRunning()) {
+            return;
+        }
+        Drawable drawableStates[] = new Drawable[2];
+        drawableStates[0] = animateFromDrawable;
+        drawableStates[1] = animateToDrawable;
+        final TransitionDrawable transitionDrawable = new TransitionDrawable(drawableStates);
+        transitionDrawable.setCrossFadeEnabled(true);
+        setImageDrawable(transitionDrawable);
+
+        transitionDrawable.startTransition(mSuccessFailureAnimationTime);
+
+        ValueAnimator changeColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        changeColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                setColorNormal((Integer) animator.getAnimatedValue());
+            }
+        });
+        changeColorAnimation.setDuration(mSuccessFailureAnimationTime);
+
+        ValueAnimator doNothingAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        doNothingAnimation.setDuration(mSuccessFailureAnimationWaitTime);
+
+        ValueAnimator restoreColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorTo, colorFrom);
+        restoreColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                setColorNormal((Integer) animator.getAnimatedValue());
+            }
+        });
+        restoreColorAnimation.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                transitionDrawable.reverseTransition(mSuccessFailureAnimationTime);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                setImageDrawable(transitionDrawable.getDrawable(0));
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+        restoreColorAnimation.setDuration(mSuccessFailureAnimationTime);
+
+        mSuccessFailureStateAnimatorSet = new AnimatorSet();
+        mSuccessFailureStateAnimatorSet.playSequentially(changeColorAnimation, doNothingAnimation, restoreColorAnimation);
+        mSuccessFailureStateAnimatorSet.start();
     }
 }

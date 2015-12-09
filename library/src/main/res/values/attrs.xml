@@ -25,6 +25,12 @@
         <attr name="fab_progress_max" format="integer" />
         <attr name="fab_progress" format="integer" />
         <attr name="fab_progress_showBackground" format="boolean" />
+        <attr name="fab_icon_success" format="reference"/>
+        <attr name="fab_icon_failure" format="reference"/>
+        <attr name="fab_color_success" format="color"/>
+        <attr name="fab_color_failure" format="color"/>
+        <attr name="fab_success_failure_transition_animation_time" format="integer" />
+        <attr name="fab_success_failure_transition_animation_wait_time" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="FloatingActionMenu">
