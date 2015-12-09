@@ -92,7 +92,13 @@ Here are all the **FloatingActionButton**'s xml attributes with their **default 
         app:fab_progress_indeterminate="false"
         app:fab_progress_max="100"
         app:fab_progress="0"
-        app:fab_progress_showBackground="true"/>
+        app:fab_progress_showBackground="true"
+        fab:fab_icon_success="@drawable/your_drawable"
+        fab:fab_icon_failure="@drawable/your_drawable"
+        fab:fab_color_success="#84CA4B"
+        fab:fab_color_failure="#F8AE41"
+        fab:fab_success_failure_transition_animation_time="300"
+        fab:fab_success_failure_transition_animation_wait_time="2750"/>
 ```
 All of these **FloatingActionButton**'s attributes has their corresponding getters and setters. So you can set them **programmatically**.
 
