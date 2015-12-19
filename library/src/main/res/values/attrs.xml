@@ -14,6 +14,7 @@
         <attr name="fab_size" format="enum">
             <enum name="normal" value="0" />
             <enum name="mini" value="1" />
+            <enum name="big" value="2" />
         </attr>
         <attr name="fab_showAnimation" format="reference" />
         <attr name="fab_hideAnimation" format="reference" />
@@ -64,6 +65,7 @@
         <attr name="menu_fab_size" format="enum">
             <enum name="normal" value="0" />
             <enum name="mini" value="1" />
+            <enum name="big" value="2" />
         </attr>
         <attr name="menu_labels_style" format="reference" />
         <attr name="menu_shadowColor" format="color" />

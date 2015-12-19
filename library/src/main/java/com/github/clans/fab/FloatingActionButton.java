@@ -42,6 +42,7 @@ public class FloatingActionButton extends ImageButton {
 
     public static final int SIZE_NORMAL = 0;
     public static final int SIZE_MINI = 1;
+    public static final int SIZE_BIG = 2;
 
     int mFabSize;
     boolean mShowShadow;
@@ -178,8 +179,8 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private int getCircleSize() {
-        return getResources().getDimensionPixelSize(mFabSize == SIZE_NORMAL
-                ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+        return getResources().getDimensionPixelSize(mFabSize == SIZE_NORMAL ? R.dimen.fab_size_normal
+                : (mFabSize == SIZE_MINI ? R.dimen.fab_size_mini : R.dimen.fab_size_big));
     }
 
     private int calculateMeasuredWidth() {
