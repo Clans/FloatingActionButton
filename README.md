@@ -19,7 +19,7 @@ Watch a short **[Demo Video](https://youtu.be/XngUY3PN1IQ)** on YouTube or try i
 - Option to disable shadow for buttons and (or) labels
 - Option to set custom animations
 - Option to set custom icon drawable
-- Support for **normal** `56dp` and **mini** `40dp` button sizes
+- Support for **normal** `56dp` and **mini** `40dp` standard button sizes, but also **big** `72dp`
 - Custom FloatingActionMenu icon animations
 - Option to expand menu up and down
 - Option to show labels to the left and to the right of the menu
