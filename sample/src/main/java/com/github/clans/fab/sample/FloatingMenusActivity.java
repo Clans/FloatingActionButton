@@ -2,8 +2,6 @@ package com.github.clans.fab.sample;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +16,8 @@ import android.widget.Toast;
 import com.github.fab.sample.R;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,14 +175,28 @@ public class FloatingMenusActivity extends AppCompatActivity {
         scaleInX.setDuration(150);
         scaleInY.setDuration(150);
 
-        scaleInX.addListener(new AnimatorListenerAdapter() {
+        scaleInX.addListener(new com.nineoldandroids.animation.Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
+            public void onAnimationStart(com.nineoldandroids.animation.Animator animation) {
                 menu3.getMenuIconView().setImageResource(menu3.isOpened()
                         ? R.drawable.ic_close : R.drawable.ic_star);
             }
-        });
 
+            @Override
+            public void onAnimationEnd(com.nineoldandroids.animation.Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(com.nineoldandroids.animation.Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(com.nineoldandroids.animation.Animator animation) {
+
+            }
+        });
         set.play(scaleOutX).with(scaleOutY);
         set.play(scaleInX).with(scaleInY).after(scaleOutX);
         set.setInterpolator(new OvershootInterpolator(2));
