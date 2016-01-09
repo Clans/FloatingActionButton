@@ -18,6 +18,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -92,7 +93,7 @@ public class Label extends TextView {
         LayerDrawable layerDrawable;
         if (mShowShadow) {
             layerDrawable = new LayerDrawable(new Drawable[]{
-                    new Shadow(),
+                    new Shadow(this),
                     createFillDrawable()
             });
 
@@ -330,12 +331,12 @@ public class Label extends TextView {
         private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private Paint mErase = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        private Shadow() {
-            this.init();
+        private Shadow(Label view) {
+            this.init(view);
         }
 
-        private void init() {
-            setLayerType(LAYER_TYPE_SOFTWARE, null);
+        private void init(Label view) {
+            ViewCompat.setLayerType(view,ViewCompat.LAYER_TYPE_SOFTWARE, null);
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setColor(mColorNormal);
 
