@@ -37,6 +37,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.support.v4.view.ViewCompat;
 
 public class FloatingActionButton extends ImageButton {
 
@@ -347,7 +348,7 @@ public class FloatingActionButton extends ImageButton {
         LayerDrawable layerDrawable;
         if (hasShadow()) {
             layerDrawable = new LayerDrawable(new Drawable[]{
-                    new Shadow(),
+                    new Shadow(this),
                     createFillDrawable(),
                     getIconDrawable()
             });
@@ -441,11 +442,11 @@ public class FloatingActionButton extends ImageButton {
     private void saveButtonOriginalPosition() {
         if (!mButtonPositionSaved) {
             if (mOriginalX == -1) {
-                mOriginalX = getX();
+                mOriginalX = ViewCompat.getX(this);
             }
 
             if (mOriginalY == -1) {
-                mOriginalY = getY();
+                mOriginalY = ViewCompat.getY(this);
             }
 
             mButtonPositionSaved = true;
@@ -456,14 +457,14 @@ public class FloatingActionButton extends ImageButton {
         float x;
         float y;
         if (mProgressBarEnabled) {
-            x = mOriginalX > getX() ? getX() + mProgressWidth : getX() - mProgressWidth;
-            y = mOriginalY > getY() ? getY() + mProgressWidth : getY() - mProgressWidth;
+            x = mOriginalX > ViewCompat.getX(this) ? ViewCompat.getX(this) + mProgressWidth : ViewCompat.getX(this) - mProgressWidth;
+            y = mOriginalY > ViewCompat.getY(this) ? ViewCompat.getY(this) + mProgressWidth : ViewCompat.getY(this) - mProgressWidth;
         } else {
             x = mOriginalX;
             y = mOriginalY;
         }
-        setX(x);
-        setY(y);
+        ViewCompat.setX(this, x);
+        ViewCompat.setY(this, y);
     }
 
     private void setupProgressBarPaints() {
@@ -674,12 +675,12 @@ public class FloatingActionButton extends ImageButton {
         private Paint mErase = new Paint(Paint.ANTI_ALIAS_FLAG);
         private float mRadius;
 
-        private Shadow() {
-            this.init();
+        private Shadow(FloatingActionButton view) {
+            this.init(view);
         }
 
-        private void init() {
-            setLayerType(LAYER_TYPE_SOFTWARE, null);
+        private void init(FloatingActionButton view) {
+            ViewCompat.setLayerType(view,ViewCompat.LAYER_TYPE_SOFTWARE, null);
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setColor(mColorNormal);
 
