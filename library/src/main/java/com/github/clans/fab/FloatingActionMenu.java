@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -84,6 +85,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mLabelsMaxLines;
     private int mMenuFabSize;
     private int mLabelsStyle;
+    private Typeface mCustomTypefaceFromFont;
     private boolean mIconAnimated = true;
     private ImageView mImageToggle;
     private Animation mMenuButtonShowAnimation;
@@ -161,6 +163,14 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsMaxLines = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_maxLines, -1);
         mMenuFabSize = attr.getInt(R.styleable.FloatingActionMenu_menu_fab_size, FloatingActionButton.SIZE_NORMAL);
         mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_style, 0);
+        String customFont = attr.getString(R.styleable.FloatingActionMenu_menu_labels_customFont);
+        try {
+            if (!TextUtils.isEmpty(customFont)) {
+                mCustomTypefaceFromFont = Typeface.createFromAsset(getContext().getAssets(), customFont);
+            }
+        } catch (RuntimeException ex) {
+            throw new IllegalArgumentException("Unable to load specified custom font: " + customFont, ex);
+        }
         mOpenDirection = attr.getInt(R.styleable.FloatingActionMenu_menu_openDirection, OPEN_UP);
         mBackgroundColor = attr.getColor(R.styleable.FloatingActionMenu_menu_backgroundColor, Color.TRANSPARENT);
 
@@ -508,6 +518,9 @@ public class FloatingActionMenu extends ViewGroup {
             }
         }
 
+        if (mCustomTypefaceFromFont != null) {
+            label.setTypeface(mCustomTypefaceFromFont);
+        }
         label.setText(text);
         label.setOnClickListener(fab.getOnClickListener());
 
