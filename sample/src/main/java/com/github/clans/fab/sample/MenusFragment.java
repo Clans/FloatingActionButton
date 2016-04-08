@@ -4,11 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,10 +56,10 @@ public class MenusFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        menu1 = (FloatingActionMenu) view.findViewById(R.id.menu1);
-        menu2 = (FloatingActionMenu) view.findViewById(R.id.menu2);
-        menu3 = (FloatingActionMenu) view.findViewById(R.id.menu3);
-        menu4 = (FloatingActionMenu) view.findViewById(R.id.menu4);
+        menu1 = (FloatingActionMenu) view.findViewById(R.id.menu_red);
+        menu2 = (FloatingActionMenu) view.findViewById(R.id.menu_yellow);
+        menu3 = (FloatingActionMenu) view.findViewById(R.id.menu_green);
+        menu4 = (FloatingActionMenu) view.findViewById(R.id.menu_blue);
         menuDown = (FloatingActionMenu) view.findViewById(R.id.menu_down);
         menuLabelsRight = (FloatingActionMenu) view.findViewById(R.id.menu_labels_right);
 
@@ -73,13 +73,16 @@ public class MenusFragment extends Fragment {
 
         final FloatingActionButton programFab1 = new FloatingActionButton(getActivity());
         programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
-        programFab1.setLabelText("Programmatically added button");
+        programFab1.setLabelText(getString(R.string.lorem_ipsum));
         programFab1.setImageResource(R.drawable.ic_edit);
         menu1.addMenuButton(programFab1);
         programFab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), programFab1.getLabelText(), Toast.LENGTH_SHORT).show();
+                programFab1.setLabelColors(ContextCompat.getColor(getActivity(), R.color.grey),
+                        ContextCompat.getColor(getActivity(), R.color.light_grey),
+                        ContextCompat.getColor(getActivity(), R.color.white_transparent));
+                programFab1.setLabelTextColor(ContextCompat.getColor(getActivity(), R.color.black));
             }
         });
 
@@ -202,32 +205,16 @@ public class MenusFragment extends Fragment {
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String text = "";
-
             switch (v.getId()) {
                 case R.id.fab1:
-                    text = fab1.getLabelText();
                     break;
                 case R.id.fab2:
-                    text = fab2.getLabelText();
                     fab2.setVisibility(View.GONE);
                     break;
                 case R.id.fab3:
-                    text = fab3.getLabelText();
                     fab2.setVisibility(View.VISIBLE);
                     break;
-                case R.id.fab12:
-                    text = fab12.getLabelText();
-                    break;
-                case R.id.fab22:
-                    text = fab22.getLabelText();
-                    break;
-                case R.id.fab32:
-                    text = fab32.getLabelText();
-                    break;
             }
-
-            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
         }
     };
 }

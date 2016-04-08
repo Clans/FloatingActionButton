@@ -1295,4 +1295,20 @@ public class FloatingActionButton extends ImageButton {
             label.show(animate);
         }
     }
+
+    /**
+     * Set the label's background colors
+     */
+    public void setLabelColors(int colorNormal, int colorPressed, int colorRipple) {
+        getLabelView().setColors(colorNormal, colorPressed, colorRipple);
+        getLabelView().updateBackground();
+    }
+
+    public void setLabelTextColor(int color) {
+        getLabelView().setTextColor(color);
+    }
+
+    public void setLabelTextColor(ColorStateList colors) {
+        getLabelView().setTextColor(colors);
+    }
 }

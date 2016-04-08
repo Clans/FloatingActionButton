@@ -31,7 +31,7 @@
         android:text="@string/lorem_ipsum_large"/>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu2"
+        android:id="@+id/menu_yellow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -76,7 +76,7 @@
     </com.github.clans.fab.FloatingActionMenu>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu3"
+        android:id="@+id/menu_green"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -117,7 +117,7 @@
     </com.github.clans.fab.FloatingActionMenu>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu4"
+        android:id="@+id/menu_blue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -210,7 +210,7 @@
     </com.github.clans.fab.FloatingActionMenu>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu1"
+        android:id="@+id/menu_red"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -229,7 +229,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
             fab:fab_size="mini"
-            fab:fab_label="Menu item 1" />
+            fab:fab_label="Disabled" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab2"
@@ -237,7 +237,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
             fab:fab_size="mini"
-            fab:fab_label="Menu item 2" />
+            fab:fab_label="Remove button" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab3"
@@ -245,7 +245,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
             fab:fab_size="mini"
-            fab:fab_label="@string/lorem_ipsum" />
+            fab:fab_label="Restore Button" />
 
     </com.github.clans.fab.FloatingActionMenu>
 
