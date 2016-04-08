@@ -17,6 +17,46 @@
         android:layout_marginBottom="12dp"
         android:layout_marginRight="16dp"
         android:src="@drawable/ic_menu"
-        app:fab_elevationCompat="4dp" />
+        app:fab_elevationCompat="4dp"
+        android:visibility="gone"/>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu_green"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|right"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        app:menu_icon="@drawable/ic_star"
+        app:menu_animationDelayPerItem="0"
+        app:menu_colorNormal="#43A047"
+        app:menu_colorPressed="#2E7D32"
+        app:menu_colorRipple="#1B5E20"
+        app:menu_labels_maxLines="2"
+        app:menu_labels_ellipsize="end"
+        app:menu_backgroundColor="#ccffffff">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            app:fab_label="Menu item 1"
+            style="@style/MenuButtonsSmall.Green" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            app:fab_label="Menu item 2"
+            style="@style/MenuButtonsSmall.Green" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            app:fab_label="@string/lorem_ipsum"
+            style="@style/MenuButtonsSmall.Green" />
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </FrameLayout>

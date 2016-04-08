@@ -26,20 +26,16 @@ import java.util.List;
 
 public class MenusFragment extends Fragment {
 
-    private FloatingActionMenu menu1;
-    private FloatingActionMenu menu2;
-    private FloatingActionMenu menu3;
-    private FloatingActionMenu menu4;
+    private FloatingActionMenu menuRed;
+    private FloatingActionMenu menuYellow;
+    private FloatingActionMenu menuGreen;
+    private FloatingActionMenu menuBlue;
     private FloatingActionMenu menuDown;
     private FloatingActionMenu menuLabelsRight;
 
     private FloatingActionButton fab1;
     private FloatingActionButton fab2;
     private FloatingActionButton fab3;
-
-    private FloatingActionButton fab12;
-    private FloatingActionButton fab22;
-    private FloatingActionButton fab32;
 
     private FloatingActionButton fabEdit;
 
@@ -56,10 +52,10 @@ public class MenusFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        menu1 = (FloatingActionMenu) view.findViewById(R.id.menu_red);
-        menu2 = (FloatingActionMenu) view.findViewById(R.id.menu_yellow);
-        menu3 = (FloatingActionMenu) view.findViewById(R.id.menu_green);
-        menu4 = (FloatingActionMenu) view.findViewById(R.id.menu_blue);
+        menuRed = (FloatingActionMenu) view.findViewById(R.id.menu_red);
+        menuYellow = (FloatingActionMenu) view.findViewById(R.id.menu_yellow);
+        menuGreen = (FloatingActionMenu) view.findViewById(R.id.menu_green);
+        menuBlue = (FloatingActionMenu) view.findViewById(R.id.menu_blue);
         menuDown = (FloatingActionMenu) view.findViewById(R.id.menu_down);
         menuLabelsRight = (FloatingActionMenu) view.findViewById(R.id.menu_labels_right);
 
@@ -67,15 +63,11 @@ public class MenusFragment extends Fragment {
         fab2 = (FloatingActionButton) view.findViewById(R.id.fab2);
         fab3 = (FloatingActionButton) view.findViewById(R.id.fab3);
 
-        fab12 = (FloatingActionButton) view.findViewById(R.id.fab12);
-        fab22 = (FloatingActionButton) view.findViewById(R.id.fab22);
-        fab32 = (FloatingActionButton) view.findViewById(R.id.fab32);
-
         final FloatingActionButton programFab1 = new FloatingActionButton(getActivity());
         programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
         programFab1.setLabelText(getString(R.string.lorem_ipsum));
         programFab1.setImageResource(R.drawable.ic_edit);
-        menu1.addMenuButton(programFab1);
+        menuRed.addMenuButton(programFab1);
         programFab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,17 +82,17 @@ public class MenusFragment extends Fragment {
         FloatingActionButton programFab2 = new FloatingActionButton(context);
         programFab2.setLabelText("Programmatically added button");
         programFab2.setImageResource(R.drawable.ic_edit);
-        menu2.addMenuButton(programFab2);
+        menuYellow.addMenuButton(programFab2);
 
         fab1.setEnabled(false);
-        menu1.setClosedOnTouchOutside(true);
-        menu4.setIconAnimated(false);
+        menuRed.setClosedOnTouchOutside(true);
+        menuBlue.setIconAnimated(false);
 
         menuDown.hideMenuButton(false);
-        menu1.hideMenuButton(false);
-        menu2.hideMenuButton(false);
-        menu3.hideMenuButton(false);
-        menu4.hideMenuButton(false);
+        menuRed.hideMenuButton(false);
+        menuYellow.hideMenuButton(false);
+        menuGreen.hideMenuButton(false);
+        menuBlue.hideMenuButton(false);
         menuLabelsRight.hideMenuButton(false);
 
         fabEdit = (FloatingActionButton) view.findViewById(R.id.fab_edit);
@@ -113,16 +105,16 @@ public class MenusFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         menus.add(menuDown);
-        menus.add(menu1);
-        menus.add(menu2);
-        menus.add(menu3);
-        menus.add(menu4);
+        menus.add(menuRed);
+        menus.add(menuYellow);
+        menus.add(menuGreen);
+        menus.add(menuBlue);
         menus.add(menuLabelsRight);
 
-        menu2.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+        menuYellow.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
             @Override
             public void onMenuToggle(boolean opened) {
-                String text = "";
+                String text;
                 if (opened) {
                     text = "Menu opened";
                 } else {
@@ -135,10 +127,6 @@ public class MenusFragment extends Fragment {
         fab1.setOnClickListener(clickListener);
         fab2.setOnClickListener(clickListener);
         fab3.setOnClickListener(clickListener);
-
-        fab12.setOnClickListener(clickListener);
-        fab22.setOnClickListener(clickListener);
-        fab32.setOnClickListener(clickListener);
 
         int delay = 400;
         for (final FloatingActionMenu menu : menus) {
@@ -158,14 +146,14 @@ public class MenusFragment extends Fragment {
             }
         }, delay + 150);
 
-        menu1.setOnMenuButtonClickListener(new View.OnClickListener() {
+        menuRed.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (menu1.isOpened()) {
-                    Toast.makeText(getActivity(), menu1.getMenuButtonLabelText(), Toast.LENGTH_SHORT).show();
+                if (menuRed.isOpened()) {
+                    Toast.makeText(getActivity(), menuRed.getMenuButtonLabelText(), Toast.LENGTH_SHORT).show();
                 }
 
-                menu1.toggle(true);
+                menuRed.toggle(true);
             }
         });
 
@@ -175,11 +163,11 @@ public class MenusFragment extends Fragment {
     private void createCustomAnimation() {
         AnimatorSet set = new AnimatorSet();
 
-        ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(menu3.getMenuIconView(), "scaleX", 1.0f, 0.2f);
-        ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(menu3.getMenuIconView(), "scaleY", 1.0f, 0.2f);
+        ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(menuGreen.getMenuIconView(), "scaleX", 1.0f, 0.2f);
+        ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(menuGreen.getMenuIconView(), "scaleY", 1.0f, 0.2f);
 
-        ObjectAnimator scaleInX = ObjectAnimator.ofFloat(menu3.getMenuIconView(), "scaleX", 0.2f, 1.0f);
-        ObjectAnimator scaleInY = ObjectAnimator.ofFloat(menu3.getMenuIconView(), "scaleY", 0.2f, 1.0f);
+        ObjectAnimator scaleInX = ObjectAnimator.ofFloat(menuGreen.getMenuIconView(), "scaleX", 0.2f, 1.0f);
+        ObjectAnimator scaleInY = ObjectAnimator.ofFloat(menuGreen.getMenuIconView(), "scaleY", 0.2f, 1.0f);
 
         scaleOutX.setDuration(50);
         scaleOutY.setDuration(50);
@@ -190,7 +178,7 @@ public class MenusFragment extends Fragment {
         scaleInX.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
-                menu3.getMenuIconView().setImageResource(menu3.isOpened()
+                menuGreen.getMenuIconView().setImageResource(menuGreen.isOpened()
                         ? R.drawable.ic_close : R.drawable.ic_star);
             }
         });
@@ -199,7 +187,7 @@ public class MenusFragment extends Fragment {
         set.play(scaleInX).with(scaleInY).after(scaleOutX);
         set.setInterpolator(new OvershootInterpolator(2));
 
-        menu3.setIconToggleAnimatorSet(set);
+        menuGreen.setIconToggleAnimatorSet(set);
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
