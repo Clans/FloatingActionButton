@@ -88,6 +88,8 @@ public class FloatingActionMenu extends ViewGroup {
     private ImageView mImageToggle;
     private Animation mMenuButtonShowAnimation;
     private Animation mMenuButtonHideAnimation;
+    private Animation mImageToggleShowAnimation;
+    private Animation mImageToggleHideAnimation;
     private boolean mIsMenuButtonAnimationRunning;
     private boolean mIsSetClosedOnTouchOutside;
     private int mOpenDirection;
@@ -187,12 +189,12 @@ public class FloatingActionMenu extends ViewGroup {
 
     private void initMenuButtonAnimations(TypedArray attr) {
         int showResId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_fab_show_animation, R.anim.fab_scale_up);
-        Animation showAnimation = AnimationUtils.loadAnimation(getContext(), showResId);
-        setMenuButtonShowAnimation(showAnimation);
+        setMenuButtonShowAnimation(AnimationUtils.loadAnimation(getContext(), showResId));
+        mImageToggleShowAnimation = AnimationUtils.loadAnimation(getContext(), showResId);
 
         int hideResId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_fab_hide_animation, R.anim.fab_scale_down);
-        Animation hideAnimation = AnimationUtils.loadAnimation(getContext(), hideResId);
-        setMenuButtonHideAnimation(hideAnimation);
+        setMenuButtonHideAnimation(AnimationUtils.loadAnimation(getContext(), hideResId));
+        mImageToggleHideAnimation = AnimationUtils.loadAnimation(getContext(), hideResId);
     }
 
     private void initBackgroundDimAnimation() {
@@ -557,7 +559,7 @@ public class FloatingActionMenu extends ViewGroup {
         if (!isMenuButtonHidden()) {
             mMenuButton.hide(animate);
             if (animate) {
-                mImageToggle.startAnimation(mMenuButtonHideAnimation);
+                mImageToggle.startAnimation(mImageToggleHideAnimation);
             }
             mImageToggle.setVisibility(INVISIBLE);
             mIsMenuButtonAnimationRunning = false;
@@ -568,7 +570,7 @@ public class FloatingActionMenu extends ViewGroup {
         if (isMenuButtonHidden()) {
             mMenuButton.show(animate);
             if (animate) {
-                mImageToggle.startAnimation(mMenuButtonShowAnimation);
+                mImageToggle.startAnimation(mImageToggleShowAnimation);
             }
             mImageToggle.setVisibility(VISIBLE);
         }

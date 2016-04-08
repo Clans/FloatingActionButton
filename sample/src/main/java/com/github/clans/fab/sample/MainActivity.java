@@ -1,74 +1,77 @@
 package com.github.clans.fab.sample;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
-import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.github.fab.sample.R;
-import com.github.clans.fab.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+public class MainActivity extends AppCompatActivity {
 
-
-public class MainActivity extends ActionBarActivity {
-
-    private int mPreviousVisibleItem;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        Locale[] availableLocales = Locale.getAvailableLocales();
-        List<String> locales = new ArrayList<>();
-        for (Locale locale : availableLocales) {
-            locales.add(locale.getDisplayName());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment, new HomeFragment()).commit();
         }
 
-        ListView listView = (ListView) findViewById(R.id.list);
-        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
-                android.R.id.text1, locales));
+        navigationView.setCheckedItem(R.id.home);
+    }
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.hide(false);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fab.show(true);
-                fab.setShowAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_from_bottom));
-                fab.setHideAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_to_bottom));
-            }
-        }, 300);
+    NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(MenuItem item) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FloatingMenusActivity.class));
-            }
-        });
-
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            Fragment fragment = null;
+            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            switch (item.getItemId()) {
+                case R.id.home:
+                    fragment = new HomeFragment();
+                    break;
+                case R.id.menus:
+                    fragment = new MenusFragment();
+                    break;
+                case R.id.progress:
+                    fragment = new ProgressFragment();
+                    break;
             }
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem > mPreviousVisibleItem) {
-                    fab.hide(true);
-                } else if (firstVisibleItem < mPreviousVisibleItem) {
-                    fab.show(true);
-                }
-                mPreviousVisibleItem = firstVisibleItem;
-            }
-        });
+            ft.replace(R.id.fragment, fragment).commit();
+            return true;
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
