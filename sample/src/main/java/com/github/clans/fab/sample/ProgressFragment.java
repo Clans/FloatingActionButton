@@ -2,7 +2,8 @@ package com.github.clans.fab.sample;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,20 +17,22 @@ import com.github.fab.sample.R;
 import java.util.LinkedList;
 import java.util.Locale;
 
-/**
- * A very basic example of using FloatingActionButton with RecyclerView
- */
-public class RecyclerViewActivity extends ActionBarActivity {
+public class ProgressFragment extends Fragment {
 
     private int mScrollOffset = 4;
     private int mMaxProgress = 100;
     private LinkedList<ProgressType> mProgressTypes;
     private Handler mUiHandler = new Handler();
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.recyclerview_activity);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.progress_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         Locale[] availableLocales = Locale.getAvailableLocales();
         mProgressTypes = new LinkedList<>();
@@ -37,12 +40,12 @@ public class RecyclerViewActivity extends ActionBarActivity {
             mProgressTypes.offer(type);
         }
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setMax(mMaxProgress);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new LanguageAdapter(availableLocales));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +82,7 @@ public class RecyclerViewActivity extends ActionBarActivity {
             }
         });
 
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -151,7 +154,7 @@ public class RecyclerViewActivity extends ActionBarActivity {
             mTextView = v;
         }
     }
-    
+
     private enum ProgressType {
         INDETERMINATE, PROGRESS_POSITIVE, PROGRESS_NEGATIVE, HIDDEN, PROGRESS_NO_ANIMATION, PROGRESS_NO_BACKGROUND
     }
