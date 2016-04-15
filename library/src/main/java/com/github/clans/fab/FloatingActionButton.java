@@ -1170,7 +1170,7 @@ public class FloatingActionButton extends ImageButton {
         mProgressIndeterminate = indeterminate;
         mLastTimeAnimated = SystemClock.uptimeMillis();
         setupProgressBounds();
-        saveButtonOriginalPosition();
+//        saveButtonOriginalPosition();
         updateBackground();
     }
 
