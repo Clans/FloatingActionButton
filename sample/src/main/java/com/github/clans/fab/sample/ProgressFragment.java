@@ -41,6 +41,7 @@ public class ProgressFragment extends Fragment {
         }
 
         final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+//        fab.setIndeterminate(true); // To reproduce the bug
         fab.setMax(mMaxProgress);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
