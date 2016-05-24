@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.view.ViewParent;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
@@ -97,6 +98,8 @@ public class FloatingActionButton extends ImageButton {
     private boolean mShouldSetProgress;
     private int mProgressMax = 100;
     private boolean mShowProgressBackground;
+
+    private boolean isLayoutInit = false;
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -165,6 +168,21 @@ public class FloatingActionButton extends ImageButton {
 
 //        updateBackground();
         setClickable(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            this.getViewTreeObserver().addOnGlobalLayoutListener(
+                    new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                        @Override
+                        public void onGlobalLayout() {
+                            isLayoutInit = true;
+                            saveButtonOriginalPosition();
+                            getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                    });
+        } else {
+            isLayoutInit = true;
+        }
     }
 
     private void initShowAnimation(TypedArray attr) {
@@ -439,13 +457,18 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private void saveButtonOriginalPosition() {
-        if (!mButtonPositionSaved) {
+        if (!mButtonPositionSaved && isLayoutInit) {
             if (mOriginalX == -1) {
                 mOriginalX = getX();
             }
 
             if (mOriginalY == -1) {
                 mOriginalY = getY();
+            }
+
+            if (mProgressBarEnabled) {
+                mOriginalX = mOriginalX + mProgressWidth;
+                mOriginalY = mOriginalY + mProgressWidth;
             }
 
             mButtonPositionSaved = true;
