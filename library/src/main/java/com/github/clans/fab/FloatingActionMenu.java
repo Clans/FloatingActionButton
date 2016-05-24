@@ -579,26 +579,21 @@ public class FloatingActionMenu extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (mIsSetClosedOnTouchOutside) {
-            return mGestureDetector.onTouchEvent(event);
-        } else {
-            return super.onTouchEvent(event);
+            boolean handled = false;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    handled = isOpened();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    close(mIsAnimated);
+                    handled = true;
+            }
+
+            return handled;
         }
+
+        return super.onTouchEvent(event);
     }
-
-    GestureDetector mGestureDetector = new GestureDetector(getContext(),
-            new GestureDetector.SimpleOnGestureListener() {
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return mIsSetClosedOnTouchOutside && isOpened();
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            close(mIsAnimated);
-            return true;
-        }
-    });
 
     /* ===== API methods ===== */
 
