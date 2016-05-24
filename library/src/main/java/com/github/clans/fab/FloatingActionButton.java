@@ -1,6 +1,5 @@
 package com.github.clans.fab;
 
-import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -32,7 +31,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
@@ -1300,8 +1298,16 @@ public class FloatingActionButton extends ImageButton {
      * Set the label's background colors
      */
     public void setLabelColors(int colorNormal, int colorPressed, int colorRipple) {
-        getLabelView().setColors(colorNormal, colorPressed, colorRipple);
-        getLabelView().updateBackground();
+        Label label = getLabelView();
+
+        int left = label.getPaddingLeft();
+        int top = label.getPaddingTop();
+        int right = label.getPaddingRight();
+        int bottom = label.getPaddingBottom();
+
+        label.setColors(colorNormal, colorPressed, colorRipple);
+        label.updateBackground();
+        label.setPadding(left, top, right, bottom);
     }
 
     public void setLabelTextColor(int color) {
