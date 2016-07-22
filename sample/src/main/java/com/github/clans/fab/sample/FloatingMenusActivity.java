@@ -5,9 +5,16 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +22,9 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
 
-import com.github.fab.sample.R;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.github.fab.sample.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +131,12 @@ public class FloatingMenusActivity extends AppCompatActivity {
         fab2 = (FloatingActionButton) findViewById(R.id.fab2);
         fab3 = (FloatingActionButton) findViewById(R.id.fab3);
 
+
+        Spannable spannedText = new SpannableStringBuilder("This is spanned text");
+        spannedText.setSpan(new ForegroundColorSpan(Color.RED), 0, 4, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        spannedText.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 8, 16, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        fab3.setLabelText(spannedText);
+
         fab12 = (FloatingActionButton) findViewById(R.id.fab12);
         fab22 = (FloatingActionButton) findViewById(R.id.fab22);
         fab32 = (FloatingActionButton) findViewById(R.id.fab32);
@@ -203,7 +216,7 @@ public class FloatingMenusActivity extends AppCompatActivity {
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String text = "";
+            CharSequence text = "";
 
             switch (v.getId()) {
                 case R.id.fab1:
