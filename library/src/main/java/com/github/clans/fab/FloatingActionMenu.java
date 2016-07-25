@@ -476,9 +476,8 @@ public class FloatingActionMenu extends ViewGroup {
     private void addLabel(FloatingActionButton fab) {
         String text = fab.getLabelText();
 
-        if (TextUtils.isEmpty(text)) return;
-
         final Label label = new Label(mLabelsContext);
+        label.setVisibility(TextUtils.isEmpty(text) ? INVISIBLE : VISIBLE);
         label.setClickable(true);
         label.setFab(fab);
         label.setShowAnimation(AnimationUtils.loadAnimation(getContext(), mLabelsShowAnimation));
@@ -527,7 +526,7 @@ public class FloatingActionMenu extends ViewGroup {
         label.setOnClickListener(fab.getOnClickListener());
 
         addView(label);
-        fab.setTag(R.id.fab_label, label);
+        fab.setLabelView(label);
     }
 
     private void setLabelEllipsize(Label label) {
@@ -655,8 +654,8 @@ public class FloatingActionMenu extends ViewGroup {
                                 fab.show(animate);
                             }
 
-                            Label label = (Label) fab.getTag(R.id.fab_label);
-                            if (label != null && label.isHandleVisibilityChanges()) {
+                            Label label = fab.getLabelView();
+                            if (label != null && label.isHandleVisibilityChanges() && !TextUtils.isEmpty(label.getText())) {
                                 label.show(animate);
                             }
                         }
@@ -711,8 +710,8 @@ public class FloatingActionMenu extends ViewGroup {
                                 fab.hide(animate);
                             }
 
-                            Label label = (Label) fab.getTag(R.id.fab_label);
-                            if (label != null && label.isHandleVisibilityChanges()) {
+                            Label label = fab.getLabelView();
+                            if (label != null && label.isHandleVisibilityChanges() && !TextUtils.isEmpty(label.getText())) {
                                 label.hide(animate);
                             }
                         }

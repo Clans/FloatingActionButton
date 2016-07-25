@@ -25,6 +25,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -509,6 +510,10 @@ public class FloatingActionButton extends ImageButton {
 
     Label getLabelView() {
         return (Label) getTag(R.id.fab_label);
+    }
+
+    void setLabelView(Label label) {
+        setTag(R.id.fab_label, label);
     }
 
     void setColors(int colorNormal, int colorPressed, int colorRipple) {
@@ -1078,6 +1083,7 @@ public class FloatingActionButton extends ImageButton {
         TextView labelView = getLabelView();
         if (labelView != null) {
             labelView.setText(text);
+            labelView.setVisibility(TextUtils.isEmpty(text) ? INVISIBLE : VISIBLE);
         }
     }
 
