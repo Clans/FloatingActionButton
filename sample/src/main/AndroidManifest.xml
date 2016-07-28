@@ -16,12 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:label="@string/floating_action_menu"
-            android:name="com.github.clans.fab.sample.FloatingMenusActivity" />
-        <activity
-            android:label="@string/recyclerview_fab_example"
-            android:name="com.github.clans.fab.sample.RecyclerViewActivity" />
     </application>
 
 </manifest>

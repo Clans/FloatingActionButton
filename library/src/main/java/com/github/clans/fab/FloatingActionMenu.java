@@ -90,6 +90,8 @@ public class FloatingActionMenu extends ViewGroup {
     private ImageView mImageToggle;
     private Animation mMenuButtonShowAnimation;
     private Animation mMenuButtonHideAnimation;
+    private Animation mImageToggleShowAnimation;
+    private Animation mImageToggleHideAnimation;
     private boolean mIsMenuButtonAnimationRunning;
     private boolean mIsSetClosedOnTouchOutside;
     private int mOpenDirection;
@@ -197,12 +199,12 @@ public class FloatingActionMenu extends ViewGroup {
 
     private void initMenuButtonAnimations(TypedArray attr) {
         int showResId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_fab_show_animation, R.anim.fab_scale_up);
-        Animation showAnimation = AnimationUtils.loadAnimation(getContext(), showResId);
-        setMenuButtonShowAnimation(showAnimation);
+        setMenuButtonShowAnimation(AnimationUtils.loadAnimation(getContext(), showResId));
+        mImageToggleShowAnimation = AnimationUtils.loadAnimation(getContext(), showResId);
 
         int hideResId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_fab_hide_animation, R.anim.fab_scale_down);
-        Animation hideAnimation = AnimationUtils.loadAnimation(getContext(), hideResId);
-        setMenuButtonHideAnimation(hideAnimation);
+        setMenuButtonHideAnimation(AnimationUtils.loadAnimation(getContext(), hideResId));
+        mImageToggleHideAnimation = AnimationUtils.loadAnimation(getContext(), hideResId);
     }
 
     private void initBackgroundDimAnimation() {
@@ -570,7 +572,7 @@ public class FloatingActionMenu extends ViewGroup {
         if (!isMenuButtonHidden()) {
             mMenuButton.hide(animate);
             if (animate) {
-                mImageToggle.startAnimation(mMenuButtonHideAnimation);
+                mImageToggle.startAnimation(mImageToggleHideAnimation);
             }
             mImageToggle.setVisibility(INVISIBLE);
             mIsMenuButtonAnimationRunning = false;
@@ -581,7 +583,7 @@ public class FloatingActionMenu extends ViewGroup {
         if (isMenuButtonHidden()) {
             mMenuButton.show(animate);
             if (animate) {
-                mImageToggle.startAnimation(mMenuButtonShowAnimation);
+                mImageToggle.startAnimation(mImageToggleShowAnimation);
             }
             mImageToggle.setVisibility(VISIBLE);
         }
@@ -590,26 +592,21 @@ public class FloatingActionMenu extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (mIsSetClosedOnTouchOutside) {
-            return mGestureDetector.onTouchEvent(event);
-        } else {
-            return super.onTouchEvent(event);
+            boolean handled = false;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    handled = isOpened();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    close(mIsAnimated);
+                    handled = true;
+            }
+
+            return handled;
         }
+
+        return super.onTouchEvent(event);
     }
-
-    GestureDetector mGestureDetector = new GestureDetector(getContext(),
-            new GestureDetector.SimpleOnGestureListener() {
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return mIsSetClosedOnTouchOutside && isOpened();
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            close(mIsAnimated);
-            return true;
-        }
-    });
 
     /* ===== API methods ===== */
 
@@ -1011,5 +1008,9 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void setOnMenuButtonClickListener(OnClickListener clickListener) {
         mMenuButton.setOnClickListener(clickListener);
+    }
+
+    public void setOnMenuButtonLongClickListener(OnLongClickListener longClickListener) {
+        mMenuButton.setOnLongClickListener(longClickListener);
     }
 }
