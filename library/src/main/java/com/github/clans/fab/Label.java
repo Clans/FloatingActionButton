@@ -207,7 +207,7 @@ public class Label extends TextView {
             ripple.setHotspot(getMeasuredWidth() / 2, getMeasuredHeight() / 2);
             ripple.setVisible(true, true);
         }
-        setPressed(true);
+//        setPressed(true);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -225,7 +225,7 @@ public class Label extends TextView {
             ripple.setHotspot(getMeasuredWidth() / 2, getMeasuredHeight() / 2);
             ripple.setVisible(true, true);
         }
-        setPressed(false);
+//        setPressed(false);
     }
 
     void setFab(FloatingActionButton fab) {
