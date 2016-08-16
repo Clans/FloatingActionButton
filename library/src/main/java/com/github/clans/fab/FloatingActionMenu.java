@@ -103,7 +103,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     private int mLabelsPosition;
     private Context mLabelsContext;
-    private String mMenuLabelText;
+    private CharSequence mMenuLabelText;
     private boolean mUsingMenuLabel;
 
     public interface OnMenuToggleListener {
@@ -474,7 +474,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     private void addLabel(FloatingActionButton fab) {
-        String text = fab.getLabelText();
+        CharSequence text = fab.getLabelText();
 
         if (TextUtils.isEmpty(text)) return;
 
@@ -998,11 +998,11 @@ public class FloatingActionMenu extends ViewGroup {
         }
     }
 
-    public void setMenuButtonLabelText(String text) {
+    public void setMenuButtonLabelText(CharSequence text) {
         mMenuButton.setLabelText(text);
     }
 
-    public String getMenuButtonLabelText() {
+    public CharSequence getMenuButtonLabelText() {
         return mMenuLabelText;
     }
 

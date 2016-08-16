@@ -61,7 +61,7 @@ public class FloatingActionButton extends ImageButton {
     private int mIconSize = Util.dpToPx(getContext(), 24f);
     private Animation mShowAnimation;
     private Animation mHideAnimation;
-    private String mLabelText;
+    private CharSequence mLabelText;
     private OnClickListener mClickListener;
     private Drawable mBackgroundDrawable;
     private boolean mUsingElevation;
@@ -1073,7 +1073,7 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    public void setLabelText(String text) {
+    public void setLabelText(CharSequence text) {
         mLabelText = text;
         TextView labelView = getLabelView();
         if (labelView != null) {
@@ -1081,7 +1081,7 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    public String getLabelText() {
+    public CharSequence getLabelText() {
         return mLabelText;
     }
 

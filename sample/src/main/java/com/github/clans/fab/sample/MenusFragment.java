@@ -4,11 +4,18 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,6 +105,11 @@ public class MenusFragment extends Fragment {
         fabEdit = (FloatingActionButton) view.findViewById(R.id.fab_edit);
         fabEdit.setShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up));
         fabEdit.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.scale_down));
+
+        Spannable spannedText = new SpannableStringBuilder("This is spanned text");
+        spannedText.setSpan(new ForegroundColorSpan(Color.RED), 0, 4, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        spannedText.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 8, 16, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        fab3.setLabelText(spannedText);
     }
 
     @Override
