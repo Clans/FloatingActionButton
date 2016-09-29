@@ -12,8 +12,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenuNew;
 import com.github.fab.sample.R;
 
 import java.util.ArrayList;
@@ -37,6 +39,21 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mListView = (ListView) view.findViewById(R.id.list);
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+
+        /*((FloatingActionMenuNew) view.findViewById(R.id.menu_fab)).setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
+
+        android.support.design.widget.FloatingActionButton fabb = (android.support.design.widget.FloatingActionButton) view.findViewById(R.id.fabb);
+        fabb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -56,7 +73,7 @@ public class HomeFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFab.show(true);
+//                mFab.show(true);
                 mFab.setShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
                 mFab.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
             }

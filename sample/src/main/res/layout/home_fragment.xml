@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#eee">
 
     <ListView
         android:id="@+id/list"
@@ -17,6 +18,85 @@
         android:layout_marginBottom="12dp"
         android:layout_marginRight="16dp"
         android:src="@drawable/ic_menu"
-        app:fab_elevationCompat="4dp" />
+        fab:fab_elevationCompat="4dp"
+        android:visibility="gone"/>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu_red"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="21dp"
+        android:layout_marginRight="16dp"
+        android:paddingLeft="10dp"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_singleLine="true"
+        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_fab_label="Menu label">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            fab:fab_size="mini"
+            fab:fab_label="Disabled" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            fab:fab_size="mini"
+            fab:fab_label="Remove button" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            fab:fab_size="mini"
+            fab:fab_label="Restore Button" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.clans.fab.FloatingActionMenuNew
+        android:id="@+id/menu_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="80dp"
+        android:background="#fff">
+
+        <com.github.clans.fab.FloatingActionButtonNew
+            android:id="@+id/inner_fab_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fabSize="mini"/>
+
+        <com.github.clans.fab.FloatingActionButtonNew
+            android:id="@+id/inner_fab_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fabSize="mini"/>
+
+        <com.github.clans.fab.FloatingActionButtonNew
+            android:id="@+id/inner_fab_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fabSize="mini"/>
+
+    </com.github.clans.fab.FloatingActionMenuNew>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="190dp"
+        fab:fabSize="normal"
+        android:src="@drawable/ic_close"/>
 
 </FrameLayout>
