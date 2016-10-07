@@ -48,6 +48,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mButtonSpacing = Util.dpToPx(getContext(), 0f);
     private FloatingActionButton mMenuButton;
     private int mMaxButtonWidth;
+    private int mHeightActions;
     private int mLabelsMargin = Util.dpToPx(getContext(), 0f);
     private int mLabelsVerticalOffset = Util.dpToPx(getContext(), 0f);
     private int mButtonsCount;
@@ -323,15 +324,16 @@ public class FloatingActionMenu extends ViewGroup {
         }
 
         for (int i = 0; i < mButtonsCount; i++) {
-            int usedWidth = 0;
+            int usedWidth;
             View child = getChildAt(i);
 
             if (child.getVisibility() == GONE || child == mImageToggle) continue;
 
             if (mOpenDirection == OPEN_CENTER && child == mMenuButton) continue;
 
-            usedWidth += child.getMeasuredWidth();
+            usedWidth = child.getMeasuredWidth();
             height += child.getMeasuredHeight();
+
 
             Label label = (Label) child.getTag(R.id.fab_label);
             if (label != null) {
@@ -343,13 +345,14 @@ public class FloatingActionMenu extends ViewGroup {
             }
         }
 
-        width = Math.max(mMaxButtonWidth, maxLabelWidth + mLabelsMargin) + getPaddingLeft() + getPaddingRight();
 
+        width = Math.max(mMaxButtonWidth, maxLabelWidth + mLabelsMargin) + getPaddingLeft() + getPaddingRight();
         if (mOpenDirection == OPEN_CENTER) {
             width += mMenuButton.getMeasuredWidth();
         } else {
             height = Math.max(mMenuButton.getMeasuredHeight(), height + mButtonSpacing * (mButtonsCount - 1)) + getPaddingTop() + getPaddingBottom();
         }
+        mHeightActions = height;
 
         height = adjustForOvershoot(height);
 
@@ -404,7 +407,7 @@ public class FloatingActionMenu extends ViewGroup {
         int nextY;
         switch (mOpenDirection) {
             case OPEN_CENTER:
-                nextY = height - getPaddingBottom();
+                nextY = menuButtonTop + mMenuButton.getMeasuredHeight() / 2 + mHeightActions / 2;
                 break;
             case OPEN_DOWN:
                 nextY = menuButtonTop;

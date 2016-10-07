@@ -116,9 +116,8 @@
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu_orange"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="120dp"
@@ -128,7 +127,7 @@
         fab:menu_colorPressed="#2272CD"
         fab:menu_colorRipple="#62B2FF"
         fab:menu_fab_size="mini"
-        fab:menu_labels_position="left"
+        fab:menu_labels_position="right"
         fab:menu_openDirection="center">
 
         <com.github.clans.fab.FloatingActionButton
