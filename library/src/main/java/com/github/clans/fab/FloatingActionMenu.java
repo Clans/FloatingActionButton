@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +36,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     private static final int OPEN_UP = 0;
     private static final int OPEN_DOWN = 1;
+    private static final int OPEN_CENTER = 2;
 
     private static final int LABELS_POSITION_LEFT = 0;
     private static final int LABELS_POSITION_RIGHT = 1;
@@ -328,6 +328,8 @@ public class FloatingActionMenu extends ViewGroup {
 
             if (child.getVisibility() == GONE || child == mImageToggle) continue;
 
+            if (mOpenDirection == OPEN_CENTER && child == mMenuButton) continue;
+
             usedWidth += child.getMeasuredWidth();
             height += child.getMeasuredHeight();
 
@@ -343,7 +345,12 @@ public class FloatingActionMenu extends ViewGroup {
 
         width = Math.max(mMaxButtonWidth, maxLabelWidth + mLabelsMargin) + getPaddingLeft() + getPaddingRight();
 
-        height += mButtonSpacing * (mButtonsCount - 1) + getPaddingTop() + getPaddingBottom();
+        if (mOpenDirection == OPEN_CENTER) {
+            width += mMenuButton.getMeasuredWidth();
+        } else {
+            height = Math.max(mMenuButton.getMeasuredHeight(), height + mButtonSpacing * (mButtonsCount - 1)) + getPaddingTop() + getPaddingBottom();
+        }
+
         height = adjustForOvershoot(height);
 
         if (getLayoutParams().width == LayoutParams.MATCH_PARENT) {
@@ -359,15 +366,31 @@ public class FloatingActionMenu extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int buttonsHorizontalCenter = mLabelsPosition == LABELS_POSITION_LEFT
-                ? r - l - mMaxButtonWidth / 2 - getPaddingRight()
-                : mMaxButtonWidth / 2 + getPaddingLeft();
-        boolean openUp = mOpenDirection == OPEN_UP;
+        final int width = r - l;
+        final int height = b - t;
 
-        int menuButtonTop = openUp
-                ? b - t - mMenuButton.getMeasuredHeight() - getPaddingBottom()
-                : getPaddingTop();
-        int menuButtonLeft = buttonsHorizontalCenter - mMenuButton.getMeasuredWidth() / 2;
+        final int buttonsHorizontalCenter = mLabelsPosition == LABELS_POSITION_LEFT
+                ? width - mMaxButtonWidth / 2 - getPaddingRight()
+                : mMaxButtonWidth / 2 + getPaddingLeft();
+
+        int menuButtonTop;
+        int menuButtonLeft;
+
+        switch (mOpenDirection) {
+            case OPEN_DOWN:
+                menuButtonTop = getPaddingTop();
+                menuButtonLeft = buttonsHorizontalCenter - mMenuButton.getMeasuredWidth() / 2;
+                break;
+            case OPEN_CENTER:
+                menuButtonTop = (height) / 2 - mMenuButton.getMeasuredHeight() / 2 - getPaddingBottom();
+                menuButtonLeft = buttonsHorizontalCenter - mMenuButton.getMeasuredWidth() / 2;
+                break;
+            case OPEN_UP:
+            default:
+                menuButtonTop = height - mMenuButton.getMeasuredHeight() - getPaddingBottom();
+                menuButtonLeft = buttonsHorizontalCenter - mMenuButton.getMeasuredWidth() / 2;
+                break;
+        }
 
         mMenuButton.layout(menuButtonLeft, menuButtonTop, menuButtonLeft + mMenuButton.getMeasuredWidth(),
                 menuButtonTop + mMenuButton.getMeasuredHeight());
@@ -378,9 +401,19 @@ public class FloatingActionMenu extends ViewGroup {
         mImageToggle.layout(imageLeft, imageTop, imageLeft + mImageToggle.getMeasuredWidth(),
                 imageTop + mImageToggle.getMeasuredHeight());
 
-        int nextY = openUp
-                ? menuButtonTop + mMenuButton.getMeasuredHeight() + mButtonSpacing
-                : menuButtonTop;
+        int nextY;
+        switch (mOpenDirection) {
+            case OPEN_CENTER:
+                nextY = height - getPaddingBottom();
+                break;
+            case OPEN_DOWN:
+                nextY = menuButtonTop;
+                break;
+            case OPEN_UP:
+            default:
+                nextY = menuButtonTop + mMenuButton.getMeasuredHeight() + mButtonSpacing;
+                break;
+        }
 
         for (int i = mButtonsCount - 1; i >= 0; i--) {
             View child = getChildAt(i);
@@ -392,7 +425,23 @@ public class FloatingActionMenu extends ViewGroup {
             if (fab.getVisibility() == GONE) continue;
 
             int childX = buttonsHorizontalCenter - fab.getMeasuredWidth() / 2;
-            int childY = openUp ? nextY - fab.getMeasuredHeight() - mButtonSpacing : nextY;
+            int childY;
+            switch (mOpenDirection) {
+                case OPEN_CENTER:
+                    if (fab == mMenuButton) {
+                        continue;
+                    }
+                    childX = buttonsHorizontalCenter - fab.getMeasuredWidth() / 2 + (mLabelsPosition == LABELS_POSITION_LEFT ? -mMenuButton.getMeasuredWidth() : mMenuButton.getMeasuredWidth());
+                    childY = nextY - fab.getMeasuredHeight() - mButtonSpacing;
+                    break;
+                case OPEN_DOWN:
+                    childY = nextY;
+                    break;
+                case OPEN_UP:
+                default:
+                    childY = nextY - fab.getMeasuredHeight() - mButtonSpacing;
+                    break;
+            }
 
             if (fab != mMenuButton) {
                 fab.layout(childX, childY, childX + fab.getMeasuredWidth(),
@@ -406,6 +455,10 @@ public class FloatingActionMenu extends ViewGroup {
             View label = (View) fab.getTag(R.id.fab_label);
             if (label != null) {
                 int labelsOffset = (mUsingMenuLabel ? mMaxButtonWidth / 2 : fab.getMeasuredWidth() / 2) + mLabelsMargin;
+                if (mOpenDirection == OPEN_CENTER) {
+                    labelsOffset += mMenuButton.getMeasuredWidth();
+                }
+
                 int labelXNearButton = mLabelsPosition == LABELS_POSITION_LEFT
                         ? buttonsHorizontalCenter - labelsOffset
                         : buttonsHorizontalCenter + labelsOffset;
@@ -432,9 +485,16 @@ public class FloatingActionMenu extends ViewGroup {
                 }
             }
 
-            nextY = openUp
-                    ? childY - mButtonSpacing
-                    : childY + child.getMeasuredHeight() + mButtonSpacing;
+            switch (mOpenDirection) {
+                case OPEN_DOWN:
+                    nextY = childY + child.getMeasuredHeight() + mButtonSpacing;
+                    break;
+                case OPEN_CENTER:
+                case OPEN_UP:
+                default:
+                    nextY = childY - mButtonSpacing;
+                    break;
+            }
         }
     }
 
@@ -559,8 +619,8 @@ public class FloatingActionMenu extends ViewGroup {
 
     @Override
     protected MarginLayoutParams generateDefaultLayoutParams() {
-        return new MarginLayoutParams(MarginLayoutParams.WRAP_CONTENT,
-                MarginLayoutParams.WRAP_CONTENT);
+        //noinspection ResourceType
+        return new MarginLayoutParams(MarginLayoutParams.WRAP_CONTENT, MarginLayoutParams.WRAP_CONTENT);
     }
 
     @Override
@@ -985,7 +1045,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
