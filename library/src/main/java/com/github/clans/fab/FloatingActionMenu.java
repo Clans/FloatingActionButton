@@ -959,7 +959,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     public void addMenuButton(FloatingActionButton fab) {
-        addView(fab, mButtonsCount - 2);
+        addView(fab);
         mButtonsCount++;
         addLabel(fab);
     }
