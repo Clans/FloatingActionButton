@@ -160,6 +160,7 @@ public class FloatingActionMenu extends ViewGroup {
         if (mIcon == null) {
             mIcon = getResources().getDrawable(R.drawable.fab_add);
         }
+        mIconAnimated = attr.getBoolean(R.styleable.FloatingActionMenu_menu_iconAnimated, mIconAnimated);
         mLabelsSingleLine = attr.getBoolean(R.styleable.FloatingActionMenu_menu_labels_singleLine, false);
         mLabelsEllipsize = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_ellipsize, 0);
         mLabelsMaxLines = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_maxLines, -1);
