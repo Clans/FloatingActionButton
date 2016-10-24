@@ -112,15 +112,11 @@ public class FloatingActionButton extends ImageButton {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs, defStyleAttr);
     }
 
-    protected void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        init(context, attrs, defStyleAttr, 0);
-    }
-
-    protected void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionButton, defStyleAttr, defStyleRes);
+    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionButton, defStyleAttr, 0);
         mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, 0xFFDA4336);
         mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, 0xFFE75043);
         mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled, 0xFFAAAAAA);
