@@ -120,11 +120,21 @@ public class FloatingActionMenu extends ViewGroup {
 
     public FloatingActionMenu(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
+        init(context, attrs, defStyleAttr);
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionMenu, 0, 0);
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public FloatingActionMenu(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    protected void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        init(context, attrs, defStyleAttr, 0);
+    }
+
+    protected void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionMenu, defStyleAttr, defStyleRes);
         mButtonSpacing = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_buttonSpacing, mButtonSpacing);
         mLabelsMargin = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_margin, mLabelsMargin);
         mLabelsPosition = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_position, LABELS_POSITION_LEFT);
