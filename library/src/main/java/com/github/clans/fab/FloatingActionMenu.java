@@ -106,6 +106,26 @@ public class FloatingActionMenu extends ViewGroup {
     private String mMenuLabelText;
     private boolean mUsingMenuLabel;
 
+    public static final int VIEW_MODE_MENU = 0;
+    public static final int VIEW_MODE_BUTTON = 1;
+
+    public int getViewMode() {
+        return viewMode;
+    }
+
+    public void setViewMode(int viewMode) {
+        this.viewMode = viewMode;
+    }
+
+    private int viewMode = 1;
+
+
+    public void setClickListener(OnClickListener mClickListener) {
+        this.mClickListener = mClickListener;
+    }
+
+    private OnClickListener mClickListener = null;
+
     public interface OnMenuToggleListener {
         void onMenuToggle(boolean opened);
     }
@@ -467,6 +487,7 @@ public class FloatingActionMenu extends ViewGroup {
                     @Override
                     public void onClick(View v) {
                         toggle(mIsAnimated);
+                        fab.setOnClickListener(mClickListener);
                     }
                 });
             }
@@ -601,7 +622,7 @@ public class FloatingActionMenu extends ViewGroup {
                     close(mIsAnimated);
                     handled = true;
             }
-
+            this.setViewMode(VIEW_MODE_MENU);
             return handled;
         }
 
