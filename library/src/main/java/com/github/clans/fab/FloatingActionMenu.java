@@ -385,6 +385,8 @@ public class FloatingActionMenu extends ViewGroup {
         for (int i = mButtonsCount - 1; i >= 0; i--) {
             View child = getChildAt(i);
 
+            if(!(child instanceof FloatingActionButton)) continue;
+
             if (child == mImageToggle) continue;
 
             FloatingActionButton fab = (FloatingActionButton) child;
