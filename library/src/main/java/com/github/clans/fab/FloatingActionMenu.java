@@ -3,13 +3,16 @@ package com.github.clans.fab;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -24,6 +27,7 @@ import android.view.animation.AnticipateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +162,7 @@ public class FloatingActionMenu extends ViewGroup {
         mAnimationDelayPerItem = attr.getInt(R.styleable.FloatingActionMenu_menu_animationDelayPerItem, 50);
         mIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
         if (mIcon == null) {
-            mIcon = getResources().getDrawable(R.drawable.fab_add);
+            mIcon = ContextCompat.getDrawable(getContext(), R.drawable.fab_add);
         }
         mLabelsSingleLine = attr.getBoolean(R.styleable.FloatingActionMenu_menu_labels_singleLine, false);
         mLabelsEllipsize = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_ellipsize, 0);
@@ -473,6 +477,15 @@ public class FloatingActionMenu extends ViewGroup {
         }
     }
 
+    @SuppressWarnings("deprecation")
+    private void setTextAppearanceCompat(TextView textView, @IntegerRes int textAppearance) {
+        if(Build.VERSION.SDK_INT >= 23) {
+            textView.setTextAppearance(mLabelsStyle);
+        } else {
+            textView.setTextAppearance(getContext(), mLabelsStyle);
+        }
+    }
+
     private void addLabel(FloatingActionButton fab) {
         String text = fab.getLabelText();
 
@@ -485,7 +498,7 @@ public class FloatingActionMenu extends ViewGroup {
         label.setHideAnimation(AnimationUtils.loadAnimation(getContext(), mLabelsHideAnimation));
 
         if (mLabelsStyle > 0) {
-            label.setTextAppearance(getContext(), mLabelsStyle);
+            setTextAppearanceCompat(label, mLabelsStyle);
             label.setShowShadow(false);
             label.setUsingStyle(true);
         } else {
@@ -922,7 +935,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     public void setMenuButtonColorNormalResId(int colorResId) {
-        mMenuColorNormal = getResources().getColor(colorResId);
+        mMenuColorNormal = ContextCompat.getColor(getContext(), colorResId);
         mMenuButton.setColorNormalResId(colorResId);
     }
 
@@ -936,7 +949,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     public void setMenuButtonColorPressedResId(int colorResId) {
-        mMenuColorPressed = getResources().getColor(colorResId);
+        mMenuColorPressed = ContextCompat.getColor(getContext(), colorResId);
         mMenuButton.setColorPressedResId(colorResId);
     }
 
@@ -950,7 +963,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     public void setMenuButtonColorRippleResId(int colorResId) {
-        mMenuColorRipple = getResources().getColor(colorResId);
+        mMenuColorRipple = ContextCompat.getColor(getContext(), colorResId);
         mMenuButton.setColorRippleResId(colorResId);
     }
 
