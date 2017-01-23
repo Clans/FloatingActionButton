@@ -112,9 +112,6 @@ public class FloatingActionMenu extends ViewGroup {
     private ValueAnimator mFabIconOpenColorAnimator;
     private ValueAnimator mFabIconCloseColorAnimator;
     private int mBackgroundColor;
-    private int mMenuButtonColorNormal;
-    private int mMenuButtonColorPressed;
-    private int mMenuButtonColorRipple;
 
     private int mLabelsPosition;
     private Context mLabelsContext;
@@ -255,7 +252,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     private void initColorAnimation() {
-        mFabOpenColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), mMenuButtonColorNormal, mFabOpenedColorNormal);
+        mFabOpenColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), mMenuColorNormal, mFabOpenedColorNormal);
         mFabOpenColorAnimator.setDuration(ANIMATION_DURATION);
         mFabOpenColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -269,15 +266,15 @@ public class FloatingActionMenu extends ViewGroup {
                 super.onAnimationEnd(animation);
                 mMenuButton.setColors(
                         mFabOpenedColorNormal,
-                        mFabOpenedColorPressed == Color.TRANSPARENT ? mMenuButtonColorPressed : mFabOpenedColorPressed,
-                        mFabOpenedColorRipple == -1 ? mMenuButtonColorRipple : mFabOpenedColorRipple
+                        mFabOpenedColorPressed == Color.TRANSPARENT ? mMenuColorPressed : mFabOpenedColorPressed,
+                        mFabOpenedColorRipple == -1 ? mMenuColorRipple : mFabOpenedColorRipple
                 );
                 mMenuButton.updateBackground();
 //                mMenuButton.setColors(0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
             }
         });
 
-        mFabCloseColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), mFabOpenedColorNormal, mMenuButtonColorNormal);
+        mFabCloseColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), mFabOpenedColorNormal, mMenuColorNormal);
         mFabCloseColorAnimator.setDuration(ANIMATION_DURATION);
         mFabCloseColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -290,7 +287,7 @@ public class FloatingActionMenu extends ViewGroup {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 //                mMenuButton.setColors(0xFF00FF00, 0xFF0000FF, 0xFFFF0000);
-                mMenuButton.setColors(mMenuButtonColorNormal, mMenuButtonColorPressed, mMenuButtonColorRipple);
+                mMenuButton.setColors(mMenuColorNormal, mMenuColorPressed, mMenuColorRipple);
                 mMenuButton.updateBackground();
             }
         });
@@ -320,7 +317,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     private boolean isFabColorChangeEnabled() {
-        return mFabOpenedColorNormal != mMenuButtonColorNormal
+        return mFabOpenedColorNormal != mMenuColorNormal
                 && mFabOpenedColorNormal != Color.TRANSPARENT;
     }
 
@@ -357,10 +354,6 @@ public class FloatingActionMenu extends ViewGroup {
         addView(mImageToggle);
 
         createDefaultIconAnimation();
-
-        mMenuButtonColorNormal = mMenuButton.getColorNormal();
-        mMenuButtonColorPressed = mMenuButton.getColorPressed();
-        mMenuButtonColorRipple = mMenuButton.getColorRipple();
     }
 
     private void createDefaultIconAnimation() {
