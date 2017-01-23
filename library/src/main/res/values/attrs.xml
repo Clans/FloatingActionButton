@@ -82,6 +82,10 @@
         <attr name="menu_fab_label" format="string" />
         <attr name="menu_fab_show_animation" format="reference" />
         <attr name="menu_fab_hide_animation" format="reference" />
+        <attr name="menu_opened_fab_colorNormal" format="color" />
+        <attr name="menu_opened_fab_colorPressed" format="color" />
+        <attr name="menu_opened_fab_colorRipple" format="color" />
+        <attr name="menu_opened_fab_iconColor" format="color" />
     </declare-styleable>
 
 </resources>

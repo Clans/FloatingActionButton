@@ -221,7 +221,11 @@
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
         fab:menu_backgroundColor="#ccffffff"
-        fab:menu_fab_label="Menu label">
+        fab:menu_fab_label="Menu label"
+        fab:menu_opened_fab_colorNormal="@android:color/white"
+        fab:menu_opened_fab_colorPressed="#FEFEFE"
+        fab:menu_opened_fab_colorRipple="#22000000"
+        fab:menu_opened_fab_iconColor="#F00">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab1"
