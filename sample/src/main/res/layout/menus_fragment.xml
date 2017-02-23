@@ -89,7 +89,7 @@
         app:menu_colorNormal="#43A047"
         app:menu_colorPressed="#2E7D32"
         app:menu_colorRipple="#1B5E20"
-        app:menu_icon="@drawable/ic_star"
+        app:menu_icon="@drawable/ic_android_white_24dp"
         app:menu_labels_ellipsize="end"
         app:menu_labels_maxLines="2">
 
