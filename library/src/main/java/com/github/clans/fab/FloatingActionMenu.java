@@ -10,11 +10,11 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v7.content.res.AppCompatResources;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,8 +156,10 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_colorPressed, 0xFFE75043);
         mMenuColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_colorRipple, 0x99FFFFFF);
         mAnimationDelayPerItem = attr.getInt(R.styleable.FloatingActionMenu_menu_animationDelayPerItem, 50);
-        mIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
-        if (mIcon == null) {
+        int iconRes = attr.getResourceId(R.styleable.FloatingActionMenu_menu_icon, 0);
+        if (iconRes != 0) {
+            mIcon = AppCompatResources.getDrawable(context, iconRes);
+        } else {
             mIcon = getResources().getDrawable(R.drawable.fab_add);
         }
         mLabelsSingleLine = attr.getBoolean(R.styleable.FloatingActionMenu_menu_labels_singleLine, false);
