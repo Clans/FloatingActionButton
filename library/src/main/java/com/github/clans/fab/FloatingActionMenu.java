@@ -483,6 +483,9 @@ public class FloatingActionMenu extends ViewGroup {
         label.setFab(fab);
         label.setShowAnimation(AnimationUtils.loadAnimation(getContext(), mLabelsShowAnimation));
         label.setHideAnimation(AnimationUtils.loadAnimation(getContext(), mLabelsHideAnimation));
+        for (Integer key : fab.getUsedTags()) {
+            label.setTag(key, fab.getTag(key));
+        }
 
         if (mLabelsStyle > 0) {
             label.setTextAppearance(getContext(), mLabelsStyle);
@@ -985,7 +988,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);

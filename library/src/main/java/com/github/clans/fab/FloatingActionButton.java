@@ -36,6 +36,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FloatingActionButton extends ImageButton {
 
     public static final int SIZE_NORMAL = 0;
@@ -66,6 +69,8 @@ public class FloatingActionButton extends ImageButton {
     private Drawable mBackgroundDrawable;
     private boolean mUsingElevation;
     private boolean mUsingElevationCompat;
+
+    private List<Integer> mUsedTags;
 
     // Progress
     private boolean mProgressBarEnabled;
@@ -116,6 +121,8 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        mUsedTags = new ArrayList<>();
+
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionButton, defStyleAttr, 0);
         mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, 0xFFDA4336);
         mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, 0xFFE75043);
@@ -1316,5 +1323,24 @@ public class FloatingActionButton extends ImageButton {
 
     public void setLabelTextColor(ColorStateList colors) {
         getLabelView().setTextColor(colors);
+    }
+
+    @Override
+    public void setTag(int key, Object tag) {
+        super.setTag(key, tag);
+
+        if (key == R.id.fab_label) return;
+
+        if (!mUsedTags.contains(key)) {
+            mUsedTags.add(key);
+        }
+        Label label = getLabelView();
+        if (label != null) {
+            label.setTag(key, tag);
+        }
+    }
+
+    List<Integer> getUsedTags() {
+        return mUsedTags;
     }
 }
