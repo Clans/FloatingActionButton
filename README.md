@@ -94,7 +94,8 @@ Here are all the **FloatingActionButton**'s xml attributes with their **default 
         app:fab_progress_indeterminate="false"
         app:fab_progress_max="100"
         app:fab_progress="0"
-        app:fab_progress_showBackground="true"/>
+        app:fab_progress_showBackground="true"
+        app:fab_progress_width="6dp"/>
 ```
 All of these **FloatingActionButton**'s attributes has their corresponding getters and setters. So you can set them **programmatically**.
 

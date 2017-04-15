@@ -133,6 +133,7 @@ public class FloatingActionButton extends ImageButton {
         mProgressBackgroundColor = attr.getColor(R.styleable.FloatingActionButton_fab_progress_backgroundColor, 0x4D000000);
         mProgressMax = attr.getInt(R.styleable.FloatingActionButton_fab_progress_max, mProgressMax);
         mShowProgressBackground = attr.getBoolean(R.styleable.FloatingActionButton_fab_progress_showBackground, true);
+        mProgressWidth = attr.getDimensionPixelSize(R.styleable.FloatingActionButton_fab_progress_width, mProgressWidth);
 
         if (attr.hasValue(R.styleable.FloatingActionButton_fab_progress)) {
             mProgress = attr.getInt(R.styleable.FloatingActionButton_fab_progress, 0);
@@ -1120,6 +1121,14 @@ public class FloatingActionButton extends ImageButton {
             }
             updateBackground();
         }
+    }
+
+    public int getProgressBarWidth() {
+        return mProgressWidth;
+    }
+
+    public void setProgressBarWidth(float width) {
+        mProgressWidth = Util.dpToPx(getContext(), width);
     }
 
     /**
