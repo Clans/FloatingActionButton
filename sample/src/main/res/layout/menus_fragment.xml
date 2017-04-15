@@ -86,6 +86,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         fab:menu_icon="@drawable/ic_star"
+        fab:menu_iconAnimated="false"
         fab:menu_animationDelayPerItem="0"
         fab:menu_colorNormal="#43A047"
         fab:menu_colorPressed="#2E7D32"
