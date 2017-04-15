@@ -25,6 +25,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -798,7 +799,7 @@ public class FloatingActionButton extends ImageButton {
 
     @Override
     public void setImageResource(int resId) {
-        Drawable drawable = getResources().getDrawable(resId);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), resId);
         if (mIcon != drawable) {
             mIcon = drawable;
             updateBackground();
@@ -850,7 +851,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void setColorNormalResId(int colorResId) {
-        setColorNormal(getResources().getColor(colorResId));
+        setColorNormal(ContextCompat.getColor(getContext(), colorResId));
     }
 
     public int getColorNormal() {
@@ -865,7 +866,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void setColorPressedResId(int colorResId) {
-        setColorPressed(getResources().getColor(colorResId));
+        setColorPressed(ContextCompat.getColor(getContext(), colorResId));
     }
 
     public int getColorPressed() {
@@ -880,7 +881,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void setColorRippleResId(int colorResId) {
-        setColorRipple(getResources().getColor(colorResId));
+        setColorRipple(ContextCompat.getColor(getContext(), colorResId));
     }
 
     public int getColorRipple() {
@@ -895,7 +896,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void setColorDisabledResId(int colorResId) {
-        setColorDisabled(getResources().getColor(colorResId));
+        setColorDisabled(ContextCompat.getColor(getContext(), colorResId));
     }
 
     public int getColorDisabled() {
@@ -1010,7 +1011,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void setShadowColorResource(int colorResId) {
-        int shadowColor = getResources().getColor(colorResId);
+        int shadowColor = ContextCompat.getColor(getContext(), colorResId);
         if (mShadowColor != shadowColor) {
             mShadowColor = shadowColor;
             updateBackground();
