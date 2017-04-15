@@ -485,6 +485,24 @@ public class FloatingActionButton extends ImageButton {
         );
     }
 
+    public void setProgressColor(int color) {
+        mProgressColor = color;
+        setupProgressBarPaints();
+    }
+
+    public int getProgressColor() {
+        return mProgressColor;
+    }
+
+    public void setProgressBackgroundColor(int color) {
+        mProgressBackgroundColor = color;
+        setupProgressBarPaints();
+    }
+
+    public int getProgressBackgroundColor() {
+        return mProgressBackgroundColor;
+    }
+
     Animation getShowAnimation() {
         return mShowAnimation;
     }
