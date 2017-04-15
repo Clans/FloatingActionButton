@@ -385,6 +385,8 @@ public class FloatingActionMenu extends ViewGroup {
         for (int i = mButtonsCount - 1; i >= 0; i--) {
             View child = getChildAt(i);
 
+            if(!(child instanceof FloatingActionButton)) continue;
+
             if (child == mImageToggle) continue;
 
             FloatingActionButton fab = (FloatingActionButton) child;
@@ -959,7 +961,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     public void addMenuButton(FloatingActionButton fab) {
-        addView(fab, mButtonsCount - 2);
+        addView(fab);
         mButtonsCount++;
         addLabel(fab);
     }
