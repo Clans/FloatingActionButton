@@ -31,8 +31,8 @@ public class Label extends TextView {
     private static final Xfermode PORTER_DUFF_CLEAR = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
 
     private int mShadowRadius;
-    private int mShadowXOffset;
-    private int mShadowYOffset;
+ //   private int mShadowXOffset;
+  //  private int mShadowYOffset;
     private int mShadowColor;
     private Drawable mBackgroundDrawable;
     private boolean mShowShadow = true;
@@ -60,35 +60,35 @@ public class Label extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
+  /*  @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(calculateMeasuredWidth(), calculateMeasuredHeight());
-    }
-
+    }*/
+/*
     private int calculateMeasuredWidth() {
         if (mRawWidth == 0) {
             mRawWidth = getMeasuredWidth();
         }
         return getMeasuredWidth() + calculateShadowWidth();
-    }
+    }*/
 
-    private int calculateMeasuredHeight() {
+  /*  private int calculateMeasuredHeight() {
         if (mRawHeight == 0) {
             mRawHeight = getMeasuredHeight();
         }
         return getMeasuredHeight() + calculateShadowHeight();
-    }
+    }*/
 
-    int calculateShadowWidth() {
+ /*   int calculateShadowWidth() {
         return mShowShadow ? (mShadowRadius + Math.abs(mShadowXOffset)) : 0;
-    }
+    }*/
 
-    int calculateShadowHeight() {
+  /*  int calculateShadowHeight() {
         return mShowShadow ? (mShadowRadius + Math.abs(mShadowYOffset)) : 0;
-    }
+    }*/
 
-    void updateBackground() {
+  /*  void updateBackground() {
         LayerDrawable layerDrawable;
         if (mShowShadow) {
             layerDrawable = new LayerDrawable(new Drawable[]{
@@ -116,7 +116,7 @@ public class Label extends TextView {
 
         setBackgroundCompat(layerDrawable);
     }
-
+*/
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private Drawable createFillDrawable() {
         StateListDrawable drawable = new StateListDrawable();
@@ -163,8 +163,8 @@ public class Label extends TextView {
     private void setShadow(FloatingActionButton fab) {
         mShadowColor = fab.getShadowColor();
         mShadowRadius = fab.getShadowRadius();
-        mShadowXOffset = fab.getShadowXOffset();
-        mShadowYOffset = fab.getShadowYOffset();
+    //    mShadowXOffset = fab.getShadowXOffset();
+     //   mShadowYOffset = fab.getShadowYOffset();
         mShowShadow = fab.hasShadow();
     }
 
@@ -334,6 +334,11 @@ public class Label extends TextView {
             this.init();
         }
 
+        @Override
+        public void draw(Canvas canvas) {
+
+        }
+
         private void init() {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
             mPaint.setStyle(Paint.Style.FILL);
@@ -342,15 +347,15 @@ public class Label extends TextView {
             mErase.setXfermode(PORTER_DUFF_CLEAR);
 
             if (!isInEditMode()) {
-                mPaint.setShadowLayer(mShadowRadius, mShadowXOffset, mShadowYOffset, mShadowColor);
+           //     mPaint.setShadowLayer(mShadowRadius, mShadowXOffset, mShadowYOffset, mShadowColor);
             }
         }
 
-        @Override
+    /*    @Override
         public void draw(Canvas canvas) {
             RectF shadowRect = new RectF(
-                    mShadowRadius + Math.abs(mShadowXOffset),
-                    mShadowRadius + Math.abs(mShadowYOffset),
+                   mShadowRadius + Math.abs(mShadowXOffset),
+                  mShadowRadius + Math.abs(mShadowYOffset),
                     mRawWidth,
                     mRawHeight
             );
@@ -358,7 +363,7 @@ public class Label extends TextView {
             canvas.drawRoundRect(shadowRect, mCornerRadius, mCornerRadius, mPaint);
             canvas.drawRoundRect(shadowRect, mCornerRadius, mCornerRadius, mErase);
         }
-
+*/
         @Override
         public void setAlpha(int alpha) {
 
