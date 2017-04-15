@@ -1,12 +1,17 @@
 package com.github.clans.fab;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -14,7 +19,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +79,11 @@ public class FloatingActionMenu extends ViewGroup {
     private int mMenuColorNormal;
     private int mMenuColorPressed;
     private int mMenuColorRipple;
+    private int mFabOpenedColorNormal;
+    private int mFabOpenedColorPressed;
+    private int mFabOpenedColorRipple;
     private Drawable mIcon;
+    private int mFabOpenedIconColor;
     private int mAnimationDelayPerItem;
     private Interpolator mOpenInterpolator;
     private Interpolator mCloseInterpolator;
@@ -99,6 +107,10 @@ public class FloatingActionMenu extends ViewGroup {
 
     private ValueAnimator mShowBackgroundAnimator;
     private ValueAnimator mHideBackgroundAnimator;
+    private ValueAnimator mFabOpenColorAnimator;
+    private ValueAnimator mFabCloseColorAnimator;
+    private ValueAnimator mFabIconOpenColorAnimator;
+    private ValueAnimator mFabIconCloseColorAnimator;
     private int mBackgroundColor;
 
     private int mLabelsPosition;
@@ -160,6 +172,10 @@ public class FloatingActionMenu extends ViewGroup {
         if (mIcon == null) {
             mIcon = getResources().getDrawable(R.drawable.fab_add);
         }
+        mFabOpenedColorNormal = attr.getColor(R.styleable.FloatingActionMenu_menu_opened_fab_colorNormal, Color.TRANSPARENT);
+        mFabOpenedColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_opened_fab_colorPressed, Color.TRANSPARENT);
+        mFabOpenedColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_opened_fab_colorRipple, -1);
+        mFabOpenedIconColor = attr.getColor(R.styleable.FloatingActionMenu_menu_opened_fab_iconColor, Color.TRANSPARENT);
         mLabelsSingleLine = attr.getBoolean(R.styleable.FloatingActionMenu_menu_labels_singleLine, false);
         mLabelsEllipsize = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_ellipsize, 0);
         mLabelsMaxLines = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_maxLines, -1);
@@ -192,6 +208,7 @@ public class FloatingActionMenu extends ViewGroup {
 
         initBackgroundDimAnimation();
         createMenuButton();
+        initColorAnimation();
         initMenuButtonAnimations(attr);
 
         attr.recycle();
@@ -234,8 +251,78 @@ public class FloatingActionMenu extends ViewGroup {
         });
     }
 
+    private void initColorAnimation() {
+        mFabOpenColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), mMenuColorNormal, mFabOpenedColorNormal);
+        mFabOpenColorAnimator.setDuration(ANIMATION_DURATION);
+        mFabOpenColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mMenuButton.setColorNormal((Integer) animation.getAnimatedValue());
+            }
+        });
+        mFabOpenColorAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mMenuButton.setColors(
+                        mFabOpenedColorNormal,
+                        mFabOpenedColorPressed == Color.TRANSPARENT ? mMenuColorPressed : mFabOpenedColorPressed,
+                        mFabOpenedColorRipple == -1 ? mMenuColorRipple : mFabOpenedColorRipple
+                );
+                mMenuButton.updateBackground();
+//                mMenuButton.setColors(0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
+            }
+        });
+
+        mFabCloseColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), mFabOpenedColorNormal, mMenuColorNormal);
+        mFabCloseColorAnimator.setDuration(ANIMATION_DURATION);
+        mFabCloseColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mMenuButton.setColorNormal((Integer) animation.getAnimatedValue());
+            }
+        });
+        mFabCloseColorAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+//                mMenuButton.setColors(0xFF00FF00, 0xFF0000FF, 0xFFFF0000);
+                mMenuButton.setColors(mMenuColorNormal, mMenuColorPressed, mMenuColorRipple);
+                mMenuButton.updateBackground();
+            }
+        });
+
+        mFabIconOpenColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), Color.WHITE, mFabOpenedIconColor);
+        mFabIconOpenColorAnimator.setDuration(ANIMATION_DURATION);
+        mFabIconOpenColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+//                mImageToggle.setColorFilter((Integer) animation.getAnimatedValue());
+                mImageToggle.setColorFilter(new PorterDuffColorFilter((Integer) animation.getAnimatedValue(), PorterDuff.Mode.SRC_ATOP));
+            }
+        });
+
+        mFabIconCloseColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), mFabOpenedIconColor, Color.WHITE);
+        mFabIconCloseColorAnimator.setDuration(ANIMATION_DURATION);
+        mFabIconCloseColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mImageToggle.setColorFilter((Integer) animation.getAnimatedValue());
+            }
+        });
+    }
+
     private boolean isBackgroundEnabled() {
         return mBackgroundColor != Color.TRANSPARENT;
+    }
+
+    private boolean isFabColorChangeEnabled() {
+        return mFabOpenedColorNormal != mMenuColorNormal
+                && mFabOpenedColorNormal != Color.TRANSPARENT;
+    }
+
+    private boolean isIconOpenColorEnabled() {
+        return mFabOpenedIconColor != Color.TRANSPARENT;
     }
 
     private void initPadding(int padding) {
@@ -628,6 +715,14 @@ public class FloatingActionMenu extends ViewGroup {
                 mShowBackgroundAnimator.start();
             }
 
+            if (isFabColorChangeEnabled()) {
+                mFabOpenColorAnimator.start();
+            }
+
+            if (isIconOpenColorEnabled()) {
+                mFabIconOpenColorAnimator.start();
+            }
+
             if (mIconAnimated) {
                 if (mIconToggleSet != null) {
                     mIconToggleSet.start();
@@ -682,6 +777,14 @@ public class FloatingActionMenu extends ViewGroup {
         if (isOpened()) {
             if (isBackgroundEnabled()) {
                 mHideBackgroundAnimator.start();
+            }
+
+            if (isFabColorChangeEnabled()) {
+                mFabCloseColorAnimator.start();
+            }
+
+            if (isIconOpenColorEnabled()) {
+                mFabIconCloseColorAnimator.start();
             }
 
             if (mIconAnimated) {
@@ -985,7 +1088,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
