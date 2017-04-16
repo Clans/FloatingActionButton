@@ -1306,7 +1306,7 @@ public class FloatingActionButton extends ImageButton {
         int bottom = label.getPaddingBottom();
 
         label.setColors(colorNormal, colorPressed, colorRipple);
-        label.updateBackground();
+       // label.updateBackground();
         label.setPadding(left, top, right, bottom);
     }
 

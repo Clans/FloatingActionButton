@@ -139,7 +139,7 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsTextColor = attr.getColorStateList(R.styleable.FloatingActionMenu_menu_labels_textColor);
         // set default value if null same as for textview
         if (mLabelsTextColor == null) {
-            mLabelsTextColor = ColorStateList.valueOf(Color.WHITE);
+            mLabelsTextColor = ColorStateList.valueOf(Color.BLUE);
         }
         mLabelsTextSize = attr.getDimension(R.styleable.FloatingActionMenu_menu_labels_textSize, getResources().getDimension(R.dimen.labels_text_size));
         mLabelsCornerRadius = attr.getDimensionPixelSize(R.styleable.FloatingActionMenu_menu_labels_cornerRadius, mLabelsCornerRadius);
@@ -334,7 +334,7 @@ public class FloatingActionMenu extends ViewGroup {
             Label label = (Label) child.getTag(R.id.fab_label);
             if (label != null) {
                 int labelOffset = (mMaxButtonWidth - child.getMeasuredWidth()) / (mUsingMenuLabel ? 1 : 2);
-                int labelUsedWidth = child.getMeasuredWidth() + label.calculateShadowWidth() + mLabelsMargin + labelOffset;
+                int labelUsedWidth = child.getMeasuredWidth()+ mLabelsMargin + labelOffset;
                 measureChildWithMargins(label, widthMeasureSpec, labelUsedWidth, heightMeasureSpec, 0);
                 usedWidth += label.getMeasuredWidth();
                 maxLabelWidth = Math.max(maxLabelWidth, usedWidth + labelOffset);
@@ -496,7 +496,7 @@ public class FloatingActionMenu extends ViewGroup {
                 setLabelEllipsize(label);
             }
             label.setMaxLines(mLabelsMaxLines);
-            label.updateBackground();
+           // label.updateBackground();
 
             label.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLabelsTextSize);
             label.setTextColor(mLabelsTextColor);
