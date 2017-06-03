@@ -25,6 +25,9 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -36,6 +39,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+@CoordinatorLayout.DefaultBehavior(FloatingActionButton.Behavior.class)
 public class FloatingActionButton extends ImageButton {
 
     public static final int SIZE_NORMAL = 0;
@@ -1316,5 +1320,38 @@ public class FloatingActionButton extends ImageButton {
 
     public void setLabelTextColor(ColorStateList colors) {
         getLabelView().setTextColor(colors);
+    }
+    
+     /**
+     * Behavior designed for use with {@link FloatingActionButton} instances. Its main function
+     * is to move {@link FloatingActionButton} views so that any displayed {@link Snackbar}s do
+     * not cover them.
+     */
+    public static class Behavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
+        public Behavior(){
+        super();
+    }
+
+    public Behavior(Context context, AttributeSet attrs){
+        super(context, attrs);
+    }
+
+    @Override
+    public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
+        return dependency instanceof Snackbar.SnackbarLayout;
+    }
+
+    @Override
+    public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
+        float translationY = Math.min(0, ViewCompat.getTranslationY(dependency) - dependency.getHeight());
+        ViewCompat.setTranslationY(child, translationY);
+        return true;
+    }
+
+    @Override
+    public void onDependentViewRemoved(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
+        ViewCompat.animate(child).translationY(0).start();
+
+    }
     }
 }
