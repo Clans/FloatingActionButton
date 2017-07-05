@@ -111,9 +111,9 @@ public class MenusFragment extends Fragment {
         menus.add(menuBlue);
         menus.add(menuLabelsRight);
 
-        menuYellow.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+        menuYellow.setOnMenuToggleFinishedListener(new FloatingActionMenu.OnMenuToggleFinishedListener() {
             @Override
-            public void onMenuToggle(boolean opened) {
+            public void onMenuToggleFinished(boolean opened) {
                 String text;
                 if (opened) {
                     text = "Menu opened";

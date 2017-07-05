@@ -1,5 +1,6 @@
 package com.github.clans.fab;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -30,7 +31,11 @@ import java.util.List;
 
 public class FloatingActionMenu extends ViewGroup {
 
-    private static final int ANIMATION_DURATION = 300;
+    private String tag;
+
+    public static final int TOTAL_ANIMATION_DURATION = 300; // Netscout change: made public
+    public static final int DEFAULT_ANIMATION_DELAY_PER_ITEM = 50; // Netscout change: new field
+
     private static final float CLOSED_PLUS_ROTATION = 0f;
     private static final float OPENED_PLUS_ROTATION_LEFT = -90f - 45f;
     private static final float OPENED_PLUS_ROTATION_RIGHT = 90f + 45f;
@@ -76,7 +81,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mMenuColorPressed;
     private int mMenuColorRipple;
     private Drawable mIcon;
-    private int mAnimationDelayPerItem;
+    private int mAnimationDelayPerItem = DEFAULT_ANIMATION_DELAY_PER_ITEM; // Netscout addition: default value
     private Interpolator mOpenInterpolator;
     private Interpolator mCloseInterpolator;
     private boolean mIsAnimated = true;
@@ -95,7 +100,9 @@ public class FloatingActionMenu extends ViewGroup {
     private boolean mIsMenuButtonAnimationRunning;
     private boolean mIsSetClosedOnTouchOutside;
     private int mOpenDirection;
-    private OnMenuToggleListener mToggleListener;
+    // Netscout addition: FAM originally only supported a toggle listener which fired when finished
+    private OnMenuToggleStartedListener mToggleStartedListener;
+    private OnMenuToggleFinishedListener mToggleFinishedListener;
 
     private ValueAnimator mShowBackgroundAnimator;
     private ValueAnimator mHideBackgroundAnimator;
@@ -106,8 +113,13 @@ public class FloatingActionMenu extends ViewGroup {
     private String mMenuLabelText;
     private boolean mUsingMenuLabel;
 
-    public interface OnMenuToggleListener {
-        void onMenuToggle(boolean opened);
+    // Netscout addition: FAM originally only supported a toggle listener which fired when finished
+    public interface OnMenuToggleStartedListener {
+        void onMenuToggleStarted(boolean opened);
+    }
+
+    public interface OnMenuToggleFinishedListener {
+        void onMenuToggleFinished(boolean opened);
     }
 
     public FloatingActionMenu(Context context) {
@@ -155,7 +167,6 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuColorNormal = attr.getColor(R.styleable.FloatingActionMenu_menu_colorNormal, 0xFFDA4336);
         mMenuColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_colorPressed, 0xFFE75043);
         mMenuColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_colorRipple, 0x99FFFFFF);
-        mAnimationDelayPerItem = attr.getInt(R.styleable.FloatingActionMenu_menu_animationDelayPerItem, 50);
         mIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
         if (mIcon == null) {
             mIcon = getResources().getDrawable(R.drawable.fab_add);
@@ -214,7 +225,7 @@ public class FloatingActionMenu extends ViewGroup {
         final int blue = Color.blue(mBackgroundColor);
 
         mShowBackgroundAnimator = ValueAnimator.ofInt(0, maxAlpha);
-        mShowBackgroundAnimator.setDuration(ANIMATION_DURATION);
+        mShowBackgroundAnimator.setDuration(TOTAL_ANIMATION_DURATION);
         mShowBackgroundAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -224,7 +235,7 @@ public class FloatingActionMenu extends ViewGroup {
         });
 
         mHideBackgroundAnimator = ValueAnimator.ofInt(maxAlpha, 0);
-        mHideBackgroundAnimator.setDuration(ANIMATION_DURATION);
+        mHideBackgroundAnimator.setDuration(TOTAL_ANIMATION_DURATION);
         mHideBackgroundAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -300,8 +311,8 @@ public class FloatingActionMenu extends ViewGroup {
         mOpenAnimatorSet.setInterpolator(mOpenInterpolator);
         mCloseAnimatorSet.setInterpolator(mCloseInterpolator);
 
-        mOpenAnimatorSet.setDuration(ANIMATION_DURATION);
-        mCloseAnimatorSet.setDuration(ANIMATION_DURATION);
+        mOpenAnimatorSet.setDuration(TOTAL_ANIMATION_DURATION);
+        mCloseAnimatorSet.setDuration(TOTAL_ANIMATION_DURATION);
     }
 
     @Override
@@ -637,6 +648,11 @@ public class FloatingActionMenu extends ViewGroup {
                 }
             }
 
+            // Netscout addition:
+            if (mToggleStartedListener != null) {
+                mToggleStartedListener.onMenuToggleStarted(true);
+            }
+
             int delay = 0;
             int counter = 0;
             mIsMenuOpening = true;
@@ -670,8 +686,8 @@ public class FloatingActionMenu extends ViewGroup {
                 public void run() {
                     mMenuOpened = true;
 
-                    if (mToggleListener != null) {
-                        mToggleListener.onMenuToggle(true);
+                    if (mToggleFinishedListener != null) {
+                        mToggleFinishedListener.onMenuToggleFinished(true);
                     }
                 }
             }, ++counter * mAnimationDelayPerItem);
@@ -691,6 +707,11 @@ public class FloatingActionMenu extends ViewGroup {
                     mCloseAnimatorSet.start();
                     mOpenAnimatorSet.cancel();
                 }
+            }
+
+            // Netscout addition:
+            if (mToggleStartedListener != null) {
+                mToggleStartedListener.onMenuToggleStarted(false);
             }
 
             int delay = 0;
@@ -726,8 +747,8 @@ public class FloatingActionMenu extends ViewGroup {
                 public void run() {
                     mMenuOpened = false;
 
-                    if (mToggleListener != null) {
-                        mToggleListener.onMenuToggle(false);
+                    if (mToggleFinishedListener != null) {
+                        mToggleFinishedListener.onMenuToggleFinished(false);
                     }
                 }
             }, ++counter * mAnimationDelayPerItem);
@@ -759,24 +780,24 @@ public class FloatingActionMenu extends ViewGroup {
      */
     public void setAnimated(boolean animated) {
         mIsAnimated = animated;
-        mOpenAnimatorSet.setDuration(animated ? ANIMATION_DURATION : 0);
-        mCloseAnimatorSet.setDuration(animated ? ANIMATION_DURATION : 0);
+        mOpenAnimatorSet.setDuration(animated ? TOTAL_ANIMATION_DURATION : 0);
+        mCloseAnimatorSet.setDuration(animated ? TOTAL_ANIMATION_DURATION : 0);
     }
 
     public boolean isAnimated() {
         return mIsAnimated;
     }
 
-    public void setAnimationDelayPerItem(int animationDelayPerItem) {
-        mAnimationDelayPerItem = animationDelayPerItem;
-    }
-
     public int getAnimationDelayPerItem() {
         return mAnimationDelayPerItem;
     }
 
-    public void setOnMenuToggleListener(OnMenuToggleListener listener) {
-        mToggleListener = listener;
+    public void setOnMenuToggleStartedListener(OnMenuToggleStartedListener listener) {
+        mToggleStartedListener = listener;
+    }
+
+    public void setOnMenuToggleFinishedListener(OnMenuToggleFinishedListener listener) {
+        mToggleFinishedListener = listener;
     }
 
     public void setIconAnimated(boolean animated) {
@@ -912,6 +933,9 @@ public class FloatingActionMenu extends ViewGroup {
         }
     }
 
+    // NJA: Note on setClosedOnTouchOutside(): this caused a weird flicker in our
+    // FAM-with-overflow.  A better way to get the same effect is to make the scrim's onClick()
+    // handler (which we'll presumably keep using) close them.
     public void setClosedOnTouchOutside(boolean close) {
         mIsSetClosedOnTouchOutside = close;
     }
@@ -958,16 +982,27 @@ public class FloatingActionMenu extends ViewGroup {
         return mMenuColorRipple;
     }
 
+    // Netscout addition: enforce delay-per-item to be total delay divided by # of buttons
+    private void updateAnimationDelay() {
+        // NJA: hacking the per-item animation to delay to be a little quicker so we have a little
+        // buffer period before post-animation stuff happens (which is in onAnimationEnd() in our
+        // FAM-with-overflow) code)
+        if (mButtonsCount > 0) mAnimationDelayPerItem = (90 * TOTAL_ANIMATION_DURATION / 100)/mButtonsCount;
+        else mAnimationDelayPerItem = DEFAULT_ANIMATION_DELAY_PER_ITEM;
+    }
+
     public void addMenuButton(FloatingActionButton fab) {
         addView(fab, mButtonsCount - 2);
         mButtonsCount++;
         addLabel(fab);
+        updateAnimationDelay();
     }
 
     public void removeMenuButton(FloatingActionButton fab) {
         removeView(fab.getLabelView());
         removeView(fab);
         mButtonsCount--;
+        updateAnimationDelay();
     }
 
     public void addMenuButton(FloatingActionButton fab, int index) {
@@ -981,11 +1016,12 @@ public class FloatingActionMenu extends ViewGroup {
         addView(fab, index);
         mButtonsCount++;
         addLabel(fab);
+        updateAnimationDelay();
     }
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
@@ -1012,5 +1048,25 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void setOnMenuButtonLongClickListener(OnLongClickListener longClickListener) {
         mMenuButton.setOnLongClickListener(longClickListener);
+    }
+
+    // Netscout addition
+    public void setCloseAnimationListener(Animator.AnimatorListener listener) {
+        mCloseAnimatorSet.addListener(listener);
+    }
+
+    // Netscout addition
+    public void setOpenAnimationListener(Animator.AnimatorListener listener) {
+        mOpenAnimatorSet.addListener(listener);
+    }
+
+    // Netscout addition
+    public String getTag() {
+        return tag;
+    }
+
+    // Netscout addition
+    public void setTag(String tag1) {
+        this.tag = tag;
     }
 }
