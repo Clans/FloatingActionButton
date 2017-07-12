@@ -80,7 +80,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mMenuColorNormal;
     private int mMenuColorPressed;
     private int mMenuColorRipple;
-    private Drawable mIcon;
+    private Drawable mIcon; // Netscout change: can now be set at runtime
     private int mAnimationDelayPerItem = DEFAULT_ANIMATION_DELAY_PER_ITEM; // Netscout addition: default value
     private Interpolator mOpenInterpolator;
     private Interpolator mCloseInterpolator;
@@ -1068,5 +1068,16 @@ public class FloatingActionMenu extends ViewGroup {
     // Netscout addition
     public void setTag(String tag1) {
         this.tag = tag;
+    }
+
+    // Netscout addition
+    public Drawable getIcon() {
+        return mIcon;
+    }
+
+    // Netscout addition
+    public void setIcon(Drawable icon) {
+        mIcon = icon;
+        mImageToggle.setImageDrawable(mIcon);
     }
 }
