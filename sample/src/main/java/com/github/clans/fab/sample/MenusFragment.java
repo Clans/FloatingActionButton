@@ -157,7 +157,7 @@ public class MenusFragment extends Fragment {
             }
         });
 
-        createCustomAnimation();
+        // createCustomAnimation();
     }
 
     private void createCustomAnimation() {
