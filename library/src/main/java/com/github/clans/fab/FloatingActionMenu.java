@@ -294,6 +294,9 @@ public class FloatingActionMenu extends ViewGroup {
         createDefaultIconAnimation();
     }
 
+    // Keep the rotation animation, but add to it a transparency transition where the open button
+    // fades to transparent and the close button fades to opaque when it opens (and the reverse when
+    // it closes).
     private void createDefaultIconAnimation() {
         float collapseAngle;
         float expandAngle;
@@ -379,8 +382,7 @@ public class FloatingActionMenu extends ViewGroup {
         int maxLabelWidth = 0;
 
         measureChildWithMargins(mImageOpenButton, widthMeasureSpec, 0, heightMeasureSpec, 0);
-        mImageCloseButton.setLayoutParams(mImageOpenButton.getLayoutParams());
-        // measureChildWithMargins(mImageCloseButton, widthMeasureSpec, 0, heightMeasureSpec, 0);// crashes because leftMargin in layout params is null.... why?
+        measureChildWithMargins(mImageCloseButton, widthMeasureSpec, 0, heightMeasureSpec, 0);
 
         for (int i = 0; i < mButtonsCount; i++) {
             View child = getChildAt(i);

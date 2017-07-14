@@ -157,7 +157,8 @@ public class MenusFragment extends Fragment {
             }
         });
 
-        // createCustomAnimation();
+        // createCustomAnimation(); // Netscout change: disable this so we can tested with the
+                                    // green menu.
     }
 
     private void createCustomAnimation() {
