@@ -523,7 +523,7 @@ public class FloatingActionMenu extends ViewGroup {
         bringChildToFront(mMenuButton);
         bringChildToFront(mImageOpenButton);
         bringChildToFront(mImageCloseButton);
-        mButtonsCount = getChildCount();
+        mButtonsCount = getChildCount() - 1; // Netscout change: adjusted for extra (i.e. close) button!
         createLabels();
     }
 

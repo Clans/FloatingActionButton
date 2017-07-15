@@ -155,6 +155,22 @@
 
     </com.github.clans.fab.FloatingActionMenu>
 
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_primary_menu"
+        style="@style/FloatingActionMenuStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="290dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentRight="true"
+        >
+
+        <!-- We will add buttons to this FAB menu programmatically.  IDs for the buttons are created
+        in ids.xml.
+        -->
+    </com.github.clans.fab.FloatingActionMenu>
+
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab_edit"
         android:layout_width="wrap_content"

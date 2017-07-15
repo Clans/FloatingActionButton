@@ -49,4 +49,23 @@
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
 
+    <style name="FloatingActionMenuStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+        <item name="android:layout_gravity">bottom|right</item>
+        <item name="menu_colorNormal">#994878</item>
+        <item name="menu_colorPressed">#994878</item>
+    </style>
+
+    <style name="FabMiniButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fab_size">mini</item>
+        <item name="fab_colorNormal">#994878</item>
+        <item name="fab_colorPressed">#994878</item>
+    </style>
+
+
 </resources>
