@@ -1161,4 +1161,8 @@ public class FloatingActionMenu extends ViewGroup {
         mCloseIcon = icon;
         mImageCloseButton.setImageDrawable(mCloseIcon);
     }
+
+    public ImageView getOpenButton() {
+        return mImageOpenButton;
+    }
 }
