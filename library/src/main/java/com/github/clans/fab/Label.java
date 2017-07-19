@@ -301,6 +301,9 @@ public class Label extends TextView {
         }
 
         mGestureDetector.onTouchEvent(event);
+
+        mFab.getOnClickListener().onClick(this);
+
         return super.onTouchEvent(event);
     }
 
