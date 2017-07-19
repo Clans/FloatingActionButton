@@ -49,7 +49,8 @@
             <enum name="left" value="0" />
             <enum name="right" value="1" />
         </attr>
-        <attr name="menu_icon" format="reference" />
+        <attr name="menu_open_icon" format="reference" />
+        <attr name="menu_close_icon" format="reference" />
         <attr name="menu_animationDelayPerItem" format="integer" />
         <attr name="menu_buttonToggleAnimation" format="reference" />
         <attr name="menu_labels_singleLine" format="boolean" />

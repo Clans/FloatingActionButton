@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="fab_label" type="id"/>
+
+    <item name="fabMenuItem_test_menu_more" type="id"/>
+
+    <item name="fabMenuItem_test_common_addToAutoTest" type="id"/>
+    <item name="fabMenuItem_test_common_browse" type="id"/>
 </resources>
