@@ -8,4 +8,6 @@
     <color name="white_transparent">#99FFFFFF</color>
     <color name="black">#000</color>
 
+    <color name="fab_color">#994878</color>
+
 </resources>

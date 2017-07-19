@@ -24,12 +24,36 @@ import com.github.fab.sample.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class MenusFragment extends Fragment {
+
+    public class FabMenuItem {
+        public int textId = -1;
+        public int iconId = -1;
+        @SuppressWarnings("WeakerAccess") public int itemId = -1;
+
+        @SuppressWarnings("WeakerAccess") public FabMenuItem(int itemId, int textId, int iconId) {
+            this.itemId = itemId;
+            this.textId = textId;
+            this.iconId = iconId;
+        }
+    };
+
+    public FabMenuItem FAB_MENU_ITEM_ADD_TO_AUTOTEST = new FabMenuItem(R.id.fabMenuItem_test_common_addToAutoTest,
+            R.string.common_test_Add_to_AutoTest, R.drawable.ic_common_settings_white_36dp);
+
+    public FabMenuItem FAB_MENU_ITEM_BROWSE = new FabMenuItem(R.id.fabMenuItem_test_common_browse,
+            R.string.common_test_Browse, R.drawable.ic_common_settings_white_36dp);
+
+    public FabMenuItem FAB_MENU_ITEM_MORE = new FabMenuItem(R.id.fabMenuItem_test_menu_more,
+            R.string.common_test_More, R.drawable.ic_common_more_horiz_white_36dp);
 
     private FloatingActionMenu menuRed;
     private FloatingActionMenu menuYellow;
     private FloatingActionMenu menuGreen;
     private FloatingActionMenu menuBlue;
+    private FloatingActionMenu menuFabPrimaryMenu;
     private FloatingActionMenu menuDown;
     private FloatingActionMenu menuLabelsRight;
 
@@ -48,6 +72,12 @@ public class MenusFragment extends Fragment {
         return inflater.inflate(R.layout.menus_fragment, container, false);
     }
 
+    private void styleFab(FloatingActionButton fab) {
+        fab.setColorNormal(getContext().getColor(R.color.fab_color));
+        fab.setColorPressed(getContext().getColor(R.color.fab_color));
+        fab.setButtonSize(FloatingActionButton.SIZE_MINI);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -56,6 +86,7 @@ public class MenusFragment extends Fragment {
         menuYellow = (FloatingActionMenu) view.findViewById(R.id.menu_yellow);
         menuGreen = (FloatingActionMenu) view.findViewById(R.id.menu_green);
         menuBlue = (FloatingActionMenu) view.findViewById(R.id.menu_blue);
+        menuFabPrimaryMenu = (FloatingActionMenu) view.findViewById(R.id.fab_primary_menu);
         menuDown = (FloatingActionMenu) view.findViewById(R.id.menu_down);
         menuLabelsRight = (FloatingActionMenu) view.findViewById(R.id.menu_labels_right);
 
@@ -93,6 +124,29 @@ public class MenusFragment extends Fragment {
         menuYellow.hideMenuButton(false);
         menuGreen.hideMenuButton(false);
         menuBlue.hideMenuButton(false);
+
+        // Initialize stand-in Andromeda FAM:
+        List<FabMenuItem> primaryFabContents = new ArrayList<>();
+        primaryFabContents.add(FAB_MENU_ITEM_ADD_TO_AUTOTEST);
+        primaryFabContents.add(FAB_MENU_ITEM_BROWSE);
+        primaryFabContents.add(FAB_MENU_ITEM_MORE);
+
+        for (FabMenuItem fabMenuItem : primaryFabContents) {
+            FloatingActionButton fab = new FloatingActionButton(getContext());
+            fab.setImageDrawable(getContext().getDrawable(fabMenuItem.iconId));
+            fab.setLabelText(getContext().getString(fabMenuItem.textId));
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+
+            fab.setLayoutParams(lp);
+            fab.setId(fabMenuItem.itemId);
+            styleFab(fab);
+            menuFabPrimaryMenu.addMenuButton(fab);
+        }
+
+        menuFabPrimaryMenu.setOpenIcon(getContext().getDrawable(R.drawable.ic_star));
+
+        menuFabPrimaryMenu.setVisibility(View.VISIBLE);
+
         menuLabelsRight.hideMenuButton(false);
 
         fabEdit = (FloatingActionButton) view.findViewById(R.id.fab_edit);
@@ -109,11 +163,12 @@ public class MenusFragment extends Fragment {
         menus.add(menuYellow);
         menus.add(menuGreen);
         menus.add(menuBlue);
+        menus.add(menuFabPrimaryMenu);
         menus.add(menuLabelsRight);
 
-        menuYellow.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+        menuYellow.setOnMenuToggleFinishedListener(new FloatingActionMenu.OnMenuToggleFinishedListener() {
             @Override
-            public void onMenuToggle(boolean opened) {
+            public void onMenuToggleFinished(boolean opened) {
                 String text;
                 if (opened) {
                     text = "Menu opened";
@@ -157,7 +212,8 @@ public class MenusFragment extends Fragment {
             }
         });
 
-        createCustomAnimation();
+        // createCustomAnimation(); // Netscout change: disable this so we can test with the
+                                    // green menu.
     }
 
     private void createCustomAnimation() {

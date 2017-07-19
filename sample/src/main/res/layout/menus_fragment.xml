@@ -85,7 +85,8 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        fab:menu_icon="@drawable/ic_star"
+        fab:menu_open_icon="@drawable/ic_star"
+        fab:menu_close_icon="@drawable/ic_close"
         fab:menu_animationDelayPerItem="0"
         fab:menu_colorNormal="#43A047"
         fab:menu_colorPressed="#2E7D32"
@@ -152,6 +153,22 @@
             android:src="@drawable/ic_star"
             style="@style/MenuButtonsSmall" />
 
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_primary_menu"
+        style="@style/FloatingActionMenuStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="290dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentRight="true"
+        >
+
+        <!-- We will add buttons to this FAB menu programmatically.  IDs for the buttons are created
+        in ids.xml.
+        -->
     </com.github.clans.fab.FloatingActionMenu>
 
     <com.github.clans.fab.FloatingActionButton
