@@ -42,6 +42,8 @@ public class MenusFragment extends Fragment {
     private List<FloatingActionMenu> menus = new ArrayList<>();
     private Handler mUiHandler = new Handler();
 
+    private boolean mShowLongText = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class MenusFragment extends Fragment {
 
         final FloatingActionButton programFab1 = new FloatingActionButton(getActivity());
         programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
-        programFab1.setLabelText(getString(R.string.lorem_ipsum));
+        programFab1.setLabelText(getString(mShowLongText ? R.string.lorem_ipsum : R.string.app_name));
         programFab1.setImageResource(R.drawable.ic_edit);
         menuRed.addMenuButton(programFab1);
         programFab1.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +77,8 @@ public class MenusFragment extends Fragment {
                         ContextCompat.getColor(getActivity(), R.color.light_grey),
                         ContextCompat.getColor(getActivity(), R.color.white_transparent));
                 programFab1.setLabelTextColor(ContextCompat.getColor(getActivity(), R.color.black));
+                programFab1.setLabelText(getString(mShowLongText ? R.string.app_name : R.string.lorem_ipsum));
+                mShowLongText = !mShowLongText;
             }
         });
 
