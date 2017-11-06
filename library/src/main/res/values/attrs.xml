@@ -66,7 +66,7 @@
             <enum name="mini" value="1" />
         </attr>
         <attr name="menu_labels_style" format="reference" />
-        <attr name="menu_labels_customFont" format="string" />
+        <attr name="menu_labels_customFont" format="reference" />
         <attr name="menu_shadowColor" format="color" />
         <attr name="menu_shadowRadius" format="dimension" />
         <attr name="menu_shadowXOffset" format="dimension" />

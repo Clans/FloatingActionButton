@@ -220,6 +220,7 @@
         android:paddingLeft="10dp"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
+        fab:menu_labels_customFont="@font/montserrat_bold"
         fab:menu_backgroundColor="#ccffffff"
         fab:menu_fab_label="Menu label">
 

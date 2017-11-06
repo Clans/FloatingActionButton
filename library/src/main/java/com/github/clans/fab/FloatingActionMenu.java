@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -165,10 +166,10 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsMaxLines = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_maxLines, -1);
         mMenuFabSize = attr.getInt(R.styleable.FloatingActionMenu_menu_fab_size, FloatingActionButton.SIZE_NORMAL);
         mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_style, 0);
-        String customFont = attr.getString(R.styleable.FloatingActionMenu_menu_labels_customFont);
+        int customFont = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_customFont, 0);
         try {
-            if (!TextUtils.isEmpty(customFont)) {
-                mCustomTypefaceFromFont = Typeface.createFromAsset(getContext().getAssets(), customFont);
+            if (customFont > 0) {
+                mCustomTypefaceFromFont = ResourcesCompat.getFont(getContext(), customFont);
             }
         } catch (RuntimeException ex) {
             throw new IllegalArgumentException("Unable to load specified custom font: " + customFont, ex);
