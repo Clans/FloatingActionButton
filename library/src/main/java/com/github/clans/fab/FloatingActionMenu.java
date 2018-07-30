@@ -660,8 +660,9 @@ public class FloatingActionMenu extends ViewGroup {
         if (isOpened()) {
             if (mOpenedClickListener != null) {
                 mOpenedClickListener.onClick(mMenuButton);
+            } else {
+                close(animate);
             }
-            close(animate);
         } else {
             open(animate);
         }
