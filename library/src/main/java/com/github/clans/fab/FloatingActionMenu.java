@@ -98,6 +98,7 @@ public class FloatingActionMenu extends ViewGroup {
     private boolean mIsSetClosedOnTouchOutside;
     private int mOpenDirection;
     private OnMenuToggleListener mToggleListener;
+    private OnClickListener mOpenedClickListener;
 
     private ValueAnimator mShowBackgroundAnimator;
     private ValueAnimator mHideBackgroundAnimator;
@@ -657,6 +658,9 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void toggle(boolean animate) {
         if (isOpened()) {
+            if (mOpenedClickListener != null) {
+                mOpenedClickListener.onClick(mMenuButton);
+            }
             close(animate);
         } else {
             open(animate);
@@ -1053,5 +1057,10 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void setOnMenuButtonLongClickListener(OnLongClickListener longClickListener) {
         mMenuButton.setOnLongClickListener(longClickListener);
+    }
+
+
+    public void setOnMenuButtonOpenedClickListener(OnClickListener clickListener) {
+        mOpenedClickListener = clickListener;
     }
 }
