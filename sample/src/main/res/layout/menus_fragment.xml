@@ -117,6 +117,8 @@
     </com.github.clans.fab.FloatingActionMenu>
 
     <com.github.clans.fab.FloatingActionMenu
+        fab:menu_icon="@drawable/ic_add_black_24dp"
+        fab:menu_icon_opened="@drawable/ic_message_black_24dp"
         android:id="@+id/menu_blue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -126,7 +128,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        fab:menu_fab_size="mini"
+        fab:menu_fab_size="normal"
         fab:menu_colorNormal="#1565C0"
         fab:menu_colorPressed="#2272CD"
         fab:menu_colorRipple="#62B2FF">
