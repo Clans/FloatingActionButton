@@ -1,5 +1,7 @@
 package com.github.clans.fab;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -14,7 +16,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mMenuColorPressed;
     private int mMenuColorRipple;
     private Drawable mIcon;
+    private Drawable mIconOpened;
     private int mAnimationDelayPerItem;
     private Interpolator mOpenInterpolator;
     private Interpolator mCloseInterpolator;
@@ -157,6 +159,7 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_colorRipple, 0x99FFFFFF);
         mAnimationDelayPerItem = attr.getInt(R.styleable.FloatingActionMenu_menu_animationDelayPerItem, 50);
         mIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
+        mIconOpened = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon_opened);
         if (mIcon == null) {
             mIcon = getResources().getDrawable(R.drawable.fab_add);
         }
@@ -193,6 +196,11 @@ public class FloatingActionMenu extends ViewGroup {
         initBackgroundDimAnimation();
         createMenuButton();
         initMenuButtonAnimations(attr);
+
+
+        if (mIconOpened != null) {
+            setIconToggleAnimatorSet(createDefaultIconChangingAnimatorSet(mIcon, mIconOpened));
+        }
 
         attr.recycle();
     }
@@ -545,6 +553,39 @@ public class FloatingActionMenu extends ViewGroup {
                 label.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                 break;
         }
+    }
+
+
+    protected AnimatorSet createDefaultIconChangingAnimatorSet(final Drawable closedIcon, final Drawable openedIcon) {
+
+        AnimatorSet set = new AnimatorSet();
+
+        ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(getMenuIconView(), "scaleX", 1.0f, 0.2f);
+        ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(getMenuIconView(), "scaleY", 1.0f, 0.2f);
+
+        ObjectAnimator scaleInX = ObjectAnimator.ofFloat(getMenuIconView(), "scaleX", 0.2f, 1.0f);
+        ObjectAnimator scaleInY = ObjectAnimator.ofFloat(getMenuIconView(), "scaleY", 0.2f, 1.0f);
+
+        scaleOutX.setDuration(50);
+        scaleOutY.setDuration(50);
+
+        scaleInX.setDuration(150);
+        scaleInY.setDuration(150);
+
+        scaleInX.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                getMenuIconView().setImageDrawable(isOpened()
+                        ? closedIcon : openedIcon);
+            }
+        });
+
+        set.play(scaleOutX).with(scaleOutY);
+        set.play(scaleInX).with(scaleInY).after(scaleOutX);
+        set.setInterpolator(new OvershootInterpolator(2));
+
+        return set;
+
     }
 
     @Override
@@ -985,7 +1026,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
