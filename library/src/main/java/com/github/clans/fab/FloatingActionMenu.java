@@ -495,8 +495,9 @@ public class FloatingActionMenu extends ViewGroup {
 
         if (mLabelsStyle > 0) {
             label.setTextAppearance(getContext(), mLabelsStyle);
-            label.setShowShadow(false);
             label.setUsingStyle(true);
+            label.setShowShadow(mLabelsShowShadow);
+            label.setCornerRadius(mLabelsCornerRadius);
         } else {
             label.setColors(mLabelsColorNormal, mLabelsColorPressed, mLabelsColorRipple);
             label.setShowShadow(mLabelsShowShadow);
