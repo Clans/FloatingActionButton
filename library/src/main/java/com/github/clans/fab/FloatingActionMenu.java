@@ -104,6 +104,8 @@ public class FloatingActionMenu extends ViewGroup {
     private ValueAnimator mShowBackgroundAnimator;
     private ValueAnimator mHideBackgroundAnimator;
     private int mBackgroundColor;
+    private View mOverlayLayout;
+    private int overlayLayoutId;
 
     private int mLabelsPosition;
     private Context mLabelsContext;
@@ -184,6 +186,8 @@ public class FloatingActionMenu extends ViewGroup {
         }
         mOpenDirection = attr.getInt(R.styleable.FloatingActionMenu_menu_openDirection, OPEN_UP);
         mBackgroundColor = attr.getColor(R.styleable.FloatingActionMenu_menu_backgroundColor, Color.TRANSPARENT);
+        overlayLayoutId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_overlay_layout, -1);
+
 
         if (attr.hasValue(R.styleable.FloatingActionMenu_menu_fab_label)) {
             mUsingMenuLabel = true;
@@ -211,6 +215,13 @@ public class FloatingActionMenu extends ViewGroup {
         attr.recycle();
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (overlayLayoutId != -1)
+            mOverlayLayout = getRootView().findViewById(overlayLayoutId);
+    }
+
     private void initMenuButtonAnimations(TypedArray attr) {
         int showResId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_fab_show_animation, R.anim.fab_scale_up);
         setMenuButtonShowAnimation(AnimationUtils.loadAnimation(getContext(), showResId));
@@ -233,7 +244,13 @@ public class FloatingActionMenu extends ViewGroup {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer alpha = (Integer) animation.getAnimatedValue();
-                setBackgroundColor(Color.argb(alpha, red, green, blue));
+
+                if (mOverlayLayout != null) {
+                    mOverlayLayout.setBackgroundColor(Color.argb(alpha, red, green, blue));
+                } else {
+                    setBackgroundColor(Color.argb(alpha, red, green, blue));
+                }
+
             }
         });
 
@@ -243,13 +260,19 @@ public class FloatingActionMenu extends ViewGroup {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer alpha = (Integer) animation.getAnimatedValue();
-                setBackgroundColor(Color.argb(alpha, red, green, blue));
+
+                if (mOverlayLayout != null) {
+                    mOverlayLayout.setBackgroundColor(Color.argb(alpha, red, green, blue));
+                } else {
+                    setBackgroundColor(Color.argb(alpha, red, green, blue));
+                }
+
             }
         });
     }
 
     private boolean isBackgroundEnabled() {
-        return mBackgroundColor != Color.TRANSPARENT;
+        return mBackgroundColor != Color.TRANSPARENT || mOverlayLayout != null;
     }
 
     private void initPadding(int padding) {
