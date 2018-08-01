@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v7.content.res.AppCompatResources;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -159,8 +160,12 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_colorPressed, 0xFFE75043);
         mMenuColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_colorRipple, 0x99FFFFFF);
         mAnimationDelayPerItem = attr.getInt(R.styleable.FloatingActionMenu_menu_animationDelayPerItem, 50);
-        mIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
-        mIconOpened = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon_opened);
+        int iconId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_icon, -1);
+        if (iconId > 0)
+            mIcon = AppCompatResources.getDrawable(getContext(), iconId);
+        int iconOpened = attr.getResourceId(R.styleable.FloatingActionMenu_menu_icon_opened, -1);
+        if (iconOpened > 0)
+            mIconOpened = AppCompatResources.getDrawable(getContext(), iconOpened);
         if (mIcon == null) {
             mIcon = getResources().getDrawable(R.drawable.fab_add);
         }
@@ -495,9 +500,8 @@ public class FloatingActionMenu extends ViewGroup {
 
         if (mLabelsStyle > 0) {
             label.setTextAppearance(getContext(), mLabelsStyle);
+            label.setShowShadow(false);
             label.setUsingStyle(true);
-            label.setShowShadow(mLabelsShowShadow);
-            label.setCornerRadius(mLabelsCornerRadius);
         } else {
             label.setColors(mLabelsColorNormal, mLabelsColorPressed, mLabelsColorRipple);
             label.setShowShadow(mLabelsShowShadow);
