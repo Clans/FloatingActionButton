@@ -178,7 +178,7 @@ public class MenusFragment extends Fragment {
         scaleInX.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
-                menuGreen.getMenuIconView().setImageResource(menuGreen.isOpened()
+                menuGreen.setMenuIconResource(menuGreen.isOpened()
                         ? R.drawable.ic_close : R.drawable.ic_star);
             }
         });

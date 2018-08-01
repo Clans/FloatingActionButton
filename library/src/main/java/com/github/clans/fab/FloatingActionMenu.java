@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -14,7 +15,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -791,6 +791,18 @@ public class FloatingActionMenu extends ViewGroup {
         return mImageToggle;
     }
 
+    public void setMenuIconDrawable(Drawable drawable) {
+        mImageToggle.setImageDrawable(drawable);
+    }
+
+    public void setMenuIconBitmap(Bitmap bitmap) {
+        mImageToggle.setImageBitmap(bitmap);
+    }
+
+    public void setMenuIconResource(int imageResourceId) {
+        mImageToggle.setImageResource(imageResourceId);
+    }
+
     public void setIconToggleAnimatorSet(AnimatorSet toggleAnimatorSet) {
         mIconToggleSet = toggleAnimatorSet;
     }
@@ -985,7 +997,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
