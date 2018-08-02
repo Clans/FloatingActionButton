@@ -112,6 +112,8 @@ public class FloatingActionMenu extends ViewGroup {
     private String mMenuLabelText;
     private boolean mUsingMenuLabel;
 
+    private boolean mAlwaysExpanded;
+
     public interface OnMenuToggleListener {
         void onMenuToggle(boolean opened);
     }
@@ -153,6 +155,7 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsColorNormal = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorNormal, 0xFF333333);
         mLabelsColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorPressed, 0xFF444444);
         mLabelsColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorRipple, 0x66FFFFFF);
+        mAlwaysExpanded = attr.getBoolean(R.styleable.FloatingActionMenu_menu_expanded, false);
         mMenuShowShadow = attr.getBoolean(R.styleable.FloatingActionMenu_menu_showShadow, true);
         mMenuShadowColor = attr.getColor(R.styleable.FloatingActionMenu_menu_shadowColor, 0x66000000);
         mMenuShadowRadius = attr.getDimension(R.styleable.FloatingActionMenu_menu_shadowRadius, mMenuShadowRadius);
@@ -212,7 +215,19 @@ public class FloatingActionMenu extends ViewGroup {
             setIconToggleAnimatorSet(createDefaultIconChangingAnimatorSet(mIcon, mIconOpened));
         }
 
+        setAlwaysOpened(mAlwaysExpanded);
+
         attr.recycle();
+    }
+
+    private void setAlwaysOpened(boolean isAlwaysExpanded) {
+        this.mAlwaysExpanded = isAlwaysExpanded;
+        if (isAlwaysExpanded) {
+            setClosedOnTouchOutside(false);
+            setIconAnimated(false);
+            open(true);
+        }
+
     }
 
     @Override
@@ -272,7 +287,7 @@ public class FloatingActionMenu extends ViewGroup {
     }
 
     private boolean isBackgroundEnabled() {
-        return mBackgroundColor != Color.TRANSPARENT || mOverlayLayout != null;
+        return (mBackgroundColor != Color.TRANSPARENT || mOverlayLayout != null) && !mAlwaysExpanded;
     }
 
     private void initPadding(int padding) {

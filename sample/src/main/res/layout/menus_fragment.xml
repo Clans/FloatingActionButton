@@ -226,6 +226,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         fab:menu_backgroundColor="#cc000000"
+        fab:menu_expanded="true"
         fab:menu_fab_label="Menu label"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"

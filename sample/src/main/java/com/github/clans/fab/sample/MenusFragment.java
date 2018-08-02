@@ -89,7 +89,7 @@ public class MenusFragment extends Fragment {
         menuRed.setClosedOnTouchOutside(true);
 
         menuDown.hideMenuButton(false);
-        menuRed.hideMenuButton(false);
+        //menuRed.hideMenuButton(false);
         menuYellow.hideMenuButton(false);
         menuGreen.hideMenuButton(false);
         menuBlue.hideMenuButton(false);
@@ -105,7 +105,7 @@ public class MenusFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         menus.add(menuDown);
-        menus.add(menuRed);
+        //menus.add(menuRed);
         menus.add(menuYellow);
         menus.add(menuGreen);
         menus.add(menuBlue);
