@@ -25,6 +25,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -33,10 +34,9 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class FloatingActionButton extends ImageButton {
+public class FloatingActionButton extends AppCompatImageButton {
 
     public static final int SIZE_NORMAL = 0;
     public static final int SIZE_MINI = 1;
@@ -95,6 +95,7 @@ public class FloatingActionButton extends ImageButton {
     private boolean mShouldSetProgress;
     private int mProgressMax = 100;
     private boolean mShowProgressBackground;
+    private float mSizeRatio = 1;
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -106,12 +107,6 @@ public class FloatingActionButton extends ImageButton {
 
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr);
     }
 
@@ -163,6 +158,11 @@ public class FloatingActionButton extends ImageButton {
 
 //        updateBackground();
         setClickable(true);
+    }
+
+    public void setSizeRatio(float ratio) {
+        this.mSizeRatio = ratio;
+        updateBackground();
     }
 
     private void initShowAnimation(TypedArray attr) {
@@ -356,11 +356,14 @@ public class FloatingActionButton extends ImageButton {
             });
         }
 
-        int iconSize = -1;
+        int iconWidth = -1;
+        int iconHeight = -1;
         if (getIconDrawable() != null) {
-            iconSize = Math.max(getIconDrawable().getIntrinsicWidth(), getIconDrawable().getIntrinsicHeight());
+            iconWidth = getIconDrawable().getIntrinsicWidth();
+            iconHeight = getIconDrawable().getIntrinsicHeight();
         }
-        int iconOffset = (getCircleSize() - (iconSize > 0 ? iconSize : mIconSize)) / 2;
+        int iconOffsetHorizontal = (int) ((getCircleSize() - iconWidth * mSizeRatio) / 2);
+        int iconOffsetVertical = (int) ((getCircleSize() - iconHeight * mSizeRatio) / 2);
         int circleInsetHorizontal = hasShadow() ? mShadowRadius + Math.abs(mShadowXOffset) : 0;
         int circleInsetVertical = hasShadow() ? mShadowRadius + Math.abs(mShadowYOffset) : 0;
 
@@ -378,10 +381,10 @@ public class FloatingActionButton extends ImageButton {
         );*/
         layerDrawable.setLayerInset(
                 hasShadow() ? 2 : 1,
-                circleInsetHorizontal + iconOffset,
-                circleInsetVertical + iconOffset,
-                circleInsetHorizontal + iconOffset,
-                circleInsetVertical + iconOffset
+                circleInsetHorizontal + iconOffsetHorizontal,
+                circleInsetVertical + iconOffsetVertical,
+                circleInsetHorizontal + iconOffsetHorizontal,
+                circleInsetVertical + iconOffsetVertical
         );
 
         setBackgroundCompat(layerDrawable);
@@ -1124,7 +1127,7 @@ public class FloatingActionButton extends ImageButton {
 
     /**
      * Sets the shadow color and radius to mimic the native elevation.
-     *
+     * <p>
      * <p><b>API 21+</b>: Sets the native elevation of this view, in pixels. Updates margins to
      * make the view hold its position in layout across different platform versions.</p>
      */
