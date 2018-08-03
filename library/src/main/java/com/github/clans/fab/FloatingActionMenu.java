@@ -220,7 +220,7 @@ public class FloatingActionMenu extends ViewGroup {
         attr.recycle();
     }
 
-    private void setAlwaysOpened(boolean isAlwaysExpanded) {
+    public void setAlwaysOpened(boolean isAlwaysExpanded) {
         this.mAlwaysExpanded = isAlwaysExpanded;
         if (isAlwaysExpanded) {
             setClosedOnTouchOutside(false);
