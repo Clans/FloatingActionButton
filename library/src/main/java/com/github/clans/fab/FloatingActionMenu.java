@@ -1,5 +1,7 @@
 package com.github.clans.fab;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -10,11 +12,11 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v7.content.res.AppCompatResources;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +78,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mMenuColorPressed;
     private int mMenuColorRipple;
     private Drawable mIcon;
+    private Drawable mIconOpened;
     private int mAnimationDelayPerItem;
     private Interpolator mOpenInterpolator;
     private Interpolator mCloseInterpolator;
@@ -96,15 +99,20 @@ public class FloatingActionMenu extends ViewGroup {
     private boolean mIsSetClosedOnTouchOutside;
     private int mOpenDirection;
     private OnMenuToggleListener mToggleListener;
+    private OnClickListener mOpenedClickListener;
 
     private ValueAnimator mShowBackgroundAnimator;
     private ValueAnimator mHideBackgroundAnimator;
     private int mBackgroundColor;
+    private View mOverlayLayout;
+    private int overlayLayoutId;
 
     private int mLabelsPosition;
     private Context mLabelsContext;
     private String mMenuLabelText;
     private boolean mUsingMenuLabel;
+
+    private boolean mAlwaysExpanded;
 
     public interface OnMenuToggleListener {
         void onMenuToggle(boolean opened);
@@ -147,6 +155,7 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsColorNormal = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorNormal, 0xFF333333);
         mLabelsColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorPressed, 0xFF444444);
         mLabelsColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_labels_colorRipple, 0x66FFFFFF);
+        mAlwaysExpanded = attr.getBoolean(R.styleable.FloatingActionMenu_menu_expanded, false);
         mMenuShowShadow = attr.getBoolean(R.styleable.FloatingActionMenu_menu_showShadow, true);
         mMenuShadowColor = attr.getColor(R.styleable.FloatingActionMenu_menu_shadowColor, 0x66000000);
         mMenuShadowRadius = attr.getDimension(R.styleable.FloatingActionMenu_menu_shadowRadius, mMenuShadowRadius);
@@ -156,7 +165,12 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuColorPressed = attr.getColor(R.styleable.FloatingActionMenu_menu_colorPressed, 0xFFE75043);
         mMenuColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_colorRipple, 0x99FFFFFF);
         mAnimationDelayPerItem = attr.getInt(R.styleable.FloatingActionMenu_menu_animationDelayPerItem, 50);
-        mIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
+        int iconId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_icon, -1);
+        if (iconId > 0)
+            mIcon = AppCompatResources.getDrawable(getContext(), iconId);
+        int iconOpened = attr.getResourceId(R.styleable.FloatingActionMenu_menu_icon_opened, -1);
+        if (iconOpened > 0)
+            mIconOpened = AppCompatResources.getDrawable(getContext(), iconOpened);
         if (mIcon == null) {
             mIcon = getResources().getDrawable(R.drawable.fab_add);
         }
@@ -175,6 +189,8 @@ public class FloatingActionMenu extends ViewGroup {
         }
         mOpenDirection = attr.getInt(R.styleable.FloatingActionMenu_menu_openDirection, OPEN_UP);
         mBackgroundColor = attr.getColor(R.styleable.FloatingActionMenu_menu_backgroundColor, Color.TRANSPARENT);
+        overlayLayoutId = attr.getResourceId(R.styleable.FloatingActionMenu_menu_overlay_layout, -1);
+
 
         if (attr.hasValue(R.styleable.FloatingActionMenu_menu_fab_label)) {
             mUsingMenuLabel = true;
@@ -194,7 +210,31 @@ public class FloatingActionMenu extends ViewGroup {
         createMenuButton();
         initMenuButtonAnimations(attr);
 
+
+        if (mIconOpened != null) {
+            setIconToggleAnimatorSet(createDefaultIconChangingAnimatorSet(mIcon, mIconOpened));
+        }
+
+        setAlwaysOpened(mAlwaysExpanded);
+
         attr.recycle();
+    }
+
+    public void setAlwaysOpened(boolean isAlwaysExpanded) {
+        this.mAlwaysExpanded = isAlwaysExpanded;
+        if (isAlwaysExpanded) {
+            setClosedOnTouchOutside(false);
+            setIconAnimated(false);
+            open(true);
+        }
+
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (overlayLayoutId != -1)
+            mOverlayLayout = getRootView().findViewById(overlayLayoutId);
     }
 
     private void initMenuButtonAnimations(TypedArray attr) {
@@ -219,7 +259,13 @@ public class FloatingActionMenu extends ViewGroup {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer alpha = (Integer) animation.getAnimatedValue();
-                setBackgroundColor(Color.argb(alpha, red, green, blue));
+
+                if (mOverlayLayout != null) {
+                    mOverlayLayout.setBackgroundColor(Color.argb(alpha, red, green, blue));
+                } else {
+                    setBackgroundColor(Color.argb(alpha, red, green, blue));
+                }
+
             }
         });
 
@@ -229,13 +275,19 @@ public class FloatingActionMenu extends ViewGroup {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer alpha = (Integer) animation.getAnimatedValue();
-                setBackgroundColor(Color.argb(alpha, red, green, blue));
+
+                if (mOverlayLayout != null) {
+                    mOverlayLayout.setBackgroundColor(Color.argb(alpha, red, green, blue));
+                } else {
+                    setBackgroundColor(Color.argb(alpha, red, green, blue));
+                }
+
             }
         });
     }
 
     private boolean isBackgroundEnabled() {
-        return mBackgroundColor != Color.TRANSPARENT;
+        return (mBackgroundColor != Color.TRANSPARENT || mOverlayLayout != null) && !mAlwaysExpanded;
     }
 
     private void initPadding(int padding) {
@@ -547,6 +599,39 @@ public class FloatingActionMenu extends ViewGroup {
         }
     }
 
+
+    protected AnimatorSet createDefaultIconChangingAnimatorSet(final Drawable closedIcon, final Drawable openedIcon) {
+
+        AnimatorSet set = new AnimatorSet();
+
+        ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(getMenuIconView(), "scaleX", 1.0f, 0.2f);
+        ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(getMenuIconView(), "scaleY", 1.0f, 0.2f);
+
+        ObjectAnimator scaleInX = ObjectAnimator.ofFloat(getMenuIconView(), "scaleX", 0.2f, 1.0f);
+        ObjectAnimator scaleInY = ObjectAnimator.ofFloat(getMenuIconView(), "scaleY", 0.2f, 1.0f);
+
+        scaleOutX.setDuration(50);
+        scaleOutY.setDuration(50);
+
+        scaleInX.setDuration(150);
+        scaleInY.setDuration(150);
+
+        scaleInX.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                getMenuIconView().setImageDrawable(isOpened()
+                        ? closedIcon : openedIcon);
+            }
+        });
+
+        set.play(scaleOutX).with(scaleOutY);
+        set.play(scaleInX).with(scaleInY).after(scaleOutX);
+        set.setInterpolator(new OvershootInterpolator(2));
+
+        return set;
+
+    }
+
     @Override
     public MarginLayoutParams generateLayoutParams(AttributeSet attrs) {
         return new MarginLayoutParams(getContext(), attrs);
@@ -616,7 +701,11 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void toggle(boolean animate) {
         if (isOpened()) {
-            close(animate);
+            if (mOpenedClickListener != null) {
+                mOpenedClickListener.onClick(mMenuButton);
+            } else {
+                close(animate);
+            }
         } else {
             open(animate);
         }
@@ -985,7 +1074,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
@@ -1012,5 +1101,10 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void setOnMenuButtonLongClickListener(OnLongClickListener longClickListener) {
         mMenuButton.setOnLongClickListener(longClickListener);
+    }
+
+
+    public void setOnMenuButtonOpenedClickListener(OnClickListener clickListener) {
+        mOpenedClickListener = clickListener;
     }
 }

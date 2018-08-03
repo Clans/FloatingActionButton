@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.ContextThemeWrapper;
@@ -86,10 +87,9 @@ public class MenusFragment extends Fragment {
 
         fab1.setEnabled(false);
         menuRed.setClosedOnTouchOutside(true);
-        menuBlue.setIconAnimated(false);
 
         menuDown.hideMenuButton(false);
-        menuRed.hideMenuButton(false);
+        //menuRed.hideMenuButton(false);
         menuYellow.hideMenuButton(false);
         menuGreen.hideMenuButton(false);
         menuBlue.hideMenuButton(false);
@@ -105,11 +105,18 @@ public class MenusFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         menus.add(menuDown);
-        menus.add(menuRed);
+        //menus.add(menuRed);
         menus.add(menuYellow);
         menus.add(menuGreen);
         menus.add(menuBlue);
         menus.add(menuLabelsRight);
+
+        menuBlue.setOnMenuButtonOpenedClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Clicked", Snackbar.LENGTH_SHORT).show();
+            }
+        });
 
         menuYellow.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
             @Override

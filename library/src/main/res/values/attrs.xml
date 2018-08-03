@@ -28,6 +28,7 @@
     </declare-styleable>
 
     <declare-styleable name="FloatingActionMenu">
+        <attr name="menu_expanded" format="boolean" />
         <attr name="menu_showShadow" format="boolean" />
         <attr name="menu_buttonSpacing" format="dimension" />
         <attr name="menu_labels_margin" format="dimension" />
@@ -50,6 +51,7 @@
             <enum name="right" value="1" />
         </attr>
         <attr name="menu_icon" format="reference" />
+        <attr name="menu_icon_opened" format="reference" />
         <attr name="menu_animationDelayPerItem" format="integer" />
         <attr name="menu_buttonToggleAnimation" format="reference" />
         <attr name="menu_labels_singleLine" format="boolean" />
@@ -79,6 +81,7 @@
             <enum name="down" value="1" />
         </attr>
         <attr name="menu_backgroundColor" format="color" />
+        <attr name="menu_overlay_layout" format="reference" />
         <attr name="menu_fab_label" format="string" />
         <attr name="menu_fab_show_animation" format="reference" />
         <attr name="menu_fab_hide_animation" format="reference" />
