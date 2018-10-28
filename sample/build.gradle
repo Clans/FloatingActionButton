@@ -2,10 +2,9 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "com.github.fab.sample"
+        applicationId "info.floatactionbutton.fab.sample"
         minSdkVersion 14
         targetSdkVersion 26
         versionCode Integer.parseInt(project.VERSION_CODE)
