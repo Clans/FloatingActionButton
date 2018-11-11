@@ -35,7 +35,7 @@ Sample APK can be found in **[Releases](https://github.com/Clans/FloatingActionB
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    compile 'com.github.clans:fab:1.6.4'
+    implementation 'com.github.clans:fab:1.6.4'
 }
 ```
 Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
