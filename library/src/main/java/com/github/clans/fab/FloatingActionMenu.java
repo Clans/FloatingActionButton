@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +35,8 @@ public class FloatingActionMenu extends ViewGroup {
     private static final float OPENED_PLUS_ROTATION_RIGHT = 90f + 45f;
 
     private static final int OPEN_UP = 0;
-    private static final int OPEN_DOWN = 1;
 
     private static final int LABELS_POSITION_LEFT = 0;
-    private static final int LABELS_POSITION_RIGHT = 1;
 
     private AnimatorSet mOpenAnimatorSet = new AnimatorSet();
     private AnimatorSet mCloseAnimatorSet = new AnimatorSet();
@@ -306,7 +303,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = 0;
+        int width;
         int height = 0;
         mMaxButtonWidth = 0;
         int maxLabelWidth = 0;
@@ -985,7 +982,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
