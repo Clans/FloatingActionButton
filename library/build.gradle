@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.appcompat:appcompat:1.1.0-alpha01"
 }
 
 apply from: '../gradle-mvn-push.gradle'

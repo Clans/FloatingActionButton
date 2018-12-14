@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Outline;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
@@ -25,6 +26,8 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -33,10 +36,9 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class FloatingActionButton extends ImageButton {
+public class FloatingActionButton extends AppCompatImageButton {
 
     public static final int SIZE_NORMAL = 0;
     public static final int SIZE_MINI = 1;
@@ -106,12 +108,6 @@ public class FloatingActionButton extends ImageButton {
 
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr);
     }
 
@@ -695,7 +691,7 @@ public class FloatingActionButton extends ImageButton {
         }
 
         @Override
-        public void draw(Canvas canvas) {
+        public void draw(@NonNull Canvas canvas) {
             canvas.drawCircle(calculateCenterX(), calculateCenterY(), mRadius, mPaint);
             canvas.drawCircle(calculateCenterX(), calculateCenterY(), mRadius, mErase);
         }
@@ -712,7 +708,7 @@ public class FloatingActionButton extends ImageButton {
 
         @Override
         public int getOpacity() {
-            return 0;
+            return PixelFormat.UNKNOWN;
         }
     }
 
@@ -1038,7 +1034,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     /**
-     * Makes the <b>FloatingActionButton</b> to appear and sets its visibility to {@link #VISIBLE}
+     * Makes the <b>FloatingActionButton</b> to appear and sets its visibility to
      *
      * @param animate if true - plays "show animation"
      */
@@ -1052,7 +1048,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     /**
-     * Makes the <b>FloatingActionButton</b> to disappear and sets its visibility to {@link #INVISIBLE}
+     * Makes the <b>FloatingActionButton</b> to disappear and sets its visibility to
      *
      * @param animate if true - plays "hide animation"
      */
