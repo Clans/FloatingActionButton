@@ -1034,7 +1034,7 @@ public class FloatingActionButton extends AppCompatImageButton {
     }
 
     /**
-     * Makes the <b>FloatingActionButton</b> to appear and sets its visibility to {@link #VISIBLE}
+     * Makes the <b>FloatingActionButton</b> to appear and sets its visibility to
      *
      * @param animate if true - plays "show animation"
      */
@@ -1048,7 +1048,7 @@ public class FloatingActionButton extends AppCompatImageButton {
     }
 
     /**
-     * Makes the <b>FloatingActionButton</b> to disappear and sets its visibility to {@link #INVISIBLE}
+     * Makes the <b>FloatingActionButton</b> to disappear and sets its visibility to
      *
      * @param animate if true - plays "hide animation"
      */
