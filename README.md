@@ -1,6 +1,5 @@
-# WARNING! FURTHER DEVELOPMENT AND SUPPORT IS DISCONTINUED.
-# FloatingActionButton
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.clans/fab/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.clans/fab) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Clans%2FFloatingActionButton-blue.svg?style=flat)](http://android-arsenal.com/details/1/1684)
+# FloatingActionButton using AndroidX
+[![](https://jitpack.io/v/hannesa2/FloatingActionButton.svg)](https://jitpack.io/#hannesa2/FloatingActionButton)
 
 Yet another implementation of [Floating Action Button](http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button) for Android with lots of features.
 
@@ -35,7 +34,7 @@ Sample APK can be found in **[Releases](https://github.com/Clans/FloatingActionB
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    compile 'com.github.clans:fab:1.6.4'
+    implementation 'com.github.hannesa2:FloatingActionButton:2.0'
 }
 ```
 Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
@@ -164,9 +163,6 @@ If you're using custom style for labels - other labels attributes will be ignore
 Labels shadow preferences depends on their corresponding **FloatingActionButtons**' shadow preferences.
 
 For more usage examples check the **sample** project.
-
-# Changelog
-Please see the [Changelog](https://github.com/Clans/FloatingActionButton/wiki/Changelog) page to see what's recently changed.
 
 # Credits
 I used [android-floating-action-button](https://github.com/futuresimple/android-floating-action-button) library by Jerzy Chalupski as a base for development.
