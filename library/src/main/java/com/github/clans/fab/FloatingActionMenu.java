@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +75,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mMenuColorPressed;
     private int mMenuColorRipple;
     private Drawable mIcon;
+    private int mDrawableTint;
     private int mAnimationDelayPerItem;
     private Interpolator mOpenInterpolator;
     private Interpolator mCloseInterpolator;
@@ -157,6 +157,7 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuColorRipple = attr.getColor(R.styleable.FloatingActionMenu_menu_colorRipple, 0x99FFFFFF);
         mAnimationDelayPerItem = attr.getInt(R.styleable.FloatingActionMenu_menu_animationDelayPerItem, 50);
         mIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
+        mDrawableTint = attr.getColor(R.styleable.FloatingActionMenu_menu_icon_tint, 0);
         if (mIcon == null) {
             mIcon = getResources().getDrawable(R.drawable.fab_add);
         }
@@ -261,12 +262,17 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuButton.setLabelText(mMenuLabelText);
 
         mImageToggle = new ImageView(getContext());
-        mImageToggle.setImageDrawable(mIcon);
+        updateImageToggle();
 
         addView(mMenuButton, super.generateDefaultLayoutParams());
         addView(mImageToggle);
 
         createDefaultIconAnimation();
+    }
+
+    private void updateImageToggle(){
+        mImageToggle.setImageDrawable(mIcon);
+        mImageToggle.setColorFilter(mDrawableTint);
     }
 
     private void createDefaultIconAnimation() {
@@ -985,7 +991,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
@@ -1012,5 +1018,15 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void setOnMenuButtonLongClickListener(OnLongClickListener longClickListener) {
         mMenuButton.setOnLongClickListener(longClickListener);
+    }
+
+    public void setIconTint(int tint){
+        mDrawableTint = tint;
+        updateImageToggle();
+    }
+
+    public void setIconDrawable(Drawable drawable){
+        mIcon = drawable;
+        updateImageToggle();
     }
 }
