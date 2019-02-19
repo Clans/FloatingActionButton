@@ -34,7 +34,7 @@ Sample APK can be found in **[Releases](https://github.com/Clans/FloatingActionB
 Add a dependency to your `build.gradle`:
 ```
 dependencies {
-    implementation 'com.github.hannesa2:FloatingActionButton:2.0'
+    implementation 'com.github.hannesa2:FloatingActionButton:2.1'
 }
 ```
 Add the `com.github.clans.fab.FloatingActionButton` to your layout XML file.
