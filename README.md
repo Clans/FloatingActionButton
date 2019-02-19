@@ -120,7 +120,7 @@ Here are all the **FloatingActionMenu**'s xml attributes with their **default va
         fab:menu_colorRipple="#99FFFFFF"
         fab:menu_animationDelayPerItem="50"
         fab:menu_icon="@drawable/fab_add"
-        fab:menu_icon_tint="#333333"
+        fab:menu_icon_tint="#FFF"
         fab:menu_buttonSpacing="0dp"
         fab:menu_labels_margin="0dp"
         fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
