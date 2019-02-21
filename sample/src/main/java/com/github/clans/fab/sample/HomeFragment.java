@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.fab.sample.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,13 @@ public class HomeFragment extends Fragment {
                     mFab.show(true);
                 }
                 mPreviousVisibleItem = firstVisibleItem;
+            }
+        });
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
