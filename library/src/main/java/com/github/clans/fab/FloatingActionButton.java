@@ -1325,23 +1325,22 @@ public class FloatingActionButton extends AppCompatImageButton {
      * is to move {@link FloatingActionButton} views so that any displayed {@link Snackbar}s do
      * not cover them.
      */
-    public static class Behavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
+    public static class Behavior<T extends View> extends CoordinatorLayout.Behavior<T> {
         @Override
-        public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
+        public boolean layoutDependsOn(CoordinatorLayout parent, T child, View dependency) {
             return dependency instanceof Snackbar.SnackbarLayout;
         }
 
         @Override
-        public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
+        public boolean onDependentViewChanged(CoordinatorLayout parent, T child, View dependency) {
             float translationY = Math.min(0, ViewCompat.getTranslationY(dependency) - dependency.getHeight());
             ViewCompat.setTranslationY(child, translationY);
             return true;
         }
 
         @Override
-        public void onDependentViewRemoved(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
+        public void onDependentViewRemoved(CoordinatorLayout parent, T child, View dependency) {
             ViewCompat.animate(child).translationY(0).start();
-
         }
     }
 }

@@ -16,6 +16,11 @@
             android:id="@+id/progress"
             android:icon="@drawable/ic_nav_item"
             android:title="Progress" />
+        <item
+            android:id="@+id/snackbar_fab"
+            android:icon="@drawable/ic_nav_item"
+            android:title="Snackbar"
+            android:visible="true"/>
     </group>
 
 </menu>

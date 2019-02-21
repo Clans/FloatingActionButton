@@ -27,6 +27,9 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+@CoordinatorLayout.DefaultBehavior(FloatingActionButton.Behavior.class)
 public class FloatingActionMenu extends ViewGroup {
 
     private static final int ANIMATION_DURATION = 300;
