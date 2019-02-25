@@ -26,8 +26,6 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -38,6 +36,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.ViewCompat;
+
+@CoordinatorLayout.DefaultBehavior(FloatingActionButton.Behavior.class)
 public class FloatingActionButton extends AppCompatImageButton {
 
     public static final int SIZE_NORMAL = 0;
@@ -1312,5 +1318,29 @@ public class FloatingActionButton extends AppCompatImageButton {
 
     public void setLabelTextColor(ColorStateList colors) {
         getLabelView().setTextColor(colors);
+    }
+
+    /**
+     * Behavior designed for use with {@link FloatingActionButton} instances. Its main function
+     * is to move {@link FloatingActionButton} views so that any displayed {@link Snackbar}s do
+     * not cover them.
+     */
+    public static class Behavior<T extends View> extends CoordinatorLayout.Behavior<T> {
+        @Override
+        public boolean layoutDependsOn(CoordinatorLayout parent, T child, View dependency) {
+            return dependency instanceof Snackbar.SnackbarLayout;
+        }
+
+        @Override
+        public boolean onDependentViewChanged(CoordinatorLayout parent, T child, View dependency) {
+            float translationY = Math.min(0, ViewCompat.getTranslationY(dependency) - dependency.getHeight());
+            ViewCompat.setTranslationY(child, translationY);
+            return true;
+        }
+
+        @Override
+        public void onDependentViewRemoved(CoordinatorLayout parent, T child, View dependency) {
+            ViewCompat.animate(child).translationY(0).start();
+        }
     }
 }

@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.progress:
                     fragment = new ProgressFragment();
                     break;
+                case R.id.snackbar_fab:
+                    fragment = new SnackbarFragment();
+                    break;
             }
 
             ft.replace(R.id.fragment, fragment).commit();
