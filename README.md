@@ -31,7 +31,7 @@ Sample APK can be found in **[Releases](https://github.com/Clans/FloatingActionB
 - *Option to set a label for the `FloatingActionMenu`'s button*
 
 # Usage
-Add a dependency to your `build.gradle`:
+Add dependency to your `build.gradle` Please see details here a https://jitpack.io/#hannesa2/FloatingActionButton 
 ```
 dependencies {
     implementation 'com.github.hannesa2:FloatingActionButton:2.1'
