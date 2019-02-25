@@ -1,13 +1,31 @@
 apply plugin: 'com.android.library'
 
+def commitSHA1 = 'COMMIT_SHA1'
+
+static def getGitCommitCount() {
+    def process = "git rev-list HEAD --count".execute()
+    return process.text.toInteger()
+}
+
+static def getLatestGitHash() {
+    def process = "git rev-parse --short HEAD".execute()
+    return process.text.toString().trim()
+}
+
+static def getVersion() {
+    def process = "date +%Y-%m-%d".execute()
+    return process.text.toString().trim()
+}
+
 android {
     compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode Integer.parseInt(project.VERSION_CODE)
-        versionName project.VERSION_NAME
+        versionCode getGitCommitCount()
+        versionName getVersion() + "." + versionCode + "." + getLatestGitHash()
+        buildConfigField "String", commitSHA1, "\"" + getLatestGitHash() + "\""
     }
     buildTypes {
         release {
@@ -26,5 +44,3 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.1.0-alpha01"
     implementation "com.google.android.material:material:1.1.0-alpha01"
 }
-
-apply from: '../gradle-mvn-push.gradle'
