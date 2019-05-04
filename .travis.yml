@@ -11,17 +11,16 @@ jdk:
 
 env:
   global:
-    # Where to run androidTests
-    - EMULATOR_API=22 # 24 has some issues, probably some overlayed window
-    - EMULATOR_ABI=armeabi-v7a
-    - EMULATOR_TAG=default
+#    - EMULATOR_API=22 # 24 has some issues, probably some overlayed window
+#    - EMULATOR_ABI=armeabi-v7a
+#    - EMULATOR_TAG=default
     - PATH=$ANDROID_HOME:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH
 
 android:
   components:
     - tools
     - platform-tools
-    - build-tools-27.0.3
+    - build-tools-28.0.3
     - android-27
     - doc-27
 
@@ -31,30 +30,30 @@ install:
   - echo yes | sdkmanager "tools" # Ensure tools is updated
   - echo yes | sdkmanager "emulator" # Ensure emulator is present
 
-  # Install emulator
-  - export EMULATOR="system-images;android-$EMULATOR_API;$EMULATOR_TAG;$EMULATOR_ABI"
-  - echo yes | sdkmanager "platforms;android-$EMULATOR_API" # Install sdk
-  - echo yes | sdkmanager "$EMULATOR" # Install system image
+## Install emulator
+#  - export EMULATOR="system-images;android-$EMULATOR_API;$EMULATOR_TAG;$EMULATOR_ABI"
+#  - echo yes | sdkmanager "platforms;android-$EMULATOR_API" # Install sdk
+#  - echo yes | sdkmanager "$EMULATOR" # Install system image
   - sdkmanager --list || true # Check everything is updated
 
   # Create and start emulator
-  - echo no | avdmanager create avd -n test -k "$EMULATOR" -f # Create emulator
-  - which emulator # ensure we are using the right emulator (home/emulator/)
-  - emulator -avd test -no-window -camera-back emulated -camera-front emulated -memory 2048 -writable-system & # Launch
-  - adb wait-for-device # Wait for adb process
-  - adb remount # Mount as writable
+#  - echo no | avdmanager create avd -n test -k "$EMULATOR" -f # Create emulator
+#  - which emulator # ensure we are using the right emulator (home/emulator/)
+#  - emulator -avd test -no-window -camera-back emulated -camera-front emulated -memory 2048 -writable-system & # Launch
+#  - adb wait-for-device # Wait for adb process
+#  - adb remount # Mount as writable
 
-before_script:
-  - android-wait-for-emulator # Wait for emulator ready to interact
-  - adb shell settings put global window_animation_scale 0 & # Disable animations
-  - adb shell settings put global transition_animation_scale 0 & # Disable animations
-  - adb shell settings put global animator_duration_scale 0 & # Disable animations
-
-  # Would be great to use -v color to adb logcat but looks not supported on travis.
-  - sleep 20 # Sleep 20 seconds just in case
-  - adb shell input keyevent 82 & # Dispatch unlock event
-  - adb logcat --help # See if this version supports color
-  - adb logcat -c # Clear logcat
+#before_script:
+#  - android-wait-for-emulator # Wait for emulator ready to interact
+#  - adb shell settings put global window_animation_scale 0 & # Disable animations
+#  - adb shell settings put global transition_animation_scale 0 & # Disable animations
+#  - adb shell settings put global animator_duration_scale 0 & # Disable animations
+#
+#  # Would be great to use -v color to adb logcat but looks not supported on travis.
+#  - sleep 20 # Sleep 20 seconds just in case
+#  - adb shell input keyevent 82 & # Dispatch unlock event
+#  - adb logcat --help # See if this version supports color
+#  - adb logcat -c # Clear logcat
 
 script:
   - set -o pipefail
